@@ -5,4 +5,4 @@ go.work
 .DS_Store
 
 # etc
-./tmp
+*tmp*
