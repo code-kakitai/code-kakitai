@@ -1,2 +1,1 @@
-# code-kakitai
-repository for code-kakitai
+# golnag_architechture
