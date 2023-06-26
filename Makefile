@@ -9,6 +9,9 @@ run:
 test:
 	docker compose exec app sh -c "DB_PORT=$(DB_PORT) go test ./..."
 
+hot-reload:
+	docker compose exec app air
+
 # コンテナの操作
 app-container:
 	docker compose exec app bash
