@@ -6,6 +6,7 @@ volumes:
     driver: local
 
 services: 
+  # データベース
   db:
     image: mysql:latest
     volumes:
@@ -21,6 +22,8 @@ services:
       TZ: Asia/Tokyo
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     command: --collation-server=utf8mb4_general_ci
+  
+  # テスト用データベース
   test_db:
     image: mysql:latest
     volumes:
@@ -36,6 +39,8 @@ services:
       TZ: Asia/Tokyo
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     command: --collation-server=utf8mb4_general_ci
+
+  # バックエンドサーバー
   app:
     build:
       context: .
