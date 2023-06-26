@@ -13,5 +13,17 @@ hot-reload:
 	docker compose exec app air
 
 # コンテナの操作
+up:
+	docker compose up -d
+
+down:
+	docker compose down
+
+restart:
+	docker compose restart
+
+logs:
+	docker compose logs -f
+
 app-container:
 	docker compose exec app bash
