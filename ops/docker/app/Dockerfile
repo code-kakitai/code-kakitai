@@ -7,4 +7,4 @@ RUN go mod download
 COPY ./app/ ./
 RUN go install github.com/cosmtrek/air@latest
 
-EXPOSE 8080
+CMD ["go", "run", "cmd/main.go"]
