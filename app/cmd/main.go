@@ -7,7 +7,7 @@ import (
 
 const port = ":8080"
 
-// @title ~~~ API
+// @title アプリケーション名
 // @version バージョン(1.0)
 // @description 説明
 // @license.name ライセンス(必須)

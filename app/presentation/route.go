@@ -12,6 +12,6 @@ func InitRoute(api *gin.Engine) {
 	
 	// ur := r.Group("/users")
 	{
-		// ur.GET("/users", pre.GetUsers)
+		// ur.GET("/", pre.GetUsers)
 	}
 }
