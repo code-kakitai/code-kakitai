@@ -12,7 +12,7 @@ import (
 // @Tags health
 // @Accept json
 // @Produce json
-// @Success 201 {object} HealthResponse
+// @Success 200 {object} HealthResponse
 // @Router /v1/health [get]
 func HealthCheck(ctx *gin.Context) {
 	res := HealthResponse{
