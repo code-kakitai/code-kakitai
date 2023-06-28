@@ -16,48 +16,48 @@ func NewGinEngine() *gin.Engine {
 	return router
 }
 
-func Return200[T any](ctx *gin.Context, body T) {
-	ctx.JSON(200, &body)
+func ReturnStatusOK[T any](ctx *gin.Context, body T) {
+	ctx.JSON(http.StatusOK, &body)
 }
 
-func Return201[T any](ctx *gin.Context, body T) {
-	ctx.JSON(201, &body)
+func ReturnStatusCreated[T any](ctx *gin.Context, body T) {
+	ctx.JSON(http.StatusCreated, &body)
 }
 
-func Return204(ctx *gin.Context) {
+func ReturnStatusNoContent(ctx *gin.Context) {
 	ctx.Writer.WriteHeader(http.StatusNoContent)
 }
 
-func Return400(ctx *gin.Context, err error) {
-	returnAbortWith(ctx, 400, err)
+func ReturnStatusBadRequest(ctx *gin.Context, err error) {
+	returnAbortWith(ctx, http.StatusBadRequest, err)
 }
 
 func ReturnBadRequest(ctx *gin.Context, err error) {
-	Return400(ctx, err)
+	ReturnStatusBadRequest(ctx, err)
 }
 
-func Return401(ctx *gin.Context, err error) {
-	returnAbortWith(ctx, 401, err)
+func ReturnStatusUnauthorized(ctx *gin.Context, err error) {
+	returnAbortWith(ctx, http.StatusUnauthorized, err)
 }
 
 func ReturnUnauthorized(ctx *gin.Context, err error) {
-	Return401(ctx, err)
+	ReturnStatusUnauthorized(ctx, err)
 }
 
-func Return403(ctx *gin.Context, err error) {
-	returnAbortWith(ctx, 403, err)
+func ReturnStatusForbidden(ctx *gin.Context, err error) {
+	returnAbortWith(ctx, http.StatusForbidden, err)
 }
 
 func ReturnForbidden(ctx *gin.Context, err error) {
-	Return403(ctx, err)
+	ReturnStatusForbidden(ctx, err)
 }
 
-func Return404(ctx *gin.Context, err error) {
-	returnAbortWith(ctx, 404, err)
+func ReturnStatusNotFound(ctx *gin.Context, err error) {
+	returnAbortWith(ctx, http.StatusNotFound, err)
 }
 
 func ReturnNotFound(ctx *gin.Context, err error) {
-	Return404(ctx, err)
+	ReturnStatusNotFound(ctx, err)
 }
 
 func Return500(ctx *gin.Context, err error) {

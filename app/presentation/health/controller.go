@@ -18,5 +18,5 @@ func HealthCheck(ctx *gin.Context) {
 	res := HealthResponse{
 		Status: "ok",
 	}
-	config.Return200(ctx, res)
+	config.ReturnStatusOK(ctx, res)
 }
