@@ -1,4 +1,4 @@
-package config
+package settings
 
 import (
 	"net/http"
@@ -60,8 +60,8 @@ func ReturnNotFound(ctx *gin.Context, err error) {
 	ReturnStatusNotFound(ctx, err)
 }
 
-func Return500(ctx *gin.Context, err error) {
-	returnAbortWith(ctx, 500, err)
+func ReturnStatusInternalServerError(ctx *gin.Context, err error) {
+	returnAbortWith(ctx, http.StatusInternalServerError, err)
 }
 
 func returnAbortWith(ctx *gin.Context, code int, err error) {
