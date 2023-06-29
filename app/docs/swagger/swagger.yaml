@@ -1,0 +1,32 @@
+definitions:
+  presentation.HealthResponse:
+    properties:
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: 説明
+  license:
+    name: ライセンス(必須)
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: アプリケーション名
+  version: バージョン(1.0)
+paths:
+  /v1/health:
+    get:
+      consumes:
+      - application/json
+      description: ヘルスチェック
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presentation.HealthResponse'
+      summary: ヘルスチェック
+      tags:
+      - health
+swagger: "2.0"

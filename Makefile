@@ -2,6 +2,10 @@
 
 DB_PORT ?= 3307
 
+help: # コマンド確認
+	@echo "\033[32mAvailable targets:\033[0m"
+	@grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
+
 # goサーバーの操作
 run:
 	docker compose exec app go run cmd/main.go
@@ -27,3 +31,7 @@ logs:
 
 app-container:
 	docker compose exec app bash
+
+gen-swagger:
+	swag init -g app/cmd/main.go  --output app/docs/swagger
+	docker-compose -f app/docs/swagger/docker-compose.yml up -d
