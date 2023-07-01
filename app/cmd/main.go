@@ -1,11 +1,10 @@
 package main
 
 import (
+	"github/code-kakitai/code-kakitai/config"
 	"github/code-kakitai/code-kakitai/presentation"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
-
-const port = ":8080"
 
 // @title アプリケーション名
 // @version バージョン(1.0)
@@ -14,7 +13,8 @@ const port = ":8080"
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:8080a
 func main() {
+	conf := config.GetConfig()
 	api := settings.NewGinEngine()
 	presentation.InitRoute(api)
-	api.Run(port)
+	api.Run(":" + conf.Server.Port)
 }
