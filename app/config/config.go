@@ -36,6 +36,5 @@ func GetConfig() *Config {
 			panic(err)
 		}
 	})
-	envconfig.Process("", &config)
 	return &config
 }
