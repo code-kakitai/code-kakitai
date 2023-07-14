@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github/code-kakitai/code-kakitai/infrastructure/db/schema"
 	"log"
 	"os"
@@ -12,14 +11,6 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Commands = []cli.Command{
-		{
-			Name:  "greet",
-			Usage: "fight the loneliness!",
-			Action: func(*cli.Context) error {
-				fmt.Println("Hello friend!")
-				return nil
-			},
-		},
 		{
 			Name:   "migration",
 			Usage:  "DBマイグレーション",

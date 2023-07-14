@@ -37,7 +37,7 @@ gen-swagger:
 	docker-compose -f app/docs/swagger/docker-compose.yml up -d
 
 # マイグレーション
-build-cli: # cliのaビルド
+build-cli: # cliのビルド
 	cd app && go build -o ./cli/main ./cli/main.go
 	
 migrate-dry-run: up build-cli # migration dry-run
