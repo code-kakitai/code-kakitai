@@ -32,23 +32,21 @@ func Migrate(cCtx *cli.Context) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sqlParser := database.NewParser(parser.ParserModeMysql)
 	desiredDDLs, err := sqldef.ReadFile(schemaFile)
 	if err != nil {
 		return fmt.Errorf("failed to read schema file: %s", err)
 	}
 
-	var dryRun bool
+	dryRun := false
 	if cCtx.Args().Get(1) == "apply" {
 		dryRun = false
-	} else {
-		dryRun = true
 	}
 	options := &sqldef.Options{
 		DesiredDDLs: desiredDDLs,
 		DryRun:      dryRun,
 	}
 
+	sqlParser := database.NewParser(parser.ParserModeMysql)
 	sqldef.Run(schema.GeneratorModeMysql, db, sqlParser, options)
 	return nil
 }
