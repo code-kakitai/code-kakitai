@@ -43,7 +43,7 @@ func NewUser(
 
 	// phoneNumberからハイフンを除く
 	phoneNumber = strings.RemoveHyphen(phoneNumber)
-	// 電話番号の桁数チェック
+	// 電話番号のバリデーション
 	if _, ok := phoneNumberDigitMap[utf8.RuneCountInString(phoneNumber)]; !ok {
 		return nil, errors.NewError("電話番号の値が不正です。")
 	}
@@ -86,7 +86,7 @@ func (u *User) City() string {
 	return u.address.city
 }
 
-func (u *User) OtherAddress() string {
+func (u *User) AddressExtra() string {
 	return u.address.extra
 }
 
