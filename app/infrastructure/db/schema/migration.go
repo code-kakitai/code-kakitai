@@ -37,7 +37,7 @@ func Migrate(cCtx *cli.Context) error {
 		return fmt.Errorf("failed to read schema file: %s", err)
 	}
 
-	dryRun := false
+	dryRun := true
 	if cCtx.Args().Get(1) == "apply" {
 		dryRun = false
 	}
@@ -46,7 +46,7 @@ func Migrate(cCtx *cli.Context) error {
 		DryRun:      dryRun,
 	}
 
-	sqlParser := database.NewParser(parser.ParserModeMysql)
-	sqldef.Run(schema.GeneratorModeMysql, db, sqlParser, options)
+	sp := database.NewParser(parser.ParserModeMysql)
+	sqldef.Run(schema.GeneratorModeMysql, db, sp, options)
 	return nil
 }
