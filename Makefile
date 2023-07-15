@@ -35,3 +35,17 @@ app-container:
 gen-swagger:
 	swag init -g app/cmd/main.go  --output app/docs/swagger
 	docker-compose -f app/docs/swagger/docker-compose.yml up -d
+
+# マイグレーション
+build-cli: # cliのビルド
+	cd app && go build -o ./cli/main ./cli/main.go
+	
+migrate-dry-run: up build-cli # migration dry-run
+	shema_path=$$(find . -name "schema.sql"); \
+	./app/cli/main migration $$shema_path
+	cd app && rm ./cli/main
+	
+migrate-apply: up build-cli # migration apply
+	shema_path=$$(find . -name "schema.sql"); \
+	./app/cli/main migration $$shema_path apply
+	cd app && rm ./cli/main
