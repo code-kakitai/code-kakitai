@@ -7,9 +7,6 @@ help: # コマンド確認
 	@grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
 
 # goサーバーの操作
-run:
-	docker compose exec app go run cmd/main.go
-
 test:
 	docker compose exec app sh -c "DB_PORT=$(DB_PORT) go test ./..."
 
