@@ -1,6 +1,8 @@
 package purchase
 
 import (
+	"context"
+
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 )
@@ -43,4 +45,8 @@ func (p *PurchaseHistory) ProductIDs() []string {
 		productIDs = append(productIDs, product.productID)
 	}
 	return productIDs
+}
+
+type PurchaseHistoryRepository interface {
+	Save(ctx context.Context, history *PurchaseHistory) error
 }

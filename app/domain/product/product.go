@@ -1,7 +1,8 @@
 package product
 
 import (
-	// "github.com/code-kakitai/go-pkg/errors"
+	"context"
+
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 	validation "github.com/go-ozzo/ozzo-validation"
@@ -86,6 +87,7 @@ const (
 )
 
 type ProductRepository interface {
-	Store(ps *Product) error
-	FindByOwnerID(ownerID string) (Product, error)
+	Store(ctx context.Context, product *Product) error
+	FindByOwnerID(ctx context.Context, ownerID string) ([]*Product, error)
+	FindByID(ctx context.Context, id string) (*Product, error)
 }
