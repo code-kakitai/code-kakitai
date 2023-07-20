@@ -9,7 +9,7 @@ import (
 )
 
 type Querier interface {
-	FetchByUserId(ctx context.Context, id string) (FetchByUserIdRow, error)
+	UserFindById(ctx context.Context, id string) (User, error)
 }
 
 var _ Querier = (*Queries)(nil)

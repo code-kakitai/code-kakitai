@@ -7,45 +7,23 @@ package dbgen
 
 import (
 	"context"
-	"time"
 )
 
-const fetchByUserId = `-- name: FetchByUserId :one
+const userFindById = `-- name: UserFindById :one
 SELECT
-   id,
-   email,
-   phone_number,
-   name,
-   postal_code,
-   prefecture,
-   city,
-   address_extra,
-   created_at,
-   updated_at
+   id, email, password, phone_number, name, postal_code, prefecture, city, address_extra, created_at, updated_at
 FROM
    users
 WHERE id = ?
 `
 
-type FetchByUserIdRow struct {
-	ID           string    `json:"id"`
-	Email        string    `json:"email"`
-	PhoneNumber  string    `json:"phone_number"`
-	Name         string    `json:"name"`
-	PostalCode   string    `json:"postal_code"`
-	Prefecture   string    `json:"prefecture"`
-	City         string    `json:"city"`
-	AddressExtra string    `json:"address_extra"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
-}
-
-func (q *Queries) FetchByUserId(ctx context.Context, id string) (FetchByUserIdRow, error) {
-	row := q.db.QueryRowContext(ctx, fetchByUserId, id)
-	var i FetchByUserIdRow
+func (q *Queries) UserFindById(ctx context.Context, id string) (User, error) {
+	row := q.db.QueryRowContext(ctx, userFindById, id)
+	var i User
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
+		&i.Password,
 		&i.PhoneNumber,
 		&i.Name,
 		&i.PostalCode,
