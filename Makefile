@@ -13,6 +13,9 @@ test:
 hot-reload:
 	docker compose exec app air
 
+gen:
+	docker compose exec app sh -c "go generate ./..."
+
 # コンテナの操作
 up:
 	docker compose up -d

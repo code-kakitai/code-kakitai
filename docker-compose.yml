@@ -49,7 +49,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./app:/app
+      - type: bind
+        source: ./app
+        target: /data/app
     depends_on:
       - db
       - test_db
