@@ -14,7 +14,7 @@ func NewPlayerRepositoryImpl(query dbgen.Queries) user.UserRepository {
 	return &userRepositoryImpl{query: query}
 }
 
-func (r *userRepositoryImpl) FindByID(id string) (*user.User, error) {
+func (r *userRepositoryImpl) FindById(id string) (*user.User, error) {
 	ctx := context.Background()
 	u, err := r.query.UserFindById(ctx, id)
 	if err != nil {
@@ -38,4 +38,7 @@ func (r *userRepositoryImpl) FindByID(id string) (*user.User, error) {
 		u.Name,
 		address,
 	), nil
+}
+func (r *userRepositoryImpl) Save(u *user.User) error {
+	return nil
 }
