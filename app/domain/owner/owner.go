@@ -1,12 +1,11 @@
 package owner
 
 import (
-	"context"
+	"net/mail"
+	"unicode/utf8"
 
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
-	validation "github.com/go-ozzo/ozzo-validation"
-	"github.com/go-ozzo/ozzo-validation/is"
 )
 
 type Owner struct {
@@ -17,17 +16,15 @@ type Owner struct {
 
 func NewOwner(name string, email string) (*Owner, error) {
 	// 名前のバリデーション
-	if err := validation.Validate(name,
-		validation.Required, validation.Length(nameLengthMin, nameLengthMax)); err != nil {
+	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
 		return nil, errors.NewError("名前の値が不正です。")
 	}
 
 	// メールアドレスのバリデーション
-	if err := validation.Validate(email,
-		validation.Required, is.Email,
-	); err != nil {
+	if _, err := mail.ParseAddress(email); err != nil {
 		return nil, errors.NewError("メールアドレスの値が不正です。")
 	}
+
 	return &Owner{
 		id:    ulid.NewULID(),
 		name:  name,
@@ -47,8 +44,3 @@ const (
 	nameLengthMax = 255
 	nameLengthMin = 1
 )
-
-type OwnerRepository interface {
-	Save(ctx context.Context) error
-	FindById(ctx context.Context, id string) (*Owner, error)
-}

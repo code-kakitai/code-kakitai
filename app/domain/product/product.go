@@ -1,11 +1,10 @@
 package product
 
 import (
-	"context"
+	"unicode/utf8"
 
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
-	validation "github.com/go-ozzo/ozzo-validation"
 )
 
 type Product struct {
@@ -29,14 +28,12 @@ func NewProduct(
 		return nil, errors.NewError("オーナーIDの値が不正です。")
 	}
 	// 名前のバリデーション
-	if err := validation.Validate(name,
-		validation.Required, validation.Length(nameLengthMin, nameLengthMax)); err != nil {
+	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
 		return nil, errors.NewError("商品名の値が不正です。")
 	}
 
 	// 商品説明のバリデーション
-	if err := validation.Validate(description,
-		validation.Required, validation.Length(descriptionLengthMin, descriptionLengthMax)); err != nil {
+	if utf8.RuneCountInString(description) < descriptionLengthMin || utf8.RuneCountInString(description) > descriptionLengthMax {
 		return nil, errors.NewError("商品説明の値が不正です。")
 	}
 
@@ -85,9 +82,3 @@ const (
 	descriptionLengthMin = 1
 	descriptionLengthMax = 1000
 )
-
-type ProductRepository interface {
-	Store(ctx context.Context, product *Product) error
-	FindByOwnerID(ctx context.Context, ownerID string) ([]*Product, error)
-	FindByID(ctx context.Context, id string) (*Product, error)
-}
