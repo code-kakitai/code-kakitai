@@ -7,14 +7,77 @@ package dbgen
 
 import (
 	"context"
+	"database/sql"
 )
+
+const createUser = `-- name: CreateUser :exec
+INSERT INTO
+   users (id, email, password, created_at, updated_at)
+VALUES
+   (
+      ?,
+      ?,
+      ?,
+      NOW(),
+      NOW()
+   )
+`
+
+type CreateUserParams struct {
+	ID       string `json:"id"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
+	_, err := q.db.ExecContext(ctx, createUser, arg.ID, arg.Email, arg.Password)
+	return err
+}
+
+const updateUser = `-- name: UpdateUser :exec
+UPDATE
+   users
+SET
+   email = ?,
+   phone_number = ?,
+   name = ?,
+   postal_code = ?,
+   prefecture = ?,
+   city = ?,
+   address_extra = ?,
+   updated_at = NOW()
+`
+
+type UpdateUserParams struct {
+	Email        string         `json:"email"`
+	PhoneNumber  sql.NullString `json:"phone_number"`
+	Name         sql.NullString `json:"name"`
+	PostalCode   sql.NullString `json:"postal_code"`
+	Prefecture   sql.NullString `json:"prefecture"`
+	City         sql.NullString `json:"city"`
+	AddressExtra sql.NullString `json:"address_extra"`
+}
+
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
+	_, err := q.db.ExecContext(ctx, updateUser,
+		arg.Email,
+		arg.PhoneNumber,
+		arg.Name,
+		arg.PostalCode,
+		arg.Prefecture,
+		arg.City,
+		arg.AddressExtra,
+	)
+	return err
+}
 
 const userFindById = `-- name: UserFindById :one
 SELECT
    id, email, password, phone_number, name, postal_code, prefecture, city, address_extra, created_at, updated_at
 FROM
    users
-WHERE id = ?
+WHERE
+   id = ?
 `
 
 func (q *Queries) UserFindById(ctx context.Context, id string) (User, error) {

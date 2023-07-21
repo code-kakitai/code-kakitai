@@ -9,6 +9,8 @@ import (
 )
 
 type Querier interface {
+	CreateUser(ctx context.Context, arg CreateUserParams) error
+	UpdateUser(ctx context.Context, arg UpdateUserParams) error
 	UserFindById(ctx context.Context, id string) (User, error)
 }
 

@@ -22,9 +22,9 @@ func (r *userRepositoryImpl) FindById(id string) (*user.User, error) {
 	}
 
 	address, err := user.NewAddress(
-		u.Prefecture,
-		u.City,
-		u.AddressExtra,
+		u.Prefecture.String,
+		u.City.String,
+		u.AddressExtra.String,
 	)
 	if err != nil {
 		return nil, err
@@ -33,9 +33,9 @@ func (r *userRepositoryImpl) FindById(id string) (*user.User, error) {
 	return user.Reconstruct(
 		u.ID,
 		u.Email,
-		u.PhoneNumber,
-		u.Name,
-		u.Name,
+		u.PhoneNumber.String,
+		u.Name.String,
+		u.Name.String,
 		address,
 	), nil
 }

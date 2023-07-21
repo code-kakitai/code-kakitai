@@ -5,23 +5,24 @@
 package dbgen
 
 import (
+	"database/sql"
 	"time"
 )
 
 type User struct {
-	ID          string `json:"id"`
-	Email       string `json:"email"`
-	Password    string `json:"password"`
-	PhoneNumber string `json:"phone_number"`
-	Name        string `json:"name"`
+	ID          string         `json:"id"`
+	Email       string         `json:"email"`
+	Password    string         `json:"password"`
+	PhoneNumber sql.NullString `json:"phone_number"`
+	Name        sql.NullString `json:"name"`
 	// 郵便番号
-	PostalCode string `json:"postal_code"`
+	PostalCode sql.NullString `json:"postal_code"`
 	// 都道府県
-	Prefecture string `json:"prefecture"`
+	Prefecture sql.NullString `json:"prefecture"`
 	// 市区町村
-	City string `json:"city"`
+	City sql.NullString `json:"city"`
 	// 住所詳細
-	AddressExtra string    `json:"address_extra"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	AddressExtra sql.NullString `json:"address_extra"`
+	CreatedAt    time.Time      `json:"created_at"`
+	UpdatedAt    time.Time      `json:"updated_at"`
 }
