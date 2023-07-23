@@ -6,25 +6,43 @@ FROM
 WHERE
    id = ?;
 
--- name: CreateUser :exec
+-- name: UpsertUser :exec
 INSERT INTO
-   users (id, email, password, created_at, updated_at)
+   users (
+      id,
+      email,
+      firebaseUid,
+      phone_number,
+      first_name,
+      last_name,
+      postal_code,
+      prefecture,
+      city,
+      address_extra,
+      created_at,
+      updated_at
+   )
 VALUES
    (
       sqlc.arg(id),
       sqlc.arg(email),
-      sqlc.arg(password),
+      sqlc.arg(firebaseUid),
+      sqlc.arg(phone_number),
+      sqlc.arg(first_name),
+      sqlc.arg(last_name),
+      sqlc.arg(postal_code),
+      sqlc.arg(prefecture),
+      sqlc.arg(city),
+      sqlc.arg(address_extra),
       NOW(),
       NOW()
-   );
-
--- name: UpdateUser :exec
+   ) ON DUPLICATE KEY
 UPDATE
-   users
-SET
    email = sqlc.arg(email),
+   firebaseUid = sqlc.arg(firebaseUid),
    phone_number = sqlc.arg(phone_number),
-   name = sqlc.arg(name),
+   first_name = sqlc.arg(first_name),
+   last_name = sqlc.arg(last_name),
    postal_code = sqlc.arg(postal_code),
    prefecture = sqlc.arg(prefecture),
    city = sqlc.arg(city),

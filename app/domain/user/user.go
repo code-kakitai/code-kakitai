@@ -48,7 +48,7 @@ func NewUser(
 		return nil, errors.NewError("電話番号の値が不正です。")
 	}
 
-	ad, err := NewAddress(prefecture, city, addressExtra)
+	ad, err := newAddress(prefecture, city, addressExtra)
 	if err != nil {
 		return nil, err
 	}
@@ -62,22 +62,28 @@ func NewUser(
 	}, nil
 }
 
-func Reconstruct(
+func CreateUser()
+
+// 永続化層から取得したデータをドメインに変換
+func BuilderUser(
 	id string,
 	email string,
 	phoneNumber string,
 	lastName string,
 	firstName string,
-	address address,
-) *User {
-	return &User{
-		id:          id,
-		email:       email,
-		phoneNumber: phoneNumber,
-		lastName:    lastName,
-		firstName:   firstName,
-		address:     address,
-	}
+	prefecture string,
+	city string,
+	addressExtra string,
+) (*User, error) {
+	return NewUser(
+		lastName,
+		firstName,
+		email,
+		phoneNumber,
+		prefecture,
+		city,
+		addressExtra,
+	)
 }
 
 func (u *User) Email() string {
@@ -129,7 +135,7 @@ type address struct {
 	extra      string
 }
 
-func NewAddress(
+func newAddress(
 	prefecture string,
 	city string,
 	extra string,

@@ -20,24 +20,20 @@ func (r *userRepositoryImpl) FindById(id string) (*user.User, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	address, err := user.NewAddress(
-		u.Prefecture.String,
-		u.City.String,
-		u.AddressExtra.String,
+	ud, err := user.BuilderUser(
+		u.ID,
+		u.Email,
+		u.PhoneNumber,
+		u.LastName,
+		u.FirstName,
+		u.Prefecture,
+		u.City,
+		u.AddressExtra,
 	)
 	if err != nil {
 		return nil, err
 	}
-
-	return user.Reconstruct(
-		u.ID,
-		u.Email,
-		u.PhoneNumber.String,
-		u.Name.String,
-		u.Name.String,
-		address,
-	), nil
+	return ud, nil
 }
 func (r *userRepositoryImpl) Save(u *user.User) error {
 	return nil

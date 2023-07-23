@@ -7,40 +7,45 @@ package dbgen
 
 import (
 	"context"
-	"database/sql"
 )
 
-const createUser = `-- name: CreateUser :exec
+const upsertUser = `-- name: UpsertUser :exec
 INSERT INTO
-   users (id, email, password, created_at, updated_at)
+   users (
+      id,
+      email,
+      firebaseUid,
+      phone_number,
+      first_name,
+      last_name,
+      postal_code,
+      prefecture,
+      city,
+      address_extra,
+      created_at,
+      updated_at
+   )
 VALUES
    (
       ?,
       ?,
       ?,
+      ?,
+      ?,
+      ?,
+      ?,
+      ?,
+      ?,
+      ?,
       NOW(),
       NOW()
-   )
-`
-
-type CreateUserParams struct {
-	ID       string `json:"id"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
-	_, err := q.db.ExecContext(ctx, createUser, arg.ID, arg.Email, arg.Password)
-	return err
-}
-
-const updateUser = `-- name: UpdateUser :exec
+   ) ON DUPLICATE KEY
 UPDATE
-   users
-SET
    email = ?,
+   firebaseUid = ?,
    phone_number = ?,
-   name = ?,
+   first_name = ?,
+   last_name = ?,
    postal_code = ?,
    prefecture = ?,
    city = ?,
@@ -48,21 +53,36 @@ SET
    updated_at = NOW()
 `
 
-type UpdateUserParams struct {
-	Email        string         `json:"email"`
-	PhoneNumber  sql.NullString `json:"phone_number"`
-	Name         sql.NullString `json:"name"`
-	PostalCode   sql.NullString `json:"postal_code"`
-	Prefecture   sql.NullString `json:"prefecture"`
-	City         sql.NullString `json:"city"`
-	AddressExtra sql.NullString `json:"address_extra"`
+type UpsertUserParams struct {
+	ID           string `json:"id"`
+	Email        string `json:"email"`
+	Firebaseuid  string `json:"firebaseuid"`
+	PhoneNumber  string `json:"phone_number"`
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	PostalCode   string `json:"postal_code"`
+	Prefecture   string `json:"prefecture"`
+	City         string `json:"city"`
+	AddressExtra string `json:"address_extra"`
 }
 
-func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
-	_, err := q.db.ExecContext(ctx, updateUser,
+func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) error {
+	_, err := q.db.ExecContext(ctx, upsertUser,
+		arg.ID,
 		arg.Email,
+		arg.Firebaseuid,
 		arg.PhoneNumber,
-		arg.Name,
+		arg.FirstName,
+		arg.LastName,
+		arg.PostalCode,
+		arg.Prefecture,
+		arg.City,
+		arg.AddressExtra,
+		arg.Email,
+		arg.Firebaseuid,
+		arg.PhoneNumber,
+		arg.FirstName,
+		arg.LastName,
 		arg.PostalCode,
 		arg.Prefecture,
 		arg.City,
@@ -73,7 +93,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
 
 const userFindById = `-- name: UserFindById :one
 SELECT
-   id, email, password, phone_number, name, postal_code, prefecture, city, address_extra, created_at, updated_at
+   id, email, firebaseuid, phone_number, first_name, last_name, postal_code, prefecture, city, address_extra, created_at, updated_at
 FROM
    users
 WHERE
@@ -86,9 +106,10 @@ func (q *Queries) UserFindById(ctx context.Context, id string) (User, error) {
 	err := row.Scan(
 		&i.ID,
 		&i.Email,
-		&i.Password,
+		&i.Firebaseuid,
 		&i.PhoneNumber,
-		&i.Name,
+		&i.FirstName,
+		&i.LastName,
 		&i.PostalCode,
 		&i.Prefecture,
 		&i.City,
