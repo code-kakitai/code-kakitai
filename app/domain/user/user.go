@@ -61,6 +61,30 @@ func NewUser(
 	}, nil
 }
 
+func CreateUser()
+
+// 永続化層から取得したデータをドメインに変換
+func BuilderUser(
+	id string,
+	email string,
+	phoneNumber string,
+	lastName string,
+	firstName string,
+	prefecture string,
+	city string,
+	addressExtra string,
+) (*User, error) {
+	return NewUser(
+		lastName,
+		firstName,
+		email,
+		phoneNumber,
+		prefecture,
+		city,
+		addressExtra,
+	)
+}
+
 func (u *User) Email() string {
 	return u.email
 }

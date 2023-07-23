@@ -49,3 +49,7 @@ migrate-apply: up build-cli # migration apply
 	shema_path=$$(find . -name "schema.sql"); \
 	./app/cli/main migration $$shema_path apply
 	cd app && rm ./cli/main
+
+# sqlc
+sqlc-gen:
+	sqlc generate
