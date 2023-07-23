@@ -66,7 +66,7 @@ func TestNewUser(t *testing.T) {
 			args: args{
 				lastName:     "山田",
 				firstName:    "太郎",
-				email:        "test@com",
+				email:        "testcom",
 				phoneNumber:  "09012345678",
 				prefecture:   "東京都",
 				city:         "渋谷区",

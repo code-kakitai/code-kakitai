@@ -1,13 +1,12 @@
 package user
 
 import (
+	"net/mail"
 	"unicode/utf8"
 
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/strings"
 	"github.com/code-kakitai/go-pkg/ulid"
-	validation "github.com/go-ozzo/ozzo-validation"
-	"github.com/go-ozzo/ozzo-validation/is"
 )
 
 type User struct {
@@ -29,15 +28,15 @@ func NewUser(
 	addressExtra string,
 ) (*User, error) {
 	// 名前のバリデーション
-	if err := validation.Validate([]string{lastName, firstName},
-		validation.Each(validation.Required, validation.Length(nameLengthMin, nameLengthMax))); err != nil {
-		return nil, errors.NewError("名前の値が不正です。")
+	if utf8.RuneCountInString(lastName) < nameLengthMin || utf8.RuneCountInString(lastName) > nameLengthMax {
+		return nil, errors.NewError("名前（姓）の値が不正です。")
+	}
+	if utf8.RuneCountInString(firstName) < nameLengthMin || utf8.RuneCountInString(firstName) > nameLengthMax {
+		return nil, errors.NewError("名前（名）の値が不正です。")
 	}
 
 	// メールアドレスのバリデーション
-	if err := validation.Validate(email,
-		validation.Required, is.Email,
-	); err != nil {
+	if _, err := mail.ParseAddress(email); err != nil {
 		return nil, errors.NewError("メールアドレスの値が不正です。")
 	}
 
@@ -149,9 +148,4 @@ func newAddress(
 		city:       city,
 		extra:      extra,
 	}, nil
-}
-
-type UserRepository interface {
-	Save(user *User) error
-	FindById(id string) (*User, error)
 }
