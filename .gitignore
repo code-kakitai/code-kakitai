@@ -5,4 +5,5 @@ go.work
 .DS_Store
 
 # etc
+.idea
 *tmp*
