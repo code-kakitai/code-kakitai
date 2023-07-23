@@ -52,4 +52,4 @@ migrate-apply: up build-cli # migration apply
 
 # sqlc
 sqlc-gen:
-	sqlc generate
+	docker compose exec app sh -c "sqlc generate"
