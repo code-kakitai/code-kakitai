@@ -8,10 +8,10 @@ import (
 )
 
 func InitRoute(api *ginpkg.Engine) {
-	r := api.Group("/v1")
-	r.GET("/health", health_handler.HealthCheck)
+	v1 := api.Group("/v1")
+	v1.GET("/health", health_handler.HealthCheck)
 
 	{
-		user.Route(r)
+		user.Route(v1)
 	}
 }
