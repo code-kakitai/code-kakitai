@@ -18,6 +18,29 @@ type User struct {
 	address     address
 }
 
+// 永続化層から取得したデータをドメインに変換
+func Reconstruct(
+	id string,
+	email string,
+	phoneNumber string,
+	lastName string,
+	firstName string,
+	prefecture string,
+	city string,
+	addressExtra string,
+) (*User, error) {
+	return newUser(
+		id,
+		lastName,
+		firstName,
+		email,
+		phoneNumber,
+		prefecture,
+		city,
+		addressExtra,
+	)
+}
+
 func NewUser(
 	lastName string,
 	firstName string,
@@ -27,6 +50,32 @@ func NewUser(
 	city string,
 	addressExtra string,
 ) (*User, error) {
+	return newUser(
+		"",
+		lastName,
+		firstName,
+		email,
+		phoneNumber,
+		prefecture,
+		city,
+		addressExtra,
+	)
+}
+
+func newUser(
+	id string,
+	lastName string,
+	firstName string,
+	email string,
+	phoneNumber string,
+	prefecture string,
+	city string,
+	addressExtra string,
+) (*User, error) {
+	// idが空文字の時は新規作成
+	if id == "" {
+		id = ulid.NewULID()
+	}
 	// 名前のバリデーション
 	if utf8.RuneCountInString(lastName) < nameLengthMin || utf8.RuneCountInString(lastName) > nameLengthMax {
 		return nil, errors.NewError("名前（姓）の値が不正です。")
@@ -51,8 +100,9 @@ func NewUser(
 	if err != nil {
 		return nil, err
 	}
+
 	return &User{
-		id:          ulid.NewULID(),
+		id:          id,
 		email:       email,
 		phoneNumber: phoneNumber,
 		lastName:    lastName,
@@ -61,28 +111,8 @@ func NewUser(
 	}, nil
 }
 
-func CreateUser()
-
-// 永続化層から取得したデータをドメインに変換
-func BuilderUser(
-	id string,
-	email string,
-	phoneNumber string,
-	lastName string,
-	firstName string,
-	prefecture string,
-	city string,
-	addressExtra string,
-) (*User, error) {
-	return NewUser(
-		lastName,
-		firstName,
-		email,
-		phoneNumber,
-		prefecture,
-		city,
-		addressExtra,
-	)
+func (u *User) ID() string {
+	return u.id
 }
 
 func (u *User) Email() string {

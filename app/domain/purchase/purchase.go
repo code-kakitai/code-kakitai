@@ -1,6 +1,8 @@
 package purchase
 
 import (
+	"context"
+
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 )
@@ -25,4 +27,16 @@ func NewPurchaseProduct(productID string, count int) (*PurchaseProduct, error) {
 		productID: productID,
 		count:     count,
 	}, nil
+}
+
+func (p *PurchaseProduct) ProductID() string {
+	return p.productID
+}
+
+func (p *PurchaseProduct) Count() int {
+	return p.count
+}
+
+type PurchaseDomainService interface {
+	Run(ctx context.Context, pps []PurchaseProduct) error
 }

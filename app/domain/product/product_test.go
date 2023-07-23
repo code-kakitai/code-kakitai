@@ -15,7 +15,7 @@ func TestNewProduct(t *testing.T) {
 		name        string
 		description string
 		price       int64
-		inventory   int
+		stock       int
 	}
 	tests := []struct {
 		name    string
@@ -30,14 +30,14 @@ func TestNewProduct(t *testing.T) {
 				name:        "test",
 				description: "test",
 				price:       100,
-				inventory:   100,
+				stock:       100,
 			},
 			want: &Product{
 				ownerID:     ownerID,
 				name:        "test",
 				description: "test",
 				price:       100,
-				inventory:   100,
+				stock:       100,
 			},
 			wantErr: false,
 		},
@@ -48,7 +48,7 @@ func TestNewProduct(t *testing.T) {
 				name:        "test",
 				description: "test",
 				price:       100,
-				inventory:   100,
+				stock:       100,
 			},
 			want:    nil,
 			wantErr: true,
@@ -60,7 +60,7 @@ func TestNewProduct(t *testing.T) {
 				name:        "",
 				description: "test",
 				price:       100,
-				inventory:   100,
+				stock:       100,
 			},
 			want:    nil,
 			wantErr: true,
@@ -72,9 +72,10 @@ func TestNewProduct(t *testing.T) {
 				name:        "test",
 				description: "",
 				price:       100,
-				inventory:   100,
+				stock:       100,
 			},
-			want:    nil,
+			want: nil,
+
 			wantErr: true,
 		},
 		{
@@ -84,7 +85,7 @@ func TestNewProduct(t *testing.T) {
 				name:        "test",
 				description: "test",
 				price:       0,
-				inventory:   100,
+				stock:       100,
 			},
 			want:    nil,
 			wantErr: true,
@@ -92,7 +93,7 @@ func TestNewProduct(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewProduct(tt.args.ownerID, tt.args.name, tt.args.description, tt.args.price, tt.args.inventory)
+			got, err := newProduct("", tt.args.ownerID, tt.args.name, tt.args.description, tt.args.price, tt.args.stock)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return

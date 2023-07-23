@@ -12,6 +12,27 @@ type PurchaseHistory struct {
 }
 
 func NewPurchaseHistory(totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+	return newPurchaseHistory(
+		"",
+		totalAmount,
+		products,
+	)
+}
+
+func Reconstruct(id string, totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+	return newPurchaseHistory(
+		id,
+		totalAmount,
+		products,
+	)
+}
+
+func newPurchaseHistory(id string, totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+	// idが空文字の時は新規作成
+	if id == "" {
+		id = ulid.NewULID()
+	}
+
 	// 購入金額のバリデーション
 	// 割引等で合計金額が0円になることはあるため、0円以上を許容とする
 	if totalAmount < 0 {
