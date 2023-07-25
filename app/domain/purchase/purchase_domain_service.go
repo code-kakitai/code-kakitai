@@ -45,7 +45,9 @@ func (ds *purchaseDomainService) Run(ctx context.Context, purchaseProducts []Pur
 		if err != nil {
 			return err
 		}
-		p.UpdateStock(purchaseProduct.Count())
+		if err := p.UpdateStock(purchaseProduct.Count()); err != nil {
+			return err
+		}
 		if err := ds.productRepo.Store(ctx, p); err != nil {
 			return err
 		}
