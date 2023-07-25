@@ -16,7 +16,7 @@ type Product struct {
 	stock       int
 }
 
-func ReconstructProduct(
+func Reconstruct(
 	id string,
 	ownerID string,
 	name string,

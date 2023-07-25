@@ -14,7 +14,7 @@ type Shop struct {
 	description string
 }
 
-func ReconstructShop(
+func Reconstruct(
 	id string,
 	ownerID string,
 	name string,
