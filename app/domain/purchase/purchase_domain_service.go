@@ -23,7 +23,7 @@ func NewPurchaseDomainService(
 	}
 }
 
-func (ds *purchaseDomainService) Run(ctx context.Context, purchaseProducts []PurchaseProduct) error {
+func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, purchaseProducts []PurchaseProduct) error {
 	totalAmount := int64(0)
 	for _, purchaseProduct := range purchaseProducts {
 		p, err := ds.productRepo.FindByID(ctx, purchaseProduct.ProductID())
