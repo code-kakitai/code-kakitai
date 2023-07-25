@@ -8,7 +8,7 @@ import (
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
-type DomainService struct {
+type purchaseDomainService struct {
 	purchaseHistoryRepo PurchaseHistoryRepository
 	productRepo         productDomain.ProductRepository
 }
@@ -17,13 +17,13 @@ func NewPurchaseDomainService(
 	purchaseHistoryRepo PurchaseHistoryRepository,
 	productRepo productDomain.ProductRepository,
 ) PurchaseDomainService {
-	return &DomainService{
+	return &purchaseDomainService{
 		purchaseHistoryRepo: purchaseHistoryRepo,
 		productRepo:         productRepo,
 	}
 }
 
-func (ds *DomainService) Run(ctx context.Context, purchaseProducts []PurchaseProduct) error {
+func (ds *purchaseDomainService) Run(ctx context.Context, purchaseProducts []PurchaseProduct) error {
 	totalAmount := int64(0)
 	for _, purchaseProduct := range purchaseProducts {
 		p, err := ds.productRepo.FindByID(ctx, purchaseProduct.ProductID())
@@ -61,7 +61,7 @@ func (ds *DomainService) Run(ctx context.Context, purchaseProducts []PurchasePro
 	return nil
 }
 
-func (ds *DomainService) canPurchase(ctx context.Context, purchaseProduct PurchaseProduct) error {
+func (ds *purchaseDomainService) canPurchase(ctx context.Context, purchaseProduct PurchaseProduct) error {
 	// 購入可能かチェック
 	p, err := ds.productRepo.FindByID(ctx, purchaseProduct.ProductID())
 	if err != nil {
