@@ -1,13 +1,13 @@
 version: "2"
 sql:
   - engine: "mysql"
-    schema: "infrastructure/db/schema/schema.sql"
+    schema: "infrastructure/mysql/db/schema/schema.sql"
     queries: 
-      - "infrastructure/db/query/user.sql"
+      - "infrastructure/mysql/db/query/user.sql"
     gen:
       go:
         package: "dbgen"
-        out: "infrastructure/db/dbgen"
+        out: "infrastructure/mysql/db/dbgen"
         emit_json_tags: true
         emit_prepared_queries: false
         emit_interface: true
