@@ -14,7 +14,35 @@ type Owner struct {
 	email string
 }
 
-func NewOwner(name string, email string) (*Owner, error) {
+func Reconstruct(
+	id string,
+	name string,
+	email string,
+) (*Owner, error) {
+	return newOwner(
+		id,
+		name,
+		email,
+	)
+}
+
+func NewOwner(
+	name string,
+	email string,
+) (*Owner, error) {
+	return newOwner(
+		"",
+		name,
+		email,
+	)
+}
+
+func newOwner(id string, name string, email string) (*Owner, error) {
+	// idが空文字の時は新規作成
+	if id == "" {
+		id = ulid.NewULID()
+	}
+
 	// 名前のバリデーション
 	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
 		return nil, errors.NewError("名前の値が不正です。")
@@ -26,7 +54,7 @@ func NewOwner(name string, email string) (*Owner, error) {
 	}
 
 	return &Owner{
-		id:    ulid.NewULID(),
+		id:    id,
 		name:  name,
 		email: email,
 	}, nil

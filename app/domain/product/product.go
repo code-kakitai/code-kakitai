@@ -13,7 +13,25 @@ type Product struct {
 	name        string
 	description string
 	price       int64
-	inventory   int
+	stock       int
+}
+
+func Reconstruct(
+	id string,
+	ownerID string,
+	name string,
+	description string,
+	price int64,
+	stock int,
+) (*Product, error) {
+	return newProduct(
+		id,
+		ownerID,
+		name,
+		description,
+		price,
+		stock,
+	)
 }
 
 func NewProduct(
@@ -21,8 +39,30 @@ func NewProduct(
 	name string,
 	description string,
 	price int64,
-	inventory int,
+	stock int,
 ) (*Product, error) {
+	return newProduct(
+		"",
+		ownerID,
+		name,
+		description,
+		price,
+		stock,
+	)
+}
+
+func newProduct(
+	id string,
+	ownerID string,
+	name string,
+	description string,
+	price int64,
+	stock int,
+) (*Product, error) {
+	// idが空文字の時は新規作成
+	if id == "" {
+		id = ulid.NewULID()
+	}
 	// ownerIDのバリデーション
 	if !ulid.IsValid(ownerID) {
 		return nil, errors.NewError("オーナーIDの値が不正です。")
@@ -44,16 +84,16 @@ func NewProduct(
 
 	// 在庫数のバリデーション
 	// 在庫はないけど、商品は登録したい等あるあるため、0は許容する
-	if inventory < 0 {
+	if stock < 0 {
 		return nil, errors.NewError("在庫数の値が不正です。")
 	}
 	return &Product{
-		id:          ulid.NewULID(),
+		id:          id,
 		ownerID:     ownerID,
 		name:        name,
 		description: description,
 		price:       price,
-		inventory:   inventory,
+		stock:       stock,
 	}, nil
 }
 
@@ -71,6 +111,18 @@ func (p *Product) Description() string {
 
 func (p *Product) Price() int64 {
 	return p.price
+}
+
+func (p *Product) Stock() int {
+	return p.stock
+}
+
+func (p *Product) UpdateStock(stock int) error {
+	if stock < 0 {
+		return errors.NewError("在庫数の値が不正です。")
+	}
+	p.stock = stock
+	return nil
 }
 
 const (

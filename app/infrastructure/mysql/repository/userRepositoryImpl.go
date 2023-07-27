@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"github/code-kakitai/code-kakitai/domain/user"
-	"github/code-kakitai/code-kakitai/infrastructure/db/dbgen"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
 type userRepositoryImpl struct {
@@ -19,7 +19,7 @@ func (r *userRepositoryImpl) FindById(ctx context.Context, id string) (*user.Use
 	if err != nil {
 		return nil, err
 	}
-	ud, err := user.BuilderUser(
+	ud, err := user.Reconstruct(
 		u.ID,
 		u.Email,
 		u.PhoneNumber,
@@ -35,5 +35,17 @@ func (r *userRepositoryImpl) FindById(ctx context.Context, id string) (*user.Use
 	return ud, nil
 }
 func (r *userRepositoryImpl) Save(ctx context.Context, u *user.User) error {
+	if err := r.query.UpsertUser(ctx, dbgen.UpsertUserParams{
+		ID:           u.ID(),
+		Email:        u.Email(),
+		PhoneNumber:  u.PhoneNumber(),
+		LastName:     u.LastName(),
+		FirstName:    u.FirstName(),
+		City:         u.City(),
+		Prefecture:   u.Pref(),
+		AddressExtra: u.AddressExtra(),
+	}); err != nil {
+		return err
+	}
 	return nil
 }

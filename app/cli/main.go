@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github/code-kakitai/code-kakitai/infrastructure/db/schema"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/schema"
 	"log"
 	"os"
 

@@ -50,8 +50,8 @@ services:
       - "8080:8080"
     volumes:
       - type: bind
-        source: ./app
-        target: /data/app
+        source: ./
+        target: /data
     depends_on:
       - db
       - test_db
