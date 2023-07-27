@@ -19,10 +19,10 @@ type User struct {
 }
 
 func NewUser(
-	lastName string,
-	firstName string,
 	email string,
 	phoneNumber string,
+	lastName string,
+	firstName string,
 	prefecture string,
 	city string,
 	addressExtra string,
@@ -61,8 +61,6 @@ func NewUser(
 	}, nil
 }
 
-func CreateUser()
-
 // 永続化層から取得したデータをドメインに変換
 func BuilderUser(
 	id string,
@@ -75,10 +73,10 @@ func BuilderUser(
 	addressExtra string,
 ) (*User, error) {
 	return NewUser(
-		lastName,
-		firstName,
 		email,
 		phoneNumber,
+		lastName,
+		firstName,
 		prefecture,
 		city,
 		addressExtra,
