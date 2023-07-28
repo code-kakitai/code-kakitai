@@ -19,6 +19,9 @@ gen:
 lint:
 	docker compose exec app sh -c "go vet ./..."
 
+tidy:
+	docker compose exec app sh -c "go mod tidy"
+
 # コンテナの操作
 up:
 	docker compose up -d
