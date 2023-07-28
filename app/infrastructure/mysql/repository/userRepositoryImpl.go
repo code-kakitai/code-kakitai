@@ -7,10 +7,10 @@ import (
 )
 
 type userRepositoryImpl struct {
-	query dbgen.Queries
+	query *dbgen.Queries
 }
 
-func NewPlayerRepositoryImpl(query dbgen.Queries) user.UserRepository {
+func NewPlayerRepositoryImpl(query *dbgen.Queries) user.UserRepository {
 	return &userRepositoryImpl{query: query}
 }
 
