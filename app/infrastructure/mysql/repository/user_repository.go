@@ -6,15 +6,15 @@ import (
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
-type userRepositoryImpl struct {
-	query dbgen.Queries
+type userRepository struct {
+	query *dbgen.Queries
 }
 
-func NewPlayerRepositoryImpl(query dbgen.Queries) user.UserRepository {
-	return &userRepositoryImpl{query: query}
+func NewUserRepository(query *dbgen.Queries) user.UserRepository {
+	return &userRepository{query: query}
 }
 
-func (r *userRepositoryImpl) FindById(ctx context.Context, id string) (*user.User, error) {
+func (r *userRepository) FindById(ctx context.Context, id string) (*user.User, error) {
 	u, err := r.query.UserFindById(ctx, id)
 	if err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func (r *userRepositoryImpl) FindById(ctx context.Context, id string) (*user.Use
 	}
 	return ud, nil
 }
-func (r *userRepositoryImpl) Save(ctx context.Context, u *user.User) error {
+func (r *userRepository) Save(ctx context.Context, u *user.User) error {
 	if err := r.query.UpsertUser(ctx, dbgen.UpsertUserParams{
 		ID:           u.ID(),
 		Email:        u.Email(),

@@ -6,7 +6,7 @@ make up
 
 ### マイグレーション
 
-dry-run(適用されるSQLを確認)
+dry-run(適用されるDDLを確認)
 ```
 make migrate-dry-run
 ```
