@@ -26,6 +26,9 @@ tidy:
 up:
 	docker compose up -d
 
+up-test-db:
+	docker compose up -d test-db
+
 down:
 	docker compose down
 
