@@ -1,6 +1,8 @@
 package purchase
 
 import (
+	"time"
+
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 )
@@ -9,25 +11,33 @@ type PurchaseHistory struct {
 	id          string
 	totalAmount int64
 	products    []PurchaseProduct
+	purchasedAt time.Time
 }
 
-func NewPurchaseHistory(totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+func NewPurchaseHistory(totalAmount int64, products []PurchaseProduct, now time.Time) (*PurchaseHistory, error) {
 	return newPurchaseHistory(
 		"",
 		totalAmount,
 		products,
+		now,
 	)
 }
 
-func Reconstruct(id string, totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+func Reconstruct(id string, totalAmount int64, products []PurchaseProduct, purchasedAt time.Time) (*PurchaseHistory, error) {
 	return newPurchaseHistory(
 		id,
 		totalAmount,
 		products,
+		purchasedAt,
 	)
 }
 
-func newPurchaseHistory(id string, totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+func newPurchaseHistory(
+	id string,
+	totalAmount int64,
+	products []PurchaseProduct,
+	purchasedAt time.Time,
+) (*PurchaseHistory, error) {
 	// idが空文字の時は新規作成
 	if id == "" {
 		id = ulid.NewULID()
@@ -47,6 +57,7 @@ func newPurchaseHistory(id string, totalAmount int64, products []PurchaseProduct
 		id:          ulid.NewULID(),
 		totalAmount: totalAmount,
 		products:    products,
+		purchasedAt: purchasedAt,
 	}, nil
 }
 

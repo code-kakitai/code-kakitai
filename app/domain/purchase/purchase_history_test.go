@@ -2,6 +2,7 @@ package purchase
 
 import (
 	"testing"
+	"time"
 
 	"github.com/code-kakitai/go-pkg/ulid"
 	"github.com/google/go-cmp/cmp"
@@ -79,9 +80,10 @@ func TestNewPurchaseHistory(t *testing.T) {
 			wantErr: true,
 		},
 	}
+	purchasedAt := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewPurchaseHistory(tt.args.totalAmount, tt.args.products)
+			got, err := NewPurchaseHistory(tt.args.totalAmount, tt.args.products, purchasedAt)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewPurchaseHistory() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -89,7 +91,7 @@ func TestNewPurchaseHistory(t *testing.T) {
 			diff := cmp.Diff(
 				got, tt.want,
 				cmp.AllowUnexported(PurchaseHistory{}, PurchaseProduct{}),
-				cmpopts.IgnoreFields(PurchaseHistory{}, "id"),
+				cmpopts.IgnoreFields(PurchaseHistory{}, "id", "purchasedAt"),
 			)
 			if diff != "" {
 				t.Errorf("NewPurchaseHistory() = %v, want %v. error is %s", got, tt.want, err)
