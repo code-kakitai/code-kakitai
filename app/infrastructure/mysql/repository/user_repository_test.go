@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestSomething(t *testing.T) {
+func TestUserRepository(t *testing.T) {
 	user, _ := userDomain.NewUser("lastName", "firstName", "tomoya.kamaji@gmail.com", "09071121428", "東京都", "渋谷区", "1-1-1")
 	tests := []struct {
 		name  string

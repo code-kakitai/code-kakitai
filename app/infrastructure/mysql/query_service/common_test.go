@@ -1,4 +1,4 @@
-package repository
+package query_service
 
 import (
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
