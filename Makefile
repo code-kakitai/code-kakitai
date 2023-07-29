@@ -7,7 +7,7 @@ help: # コマンド確認
 	@grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
 
 # goサーバーの操作
-test:
+test: lint
 	docker compose exec app sh -c "DB_PORT=$(DB_PORT) go test ./..."
 
 hot-reload:
@@ -16,9 +16,18 @@ hot-reload:
 gen:
 	docker compose exec app sh -c "go generate ./..."
 
+lint:
+	docker compose exec app sh -c "go vet ./..."
+
+tidy:
+	docker compose exec app sh -c "go mod tidy"
+
 # コンテナの操作
 up:
 	docker compose up -d
+
+up-test-db:
+	docker compose up -d test_db
 
 down:
 	docker compose down
