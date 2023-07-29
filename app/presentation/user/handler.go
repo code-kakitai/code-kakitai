@@ -30,7 +30,7 @@ func Route(r *gin.RouterGroup, query *dbgen.Queries) {
 		userApp.NewFindUserUseCase(userRepository),
 		userApp.NewSaveUserUseCase(userRepository),
 	)
-	group := r.Group("/user")
+	group := r.Group("/users")
 	group.GET("/:id", h.GetUserByID)
 }
 
@@ -43,7 +43,8 @@ func Route(r *gin.RouterGroup, query *dbgen.Queries) {
 // @Success 200 {object} getUserResponse
 // @Router /v1/users/{id} [get]
 func (h handler) GetUserByID(ctx *gin.Context) {
-	dto, err := h.findUserUseCase.Run(ctx, "1")
+	id := ctx.Param("id")
+	dto, err := h.findUserUseCase.Run(ctx, id)
 	if err != nil {
 		settings.ReturnNotFound(ctx, err)
 	}

@@ -1,7 +1,27 @@
 definitions:
-  presentation.HealthResponse:
+  health_handler.HealthResponse:
     properties:
       status:
+        type: string
+    type: object
+  user.getUserResponse:
+    properties:
+      users:
+        $ref: '#/definitions/user.userResponseModel'
+    type: object
+  user.userResponseModel:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      phone_number:
         type: string
     type: object
 host: localhost:8080
@@ -25,8 +45,28 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/presentation.HealthResponse'
+            $ref: '#/definitions/health_handler.HealthResponse'
       summary: ヘルスチェック
       tags:
       - health
+  /v1/users/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.getUserResponse'
+      summary: ユーザーを取得する
+      tags:
+      - users
 swagger: "2.0"
