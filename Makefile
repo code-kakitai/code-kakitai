@@ -26,7 +26,7 @@ tidy:
 
 init:
 	docker compose build
-	docker compose exec app sh -c "go work init ./../app ./../pkg"
+	go work init ./app ./pkg
 
 up:
 	docker compose up -d
