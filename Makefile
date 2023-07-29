@@ -27,7 +27,7 @@ up:
 	docker compose up -d
 
 up-test-db:
-	docker compose up -d test-db
+	docker compose up -d test_db
 
 down:
 	docker compose down

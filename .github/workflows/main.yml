@@ -21,7 +21,7 @@ jobs:
           cache: true
           cache-dependency-path: app/go.sum
 
-      - name: setup
+      - name: setup test-db
         run : |
           make up-test-db
 
