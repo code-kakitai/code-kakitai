@@ -11,14 +11,14 @@ type FindUserUseCase struct {
 
 func NewFindUserUseCase(
 	userRepo userDomain.UserRepository,
-) *SaveUserUseCase {
-	return &SaveUserUseCase{
+) *FindUserUseCase {
+	return &FindUserUseCase{
 		userRepo: userRepo,
 	}
 }
 
 type FindUseCaseDto struct {
-	id          string
+	ID          string
 	LastName    string
 	FirstName   string
 	Email       string
@@ -32,7 +32,7 @@ func (uc *FindUserUseCase) Run(ctx context.Context, id string) (*FindUseCaseDto,
 		return nil, err
 	}
 	return &FindUseCaseDto{
-		id:          u.ID(),
+		ID:          u.ID(),
 		LastName:    u.LastName(),
 		FirstName:   u.FirstName(),
 		Email:       u.Email(),

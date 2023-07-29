@@ -1,6 +1,14 @@
 package user
 
-type GetUsersResponse struct {
-	Status string `json:"status"`
-	// Users []UserResponse `json:"users"`
+type getUserResponse struct {
+	User userResponseModel `json:"users"`
+}
+
+type userResponseModel struct {
+	ID          string `json:"id"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
+	LastName    string `json:"last_name"`
+	FirstName   string `json:"first_name"`
+	Address     string `json:"address"`
 }
