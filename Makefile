@@ -23,6 +23,12 @@ tidy:
 	docker compose exec app sh -c "go mod tidy"
 
 # コンテナの操作
+
+init:
+	docker compose build
+	docker compose exec app sh -c "go work init ./../app ./../pkg"
+	go work init ./app ./pkg
+
 up:
 	docker compose up -d
 
@@ -48,12 +54,12 @@ gen-swagger:
 # マイグレーション
 build-cli: # cliのビルド
 	cd app && go build -o ./cli/main ./cli/main.go
-	
+
 migrate-dry-run: up build-cli # migration dry-run
 	shema_path=$$(find . -name "schema.sql"); \
 	./app/cli/main migration $$shema_path
 	cd app && rm ./cli/main
-	
+
 migrate-apply: up build-cli # migration apply
 	shema_path=$$(find . -name "schema.sql"); \
 	./app/cli/main migration $$shema_path apply
