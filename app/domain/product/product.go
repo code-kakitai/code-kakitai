@@ -97,6 +97,10 @@ func newProduct(
 	}, nil
 }
 
+func (p *Product) ID() string {
+	return p.id
+}
+
 func (p *Product) OwnerID() string {
 	return p.ownerID
 }
