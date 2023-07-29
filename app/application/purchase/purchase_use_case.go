@@ -2,6 +2,7 @@ package purchase
 
 import (
 	"context"
+	"time"
 
 	purchaseDomain "github/code-kakitai/code-kakitai/domain/purchase"
 )
@@ -23,7 +24,7 @@ type PurchaseUseCaseDto struct {
 	Count     int
 }
 
-func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto) error {
+func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto, now time.Time) error {
 	// dtoからPurchaseProductへ変換
 	var pps []purchaseDomain.PurchaseProduct
 	for _, dto := range dtos {
@@ -34,7 +35,7 @@ func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto) e
 		pps = append(pps, *p)
 	}
 	// 購入処理
-	uc.purchaseDomainService.PurchaseProducts(ctx, pps)
+	uc.purchaseDomainService.PurchaseProducts(ctx, pps, now)
 	// 管理者とユーザーにメール送信
 	return nil
 }
