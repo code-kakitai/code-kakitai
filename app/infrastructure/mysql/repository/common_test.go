@@ -112,7 +112,7 @@ func setupTestDB() {
 func TestMain(m *testing.M) {
 	// DBの立ち上げ
 	resource, pool := createContainer()
-	// defer closeContainer(resource, pool)
+	defer closeContainer(resource, pool)
 
 	// DBへ接続する
 	db := connectDB(resource, pool)

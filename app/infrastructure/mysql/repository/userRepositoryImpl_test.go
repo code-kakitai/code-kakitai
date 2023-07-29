@@ -18,7 +18,7 @@ func TestSomething(t *testing.T) {
 		want  *userDomain.User
 	}{
 		{
-			name:  "ユーザーを保存かつ取得ができること",
+			name:  "保存かつ取得ができること",
 			input: user,
 			want:  user,
 		},
