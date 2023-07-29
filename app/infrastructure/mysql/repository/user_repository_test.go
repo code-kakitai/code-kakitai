@@ -24,7 +24,7 @@ func TestSomething(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		userRepository := NewUserRepositoryImpl(query)
+		userRepository := NewUserRepository(query)
 		ctx := context.Background()
 		t.Run(fmt.Sprintf(": %s", tt.name), func(t *testing.T) {
 			err := userRepository.Save(ctx, tt.input)
