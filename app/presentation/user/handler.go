@@ -1,12 +1,11 @@
 package user
 
 import (
+	"github.com/gin-gonic/gin"
+
 	userApp "github/code-kakitai/code-kakitai/application/user"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/repository"
 	"github/code-kakitai/code-kakitai/presentation/settings"
-
-	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
@@ -24,8 +23,8 @@ func newHandler(
 	}
 }
 
-func Route(r *gin.RouterGroup, query *dbgen.Queries) {
-	userRepository := repository.NewUserRepository(query)
+func Route(r *gin.RouterGroup) {
+	userRepository := repository.NewUserRepository()
 	h := newHandler(
 		userApp.NewFindUserUseCase(userRepository),
 		userApp.NewSaveUserUseCase(userRepository),
