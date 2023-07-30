@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"sync"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -15,7 +16,10 @@ import (
 const maxRetries = 5
 const delay = 5 * time.Second
 
-var query *dbgen.Queries
+var (
+	once  sync.Once
+	query *dbgen.Queries
+)
 
 func GetQuery() *dbgen.Queries {
 	return query
@@ -26,16 +30,14 @@ func SetQuery(q *dbgen.Queries) {
 }
 
 func NewMainDB() {
-	if GetQuery() != nil {
-		// 既に接続済み
-		return
-	}
-	db, err := connect()
-	if err != nil {
-		panic(err)
-	}
-	q := dbgen.New(db)
-	SetQuery(q)
+	once.Do(func() {
+		db, err := connect()
+		if err != nil {
+			panic(err)
+		}
+		q := dbgen.New(db)
+		SetQuery(q)
+	})
 }
 
 // dbに接続する：最大5回リトライする
