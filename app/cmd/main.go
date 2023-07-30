@@ -24,8 +24,8 @@ func main() {
 	defer cancel()
 	conf := config.GetConfig()
 	api := settings.NewGinEngine()
-	query := db.NewMainDB()
-	presentation.InitRoute(api,query)
+	db.NewMainDB()
+	presentation.InitRoute(api)
 
 	address := ":" + conf.Server.Port
 	srv := &http.Server{
