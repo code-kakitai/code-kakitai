@@ -21,16 +21,21 @@ func GetQuery() *dbgen.Queries {
 	return query
 }
 
-func NewMainDB() *dbgen.Queries {
-	if query != nil {
-		return query
+func SetQuery(q *dbgen.Queries) {
+	query = q
+}
+
+func NewMainDB() {
+	if GetQuery() != nil {
+		// 既に接続済み
+		return
 	}
 	db, err := connect()
 	if err != nil {
 		panic(err)
 	}
-	query = dbgen.New(db)
-	return query
+	q := dbgen.New(db)
+	SetQuery(q)
 }
 
 // dbに接続する：最大5回リトライする
