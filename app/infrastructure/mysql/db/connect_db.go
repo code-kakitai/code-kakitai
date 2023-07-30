@@ -3,18 +3,23 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"github/code-kakitai/code-kakitai/config"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 	"log"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+
+	"github/code-kakitai/code-kakitai/config"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
 const maxRetries = 5
 const delay = 5 * time.Second
 
 var query *dbgen.Queries
+
+func GetQuery() *dbgen.Queries {
+	return query
+}
 
 func NewMainDB() *dbgen.Queries {
 	if query != nil {

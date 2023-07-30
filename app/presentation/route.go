@@ -1,11 +1,11 @@
 package presentation
 
 import (
+	ginpkg "github.com/gin-gonic/gin"
+
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 	health_handler "github/code-kakitai/code-kakitai/presentation/health_handler"
 	user "github/code-kakitai/code-kakitai/presentation/user"
-
-	ginpkg "github.com/gin-gonic/gin"
 )
 
 func InitRoute(api *ginpkg.Engine, query *dbgen.Queries) {
@@ -13,6 +13,6 @@ func InitRoute(api *ginpkg.Engine, query *dbgen.Queries) {
 	v1.GET("/health", health_handler.HealthCheck)
 
 	{
-		user.Route(v1, query)
+		user.Route(v1)
 	}
 }

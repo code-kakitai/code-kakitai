@@ -3,11 +3,12 @@ package repository
 import (
 	"context"
 	"fmt"
-	userDomain "github/code-kakitai/code-kakitai/domain/user"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/go-cmp/cmp"
+
+	userDomain "github/code-kakitai/code-kakitai/domain/user"
 )
 
 func TestUserRepository(t *testing.T) {
@@ -24,7 +25,7 @@ func TestUserRepository(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		userRepository := NewUserRepository(query)
+		userRepository := NewUserRepository()
 		ctx := context.Background()
 		t.Run(fmt.Sprintf(": %s", tt.name), func(t *testing.T) {
 			err := userRepository.Save(ctx, tt.input)
