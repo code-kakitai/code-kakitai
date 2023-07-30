@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github/code-kakitai/code-kakitai/config"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/presentation"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 	"net/http"
@@ -23,6 +24,7 @@ func main() {
 	defer cancel()
 	conf := config.GetConfig()
 	api := settings.NewGinEngine()
+	db.NewMainDB()
 	presentation.InitRoute(api)
 
 	address := ":" + conf.Server.Port

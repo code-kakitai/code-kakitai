@@ -1,10 +1,10 @@
 package presentation
 
 import (
+	ginpkg "github.com/gin-gonic/gin"
+
 	health_handler "github/code-kakitai/code-kakitai/presentation/health_handler"
 	user "github/code-kakitai/code-kakitai/presentation/user"
-
-	ginpkg "github.com/gin-gonic/gin"
 )
 
 func InitRoute(api *ginpkg.Engine) {

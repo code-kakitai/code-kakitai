@@ -55,3 +55,8 @@ services:
     depends_on:
       - db
       - test_db
+    environment:
+      MYSQL_DATABASE: code_kakitai
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
