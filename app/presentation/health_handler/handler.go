@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateUser godoc
+// HealthCheck godoc
 // @Summary ヘルスチェック
-// @Description　ヘルスチェック
+// @Description ヘルスチェック
 // @Tags health
 // @Accept json
 // @Produce json

@@ -14,9 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: setup
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: app/go.mod
+          cache: true
+          cache-dependency-path: app/go.sum
+
+      - name: setup test-db
         run : |
-          make up
+          make up-test-db
+
       - name: test
-        run: make test
+        run: |
+          cd app && go vet ./... && go test ./...
 
