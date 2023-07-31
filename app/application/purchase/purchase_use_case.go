@@ -35,7 +35,9 @@ func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto, n
 		pps = append(pps, *p)
 	}
 	// 購入処理
-	uc.purchaseDomainService.PurchaseProducts(ctx, pps, now)
+	if err := uc.purchaseDomainService.PurchaseProducts(ctx, pps, now); err != nil {
+		return nil
+	}
 	// 管理者とユーザーにメール送信
 	return nil
 }
