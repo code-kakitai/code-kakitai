@@ -21,7 +21,7 @@ make migrate-apply
 make test
 ```
 
-### 補っとリロード
+### ホットリロード
 ```
 make hot-reload
 ```
