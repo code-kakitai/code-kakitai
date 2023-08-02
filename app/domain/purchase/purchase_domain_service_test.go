@@ -65,7 +65,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 					mockProductRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
 						func(ctx context.Context, p *productDomain.Product) {
 							pp := product1
-							pp.UpdateStock(1)
+							pp.Consume(1)
 							diff := cmp.Diff(
 								p,
 								pp,
@@ -79,7 +79,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 					mockProductRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
 						func(ctx context.Context, p *productDomain.Product) {
 							pp := product2
-							pp.UpdateStock(0)
+							pp.Consume(0)
 							diff := cmp.Diff(
 								p,
 								pp,

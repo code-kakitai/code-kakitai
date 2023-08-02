@@ -42,25 +42,17 @@ func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, purchaseP
 		productMap[p.ID()] = p
 	}
 
-	// 整合性チェック
+	// 購入処理
+	var totalAmount int64
 	for _, pp := range purchaseProducts {
 		p, ok := productMap[pp.ProductID()]
 		if !ok {
 			// 購入した商品の商品詳細が見つからない場合はエラー（商品を購入すると同時に、商品が削除された場合等に発生）
 			return errors.NewError("商品が見つかりません。")
 		}
-		if p.Stock() < pp.Count() {
-			return errors.NewError("在庫が足りません。")
-		}
-	}
-
-	// 購入処理
-	var totalAmount int64
-	for _, pp := range purchaseProducts {
-		p := productMap[pp.ProductID()]
 		// 購入金額計算
 		totalAmount += p.Price() * int64(pp.Count())
-		if err := p.UpdateStock(p.Stock() - pp.Count()); err != nil {
+		if err := p.Consume(pp.Count()); err != nil {
 			return err
 		}
 		if err := ds.productRepo.Save(ctx, p); err != nil {

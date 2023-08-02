@@ -121,11 +121,15 @@ func (p *Product) Stock() int {
 	return p.stock
 }
 
-func (p *Product) UpdateStock(stock int) error {
-	if stock < 0 {
+func (p *Product) Consume(quantity int) error {
+	if quantity < 0 {
 		return errors.NewError("在庫数の値が不正です。")
 	}
-	p.stock = stock
+
+	if p.stock-quantity < 0 {
+		return errors.NewError("在庫数が不足しています。")
+	}
+	p.stock -= quantity
 	return nil
 }
 
