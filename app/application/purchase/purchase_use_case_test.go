@@ -17,6 +17,7 @@ func TestPurchaseUseCase_Run(t *testing.T) {
 	mockPurchaseDomainService := purchaseDomain.NewMockPurchaseDomainService(ctrl)
 	uc := NewPurchaseUseCase(mockPurchaseDomainService)
 	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)
+	userID := ulid.NewULID()
 	type args struct {
 		dtos []PurchaseUseCaseDto
 		now  time.Time
@@ -45,6 +46,7 @@ func TestPurchaseUseCase_Run(t *testing.T) {
 			gomock.InOrder(
 				mockPurchaseDomainService.EXPECT().PurchaseProducts(
 					context.Background(),
+					userID,
 					gomock.Any(),
 					now,
 				).Do(
@@ -63,7 +65,7 @@ func TestPurchaseUseCase_Run(t *testing.T) {
 				).Return(nil),
 			)
 
-			if err := uc.Run(context.Background(), tt.dtos, now); (err != nil) != tt.wantErr {
+			if err := uc.Run(context.Background(), userID, tt.dtos, now); (err != nil) != tt.wantErr {
 				t.Errorf("PurchaseUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

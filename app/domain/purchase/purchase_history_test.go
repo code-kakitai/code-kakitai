@@ -80,10 +80,11 @@ func TestNewPurchaseHistory(t *testing.T) {
 			wantErr: true,
 		},
 	}
+	userID := ulid.NewULID()
 	purchasedAt := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewPurchaseHistory(tt.args.totalAmount, tt.args.products, purchasedAt)
+			got, err := NewPurchaseHistory(userID, tt.args.totalAmount, tt.args.products, purchasedAt)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewPurchaseHistory() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -40,5 +40,5 @@ func (p *PurchaseProduct) Count() int {
 }
 
 type PurchaseDomainService interface {
-	PurchaseProducts(ctx context.Context, pps []PurchaseProduct, now time.Time) error
+	PurchaseProducts(ctx context.Context, userID string, pps []PurchaseProduct, now time.Time) error
 }

@@ -41,6 +41,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		product1,
 		product2,
 	}
+	userID := ulid.NewULID()
 	tests := []struct {
 		name             string
 		purchaseProducts []PurchaseProduct
@@ -163,7 +164,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			tt.mockFunc()
-			if err := ds.PurchaseProducts(context.Background(), tt.purchaseProducts, time.Now()); (err != nil) != tt.wantErr {
+			if err := ds.PurchaseProducts(context.Background(), userID, tt.purchaseProducts, time.Now()); (err != nil) != tt.wantErr {
 				t.Errorf("purchaseDomainService.PurchaseProducts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

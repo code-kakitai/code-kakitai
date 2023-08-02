@@ -36,15 +36,15 @@ func (m *MockPurchaseDomainService) EXPECT() *MockPurchaseDomainServiceMockRecor
 }
 
 // PurchaseProducts mocks base method.
-func (m *MockPurchaseDomainService) PurchaseProducts(ctx context.Context, pps []PurchaseProduct, now time.Time) error {
+func (m *MockPurchaseDomainService) PurchaseProducts(ctx context.Context, userID string, pps []PurchaseProduct, now time.Time) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PurchaseProducts", ctx, pps, now)
+	ret := m.ctrl.Call(m, "PurchaseProducts", ctx, userID, pps, now)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PurchaseProducts indicates an expected call of PurchaseProducts.
-func (mr *MockPurchaseDomainServiceMockRecorder) PurchaseProducts(ctx, pps, now interface{}) *gomock.Call {
+func (mr *MockPurchaseDomainServiceMockRecorder) PurchaseProducts(ctx, userID, pps, now interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PurchaseProducts", reflect.TypeOf((*MockPurchaseDomainService)(nil).PurchaseProducts), ctx, pps, now)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PurchaseProducts", reflect.TypeOf((*MockPurchaseDomainService)(nil).PurchaseProducts), ctx, userID, pps, now)
 }
