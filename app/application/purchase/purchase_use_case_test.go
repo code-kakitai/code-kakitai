@@ -50,7 +50,7 @@ func TestPurchaseUseCase_Run(t *testing.T) {
 					gomock.Any(),
 					now,
 				).Do(
-					func(ctx context.Context, pps []purchaseDomain.PurchaseProduct, now time.Time) {
+					func(ctx context.Context, userID string, pps []purchaseDomain.PurchaseProduct, now time.Time) {
 						var ps []purchaseDomain.PurchaseProduct
 						for _, dto := range tt.dtos {
 							p, _ := purchaseDomain.NewPurchaseProduct(dto.ProductID, dto.Count)
