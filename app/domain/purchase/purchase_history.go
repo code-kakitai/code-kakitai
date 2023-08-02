@@ -54,7 +54,7 @@ func newPurchaseHistory(
 		return nil, errors.NewError("購入商品がありません。")
 	}
 	return &PurchaseHistory{
-		id:          ulid.NewULID(),
+		id:          id,
 		totalAmount: totalAmount,
 		products:    products,
 		purchasedAt: purchasedAt,
