@@ -10,6 +10,7 @@ import (
 )
 
 func TestNewPurchaseHistory(t *testing.T) {
+	userID := ulid.NewULID()
 	productID1 := ulid.NewULID()
 	productID2 := ulid.NewULID()
 	type args struct {
@@ -83,7 +84,7 @@ func TestNewPurchaseHistory(t *testing.T) {
 	purchasedAt := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewPurchaseHistory(tt.args.totalAmount, tt.args.products, purchasedAt)
+			got, err := NewPurchaseHistory(tt.args.totalAmount, tt.args.products, purchasedAt, userID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewPurchaseHistory() error = %v, wantErr %v", err, tt.wantErr)
 				return

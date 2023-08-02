@@ -12,23 +12,26 @@ type PurchaseHistory struct {
 	totalAmount int64
 	products    []PurchaseProduct
 	purchasedAt time.Time
+	userID      string
 }
 
-func NewPurchaseHistory(totalAmount int64, products []PurchaseProduct, now time.Time) (*PurchaseHistory, error) {
+func NewPurchaseHistory(totalAmount int64, products []PurchaseProduct, now time.Time, userID string) (*PurchaseHistory, error) {
 	return newPurchaseHistory(
 		"",
 		totalAmount,
 		products,
 		now,
+		userID,
 	)
 }
 
-func Reconstruct(id string, totalAmount int64, products []PurchaseProduct, purchasedAt time.Time) (*PurchaseHistory, error) {
+func Reconstruct(id string, totalAmount int64, products []PurchaseProduct, purchasedAt time.Time, userID string) (*PurchaseHistory, error) {
 	return newPurchaseHistory(
 		id,
 		totalAmount,
 		products,
 		purchasedAt,
+		userID,
 	)
 }
 
@@ -37,6 +40,7 @@ func newPurchaseHistory(
 	totalAmount int64,
 	products []PurchaseProduct,
 	purchasedAt time.Time,
+	userID string,
 ) (*PurchaseHistory, error) {
 	// idが空文字の時は新規作成
 	if id == "" {
@@ -54,10 +58,11 @@ func newPurchaseHistory(
 		return nil, errors.NewError("購入商品がありません。")
 	}
 	return &PurchaseHistory{
-		id:          ulid.NewULID(),
+		id:          id,
 		totalAmount: totalAmount,
 		products:    products,
 		purchasedAt: purchasedAt,
+		userID:      userID,
 	}, nil
 }
 

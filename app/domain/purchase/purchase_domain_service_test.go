@@ -21,7 +21,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		mockPurchaseHistoryRepo,
 		mockProductRepo,
 	)
-
+	userID := ulid.NewULID()
 	product1, _ := productDomain.NewProduct(
 		ulid.NewULID(),
 		"product1",
@@ -63,7 +63,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 				gomock.InOrder(
 					mockProductRepo.EXPECT().FindByIDs(gomock.Any(), productIDs).Return(products, nil),
 					mockProductRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
-						func(ctx context.Context, p *productDomain.Product) {
+						func(_ context.Context, p *productDomain.Product) {
 							pp := product1
 							pp.UpdateStock(1)
 							diff := cmp.Diff(
@@ -77,7 +77,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 							}
 						}).Return(nil),
 					mockProductRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
-						func(ctx context.Context, p *productDomain.Product) {
+						func(_ context.Context, p *productDomain.Product) {
 							pp := product2
 							pp.UpdateStock(0)
 							diff := cmp.Diff(
@@ -91,7 +91,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 							}
 						}).Return(nil),
 					mockPurchaseHistoryRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
-						func(ctx context.Context, ph *PurchaseHistory) {
+						func(_ context.Context, ph *PurchaseHistory) {
 							diff := cmp.Diff(
 								ph,
 								&PurchaseHistory{
@@ -163,7 +163,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			tt.mockFunc()
-			if err := ds.PurchaseProducts(context.Background(), tt.purchaseProducts, time.Now()); (err != nil) != tt.wantErr {
+			if err := ds.PurchaseProducts(context.Background(), tt.purchaseProducts, userID, time.Now()); (err != nil) != tt.wantErr {
 				t.Errorf("purchaseDomainService.PurchaseProducts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

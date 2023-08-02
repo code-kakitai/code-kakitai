@@ -24,7 +24,7 @@ func NewPurchaseDomainService(
 	}
 }
 
-func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, purchaseProducts []PurchaseProduct, now time.Time) error {
+func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, purchaseProducts []PurchaseProduct, userID string, now time.Time) error {
 	// 購入商品のIDを取得
 	productIDs := make([]string, 0, len(purchaseProducts))
 	for _, purchaseProduct := range purchaseProducts {
@@ -69,7 +69,7 @@ func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, purchaseP
 	}
 
 	// 購入履歴保存
-	ph, err := NewPurchaseHistory(totalAmount, purchaseProducts, now)
+	ph, err := NewPurchaseHistory(totalAmount, purchaseProducts, now, userID)
 	if err != nil {
 		return err
 	}

@@ -24,7 +24,7 @@ type PurchaseUseCaseDto struct {
 	Count     int
 }
 
-func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto, now time.Time) error {
+func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto, userID string, now time.Time) error {
 	// dtoからPurchaseProductへ変換
 	var pps []purchaseDomain.PurchaseProduct
 	for _, dto := range dtos {
@@ -35,7 +35,7 @@ func (uc *PurchaseUseCase) Run(ctx context.Context, dtos []PurchaseUseCaseDto, n
 		pps = append(pps, *p)
 	}
 	// 購入処理
-	if err := uc.purchaseDomainService.PurchaseProducts(ctx, pps, now); err != nil {
+	if err := uc.purchaseDomainService.PurchaseProducts(ctx, pps, userID, now); err != nil {
 		return nil
 	}
 	// 管理者とユーザーにメール送信
