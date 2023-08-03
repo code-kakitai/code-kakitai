@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	userApp "github/code-kakitai/code-kakitai/application/user"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/repository"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
 
@@ -13,7 +12,7 @@ type handler struct {
 	saveUserUseCase *userApp.SaveUserUseCase
 }
 
-func newHandler(
+func NewHandler(
 	findUserUseCase *userApp.FindUserUseCase,
 	saceUserUseCase *userApp.SaveUserUseCase,
 ) handler {
@@ -21,16 +20,6 @@ func newHandler(
 		findUserUseCase: findUserUseCase,
 		saveUserUseCase: saceUserUseCase,
 	}
-}
-
-func Route(r *gin.RouterGroup) {
-	userRepository := repository.NewUserRepository()
-	h := newHandler(
-		userApp.NewFindUserUseCase(userRepository),
-		userApp.NewSaveUserUseCase(userRepository),
-	)
-	group := r.Group("/users")
-	group.GET("/:id", h.GetUserByID)
 }
 
 // GetUserByID godoc
