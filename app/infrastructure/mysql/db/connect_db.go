@@ -18,6 +18,7 @@ const delay = 5 * time.Second
 
 var (
 	once  sync.Once
+	dbcon *sql.DB
 	query *dbgen.Queries
 )
 
@@ -29,14 +30,22 @@ func SetQuery(q *dbgen.Queries) {
 	query = q
 }
 
+func GetDB() *sql.DB {
+	return dbcon
+}
+func SetDB(d *sql.DB) {
+	dbcon = d
+}
+
 func NewMainDB() {
 	once.Do(func() {
-		db, err := connect()
+		dbcon, err := connect()
 		if err != nil {
 			panic(err)
 		}
-		q := dbgen.New(db)
+		q := dbgen.New(dbcon)
 		SetQuery(q)
+		SetDB(dbcon)
 	})
 }
 
