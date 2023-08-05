@@ -24,8 +24,7 @@ tidy:
 
 # コンテナの操作
 
-init:
-	docker compose build
+init:up
 	go work init ./app ./pkg
 
 up:
