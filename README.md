@@ -1,22 +1,33 @@
 ## 各種コマンド
+
 ### 環境構築
+
+```
+make init
+```
+
+コンテナ停止後に、コンテナを起動する場合
+
 ```
 make up
 ```
 
 ### マイグレーション
 
-dry-run(適用されるDDLを確認)
+dry-run(適用される DDL を確認)
+
 ```
 make migrate-dry-run
 ```
 
 apply(実際に適用)
+
 ```
 make migrate-apply
 ```
 
 ### テスト
+
 ```
 make test
 ```
@@ -30,11 +41,13 @@ make hot-reload
 ```
 make gen-swagger
 ```
+
 URL: http://localhost:8002
 
-
 ## directory structure
-### project全体
+
+### project 全体
+
 ```bash
 .
 ├── Makefile
@@ -45,7 +58,8 @@ URL: http://localhost:8002
 └── pkg # ドメインロジックとは関係ない汎用的な処理
 ```
 
-- application内
+- application 内
+
 ```bash
 .
 ├── application # アプリケーションサービス層
