@@ -109,3 +109,37 @@ func TestNewProduct(t *testing.T) {
 		})
 	}
 }
+
+func TestProduct_Consume(t *testing.T) {
+	product := Product{
+		id:          ulid.NewULID(),
+		ownerID:     ulid.NewULID(),
+		name:        "test",
+		description: "test",
+		price:       100,
+		stock:       100,
+	}
+	tests := []struct {
+		name     string
+		quantity int
+		wantErr  bool
+	}{
+		{
+			name:     "正常系",
+			quantity: 10,
+			wantErr:  false,
+		},
+		{
+			name:     "異常系: 在庫が足りない",
+			quantity: 101,
+			wantErr:  true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := product.Consume(tt.quantity); (err != nil) != tt.wantErr {
+				t.Errorf("Product.Consume() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

@@ -1,7 +1,9 @@
+//go:generate mockgen -package $GOPACKAGE -source $GOFILE -destination mock_$GOFILE
 package purchase
 
 import (
 	"context"
+	"time"
 
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
@@ -38,5 +40,5 @@ func (p *PurchaseProduct) Count() int {
 }
 
 type PurchaseDomainService interface {
-	PurchaseProducts(ctx context.Context, pps []PurchaseProduct) error
+	PurchaseProducts(ctx context.Context, userID string, pps []PurchaseProduct, now time.Time) error
 }

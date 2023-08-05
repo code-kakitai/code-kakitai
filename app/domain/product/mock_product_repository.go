@@ -49,6 +49,21 @@ func (mr *MockProductRepositoryMockRecorder) FindByID(ctx, id interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByID", reflect.TypeOf((*MockProductRepository)(nil).FindByID), ctx, id)
 }
 
+// FindByIDs mocks base method.
+func (m *MockProductRepository) FindByIDs(ctx context.Context, ids []string) ([]*Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByIDs", ctx, ids)
+	ret0, _ := ret[0].([]*Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByIDs indicates an expected call of FindByIDs.
+func (mr *MockProductRepositoryMockRecorder) FindByIDs(ctx, ids interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIDs", reflect.TypeOf((*MockProductRepository)(nil).FindByIDs), ctx, ids)
+}
+
 // FindByOwnerID mocks base method.
 func (m *MockProductRepository) FindByOwnerID(ctx context.Context, ownerID string) ([]*Product, error) {
 	m.ctrl.T.Helper()
@@ -64,16 +79,16 @@ func (mr *MockProductRepositoryMockRecorder) FindByOwnerID(ctx, ownerID interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByOwnerID", reflect.TypeOf((*MockProductRepository)(nil).FindByOwnerID), ctx, ownerID)
 }
 
-// Store mocks base method.
-func (m *MockProductRepository) Store(ctx context.Context, product *Product) error {
+// Save mocks base method.
+func (m *MockProductRepository) Save(ctx context.Context, product *Product) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Store", ctx, product)
+	ret := m.ctrl.Call(m, "Save", ctx, product)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// Store indicates an expected call of Store.
-func (mr *MockProductRepositoryMockRecorder) Store(ctx, product interface{}) *gomock.Call {
+// Save indicates an expected call of Save.
+func (mr *MockProductRepositoryMockRecorder) Save(ctx, product interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Store", reflect.TypeOf((*MockProductRepository)(nil).Store), ctx, product)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockProductRepository)(nil).Save), ctx, product)
 }

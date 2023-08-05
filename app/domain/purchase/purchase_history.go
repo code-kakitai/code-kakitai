@@ -1,36 +1,55 @@
 package purchase
 
 import (
+	"time"
+
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 )
 
 type PurchaseHistory struct {
 	id          string
+	userID      string
 	totalAmount int64
 	products    []PurchaseProduct
+	purchasedAt time.Time
 }
 
-func NewPurchaseHistory(totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+func NewPurchaseHistory(userID string, totalAmount int64, products []PurchaseProduct, now time.Time) (*PurchaseHistory, error) {
 	return newPurchaseHistory(
 		"",
+		userID,
 		totalAmount,
 		products,
+		now,
 	)
 }
 
-func Reconstruct(id string, totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+func Reconstruct(id string, userID string, totalAmount int64, products []PurchaseProduct, purchasedAt time.Time) (*PurchaseHistory, error) {
 	return newPurchaseHistory(
 		id,
+		userID,
 		totalAmount,
 		products,
+		purchasedAt,
 	)
 }
 
-func newPurchaseHistory(id string, totalAmount int64, products []PurchaseProduct) (*PurchaseHistory, error) {
+func newPurchaseHistory(
+	id string,
+	userID string,
+	totalAmount int64,
+	products []PurchaseProduct,
+	purchasedAt time.Time,
+) (*PurchaseHistory, error) {
 	// idが空文字の時は新規作成
 	if id == "" {
 		id = ulid.NewULID()
+	}
+
+	// userIDのバリデーション
+	if !ulid.IsValid(userID) {
+		return nil, errors.NewError("ユーザーIDの値が不正です。")
 	}
 
 	// 購入金額のバリデーション
@@ -44,9 +63,10 @@ func newPurchaseHistory(id string, totalAmount int64, products []PurchaseProduct
 		return nil, errors.NewError("購入商品がありません。")
 	}
 	return &PurchaseHistory{
-		id:          ulid.NewULID(),
+		id:          id,
 		totalAmount: totalAmount,
 		products:    products,
+		purchasedAt: purchasedAt,
 	}, nil
 }
 

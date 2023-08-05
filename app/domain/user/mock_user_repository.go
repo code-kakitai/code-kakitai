@@ -35,10 +35,10 @@ func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
 }
 
 // FindById mocks base method.
-func (m *MockUserRepository) FindById(ctx context.Context, id string) (User, error) {
+func (m *MockUserRepository) FindById(ctx context.Context, id string) (*User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindById", ctx, id)
-	ret0, _ := ret[0].(User)
+	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -50,7 +50,7 @@ func (mr *MockUserRepositoryMockRecorder) FindById(ctx, id interface{}) *gomock.
 }
 
 // Save mocks base method.
-func (m *MockUserRepository) Save(ctx context.Context, user User) error {
+func (m *MockUserRepository) Save(ctx context.Context, user *User) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Save", ctx, user)
 	ret0, _ := ret[0].(error)
