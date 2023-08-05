@@ -42,33 +42,32 @@ func TestTransactionManager(t *testing.T) {
 			t.Errorf("FindById() mismatch (-want +got):\n%s", diff)
 		}
 	})
-	t.Run("異常系:ロールバックされること", func(t *testing.T) {
+	t.Run("異常系:トランザクション内でエラーが発生した際はロールバックされること", func(t *testing.T) {
+		user1, _ := userDomain.NewUser("lastName", "firstName", "user@example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
+		user2, _ := userDomain.NewUser("lastName2", "firstName2", "user2@example.com", "09000000001", "東京都", "新宿区", "1-1-1")
 		var want1 *userDomain.User
 		var want2 *userDomain.User
-		err := transactionManager.RunInTransaction(ctx, func(ctx context.Context) error {
+		transactionManager.RunInTransaction(ctx, func(ctx context.Context) error {
 			userRepository.Save(ctx, user1)
 			userRepository.Save(ctx, user2)
-			err := ErrorRepositorySave(ctx, user1)
+			err := errorRepositorySave(ctx, user1)
 			if err != nil {
 				return err
 			}
 			return nil
 		})
-		if err != nil {
-			t.Logf("トランザクション内Error: %v", err)
-		}
 
 		want1, _ = userRepository.FindById(ctx, user1.ID())
 		if want1 != nil {
-			t.Errorf("ロールバックされていない")
+			t.Errorf("user1が保存されている(ロールバックされていない)")
 		}
 		want2, _ = userRepository.FindById(ctx, user2.ID())
 		if want2 != nil {
-			t.Errorf("ロールバックされていない")
+			t.Errorf("user2が保存されている(ロールバックされていない)")
 		}
 	})
 }
 
-func ErrorRepositorySave(ctx context.Context, u *userDomain.User) error {
+func errorRepositorySave(ctx context.Context, u *userDomain.User) error {
 	return fmt.Errorf("明示的なエラー")
 }

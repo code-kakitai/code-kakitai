@@ -6,6 +6,7 @@ import (
 	"github/code-kakitai/code-kakitai/application/transaction"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github/code-kakitai/code-kakitai/util"
 )
 
 type TransactionManager struct{}
@@ -26,8 +27,11 @@ func (tm *TransactionManager) RunInTransaction(ctx context.Context, fn func(ctx 
 	db.SetQuery(q)
 	defer db.SetQuery(dbgen.New(dbcon)) // トランザクション終了後にQueriesを元に戻す
 
+	// QueriesをContextにセット
+	ctxWithQueries := util.WithQueries(ctx, q)
+
 	// トランザクション内の関数を実行
-	err = fn(ctx)
+	err = fn(ctxWithQueries)
 	if err != nil {
 		// トランザクション内でエラーが発生したらロールバック
 		fmt.Printf("db rollback: %v\n", err)

@@ -15,7 +15,7 @@ func NewUserRepository() user.UserRepository {
 }
 
 func (r *userRepository) FindById(ctx context.Context, id string) (*user.User, error) {
-	query := db.GetQuery()
+	query := db.GetQuery(ctx)
 	u, err := query.UserFindById(ctx, id)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func (r *userRepository) FindById(ctx context.Context, id string) (*user.User, e
 	return ud, nil
 }
 func (r *userRepository) Save(ctx context.Context, u *user.User) error {
-	query := db.GetQuery()
+	query := db.GetQuery(ctx)
 	if err := query.UpsertUser(ctx, dbgen.UpsertUserParams{
 		ID:           u.ID(),
 		Email:        u.Email(),

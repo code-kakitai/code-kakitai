@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -11,6 +12,7 @@ import (
 
 	"github/code-kakitai/code-kakitai/config"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github/code-kakitai/code-kakitai/util"
 )
 
 const maxRetries = 5
@@ -18,11 +20,16 @@ const delay = 5 * time.Second
 
 var (
 	once  sync.Once
-	dbcon *sql.DB
 	query *dbgen.Queries
+	dbcon *sql.DB
 )
 
-func GetQuery() *dbgen.Queries {
+// contextからQueriesを取得する。contextにQueriesが存在しない場合は、パッケージ変数からQueriesを取得する
+func GetQuery(ctx context.Context) *dbgen.Queries {
+	txq := util.GetQueries(ctx)
+	if txq != nil {
+		return txq
+	}
 	return query
 }
 
