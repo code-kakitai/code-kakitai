@@ -10,6 +10,9 @@ help: # コマンド確認
 test: lint
 	docker compose exec app sh -c "DB_PORT=$(DB_PORT) go test ./..."
 
+run:
+	docker compose exec app sh -c "go run ./cmd/main.go"
+
 hot-reload:
 	docker compose exec app air
 

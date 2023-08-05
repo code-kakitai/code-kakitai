@@ -32,8 +32,12 @@ make migrate-apply
 make test
 ```
 
-### API Schema の確認
+### ホットリロード
+```
+make hot-reload
+```
 
+### API Schemaの確認
 ```
 make gen-swagger
 ```

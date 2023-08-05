@@ -2,7 +2,9 @@ package repository
 
 import (
 	"context"
+
 	"github/code-kakitai/code-kakitai/domain/user"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
@@ -10,8 +12,8 @@ type userRepository struct {
 	query *dbgen.Queries
 }
 
-func NewUserRepository(query *dbgen.Queries) user.UserRepository {
-	return &userRepository{query: query}
+func NewUserRepository() user.UserRepository {
+	return &userRepository{query: db.GetQuery()}
 }
 
 func (r *userRepository) FindById(ctx context.Context, id string) (*user.User, error) {
