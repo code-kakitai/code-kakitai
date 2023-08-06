@@ -28,6 +28,7 @@ func TestUserRepository(t *testing.T) {
 		userRepository := NewUserRepository()
 		ctx := context.Background()
 		t.Run(fmt.Sprintf(": %s", tt.name), func(t *testing.T) {
+			prepare(t)
 			err := userRepository.Save(ctx, tt.input)
 			if err != nil {
 				t.Error(err)
