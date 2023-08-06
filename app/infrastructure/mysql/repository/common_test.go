@@ -36,6 +36,7 @@ func TestMain(m *testing.M) {
 
 	q := dbgen.New(dbCon)
 	db.SetQuery(q)
+	db.SetDB(dbCon)
 
 	// テスト実行
 	m.Run()
