@@ -12,7 +12,6 @@ import (
 
 	"github/code-kakitai/code-kakitai/config"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
-	"github/code-kakitai/code-kakitai/util"
 )
 
 const maxRetries = 5
@@ -26,7 +25,7 @@ var (
 
 // contextからQueriesを取得する。contextにQueriesが存在しない場合は、パッケージ変数からQueriesを取得する
 func GetQuery(ctx context.Context) *dbgen.Queries {
-	txq := util.GetQueries(ctx)
+	txq := GetQueries(ctx)
 	if txq != nil {
 		return txq
 	}
@@ -78,4 +77,22 @@ func connect() (*sql.DB, error) {
 	}
 
 	return nil, fmt.Errorf("could not connect to db after %d attempts", maxRetries)
+}
+
+type CtxKey string
+
+const (
+	QueriesKey CtxKey = "queries"
+)
+
+func WithQueries(ctx context.Context, q *dbgen.Queries) context.Context {
+	return context.WithValue(ctx, QueriesKey, q)
+}
+
+func GetQueries(ctx context.Context) *dbgen.Queries {
+	queries, ok := ctx.Value(QueriesKey).(*dbgen.Queries)
+	if !ok {
+		return nil
+	}
+	return queries
 }
