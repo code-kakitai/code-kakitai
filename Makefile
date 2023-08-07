@@ -1,7 +1,5 @@
 .PHONY: test
 
-DB_PORT ?= 3307
-
 help: # コマンド確認
 	@echo "\033[32mAvailable targets:\033[0m"
 	@grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
@@ -63,8 +61,14 @@ migrate-dry-run: up build-cli # migration dry-run
 
 migrate-apply: up build-cli # migration apply
 	shema_path=$$(find . -name "schema.sql"); \
-	./app/cli/main migration $$shema_path apply
+	DB_HOST=$(DB_HOST) ./app/cli/main migration $$shema_path apply
 	cd app && rm ./cli/main
+
+migrate-local-dry-run:
+	@make migrate-dry-run DB_HOST=127.0.0.1
+
+migrate-local-apply:
+	@make migrate-apply DB_HOST=127.0.0.1
 
 # sqlc
 sqlc-gen:

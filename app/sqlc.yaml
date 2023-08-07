@@ -3,7 +3,7 @@ sql:
   - engine: "mysql"
     schema: "infrastructure/mysql/db/schema/schema.sql"
     queries: 
-      - "infrastructure/mysql/db/query/user.sql"
+      - "infrastructure/mysql/db/query/"
     gen:
       go:
         package: "dbgen"

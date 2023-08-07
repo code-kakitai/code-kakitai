@@ -2,17 +2,17 @@ package schema
 
 import (
 	"fmt"
-	"github/code-kakitai/code-kakitai/config"
 	"log"
 	"strconv"
 
 	"github.com/k0kubun/sqldef"
 	"github.com/k0kubun/sqldef/database"
 	"github.com/k0kubun/sqldef/database/mysql"
+	"github.com/k0kubun/sqldef/parser"
 	"github.com/k0kubun/sqldef/schema"
 	"github.com/urfave/cli"
 
-	"github.com/k0kubun/sqldef/parser"
+	"github/code-kakitai/code-kakitai/config"
 )
 
 // urfave/cli経由で実行する
@@ -42,8 +42,9 @@ func Migrate(cCtx *cli.Context) error {
 		dryRun = false
 	}
 	options := &sqldef.Options{
-		DesiredDDLs: desiredDDLs,
-		DryRun:      dryRun,
+		DesiredDDLs:     desiredDDLs,
+		DryRun:          dryRun,
+		EnableDropTable: true,
 	}
 
 	sp := database.NewParser(parser.ParserModeMysql)

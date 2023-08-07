@@ -60,7 +60,6 @@ func connect() (*sql.DB, error) {
 	cfg := config.GetConfig().DB
 	for i := 0; i < maxRetries; i++ {
 		connect := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Name)
-		fmt.Println(connect)
 		db, err := sql.Open("mysql", connect)
 		if err != nil {
 			return nil, fmt.Errorf("could not open db: %w", err)
