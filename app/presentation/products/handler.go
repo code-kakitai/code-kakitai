@@ -39,6 +39,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
+	// TODO 専用のオブジェクトを用意して引数をまとめたい
 	dto, err := h.saveProductUseCase.Run(
 		ctx,
 		params.OwnerID,
