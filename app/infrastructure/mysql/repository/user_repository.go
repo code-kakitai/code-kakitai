@@ -11,6 +11,7 @@ import (
 type userRepository struct{}
 
 func NewUserRepository() user.UserRepository {
+
 	return &userRepository{}
 }
 
