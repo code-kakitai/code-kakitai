@@ -4,6 +4,39 @@ definitions:
       status:
         type: string
     type: object
+  products.PostProductsParams:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
+    type: object
+  products.postProductResponse:
+    properties:
+      product:
+        $ref: '#/definitions/products.productResponseModel'
+    type: object
+  products.productResponseModel:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
+    type: object
   user.getUserResponse:
     properties:
       users:
@@ -49,6 +82,27 @@ paths:
       summary: ヘルスチェック
       tags:
       - health
+  /v1/products:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登録商品
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/products.PostProductsParams'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/products.postProductResponse'
+      summary: 商品を保存する
+      tags:
+      - products
   /v1/users/{id}:
     get:
       consumes:
