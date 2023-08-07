@@ -22,7 +22,7 @@ func (r *orderRepository) Save(ctx context.Context, order *purchase.PurchaseHist
 	if err := r.query.InsertPurchaseHistory(ctx, dbgen.InsertPurchaseHistoryParams{
 		ID:          order.ID(),
 		UserID:      order.UserID(),
-		TotalAmount: int64(order.TotalAmount()),
+		TotalAmount: order.TotalAmount(),
 		OrderedAt:   order.PurchasedAt(),
 	}); err != nil {
 		return err
@@ -34,7 +34,7 @@ func (r *orderRepository) Save(ctx context.Context, order *purchase.PurchaseHist
 			ID:        id,
 			OrderID:   order.ID(),
 			ProductID: p.ProductID(),
-			Price:     100,
+			Price:     100, // todo domainロジック修正したらここも修正
 			Quantity:  int32(p.Count()),
 		}
 		if err := r.query.InsertOrderProduct(ctx, op); err != nil {
