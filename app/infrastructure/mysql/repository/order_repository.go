@@ -11,15 +11,15 @@ import (
 )
 
 type orderRepository struct {
-	query *dbgen.Queries
 }
 
 func NewPurchaseRepository() purchase.PurchaseHistoryRepository {
-	return &orderRepository{query: db.GetQuery()}
+	return &orderRepository{}
 }
 
 func (r *orderRepository) Save(ctx context.Context, order *purchase.PurchaseHistory) error {
-	if err := r.query.InsertPurchaseHistory(ctx, dbgen.InsertPurchaseHistoryParams{
+	query := db.GetQuery(ctx)
+	if err := query.InsertPurchaseHistory(ctx, dbgen.InsertPurchaseHistoryParams{
 		ID:          order.ID(),
 		UserID:      order.UserID(),
 		TotalAmount: order.TotalAmount(),
@@ -37,7 +37,7 @@ func (r *orderRepository) Save(ctx context.Context, order *purchase.PurchaseHist
 			Price:     100, // todo domainロジック修正したらここも修正
 			Quantity:  int32(p.Count()),
 		}
-		if err := r.query.InsertOrderProduct(ctx, op); err != nil {
+		if err := query.InsertOrderProduct(ctx, op); err != nil {
 			return err
 		}
 	}

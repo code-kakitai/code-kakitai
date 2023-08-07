@@ -9,15 +9,15 @@ import (
 )
 
 type productRepository struct {
-	query *dbgen.Queries
 }
 
 func NewProductRepository() product.ProductRepository {
-	return &productRepository{query: db.GetQuery()}
+	return &productRepository{}
 }
 
 func (r *productRepository) Save(ctx context.Context, product *product.Product) error {
-	if err := r.query.UpsertProduct(ctx, dbgen.UpsertProductParams{
+	query := db.GetQuery(ctx)
+	if err := query.UpsertProduct(ctx, dbgen.UpsertProductParams{
 		ID:          product.ID(),
 		OwnerID:     product.OwnerID(),
 		Name:        product.Name(),
@@ -31,7 +31,8 @@ func (r *productRepository) Save(ctx context.Context, product *product.Product) 
 }
 
 func (r *productRepository) FindByID(ctx context.Context, id string) (*product.Product, error) {
-	p, err := r.query.ProductFindById(ctx, id)
+	query := db.GetQuery(ctx)
+	p, err := query.ProductFindById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +51,8 @@ func (r *productRepository) FindByID(ctx context.Context, id string) (*product.P
 }
 
 func (r *productRepository) FindByIDs(ctx context.Context, ids []string) ([]*product.Product, error) {
-	ps, err := r.query.ProductFindByIds(ctx, ids)
+	query := db.GetQuery(ctx)
+	ps, err := query.ProductFindByIds(ctx, ids)
 	if err != nil {
 		return nil, err
 	}
