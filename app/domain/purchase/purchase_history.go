@@ -70,12 +70,24 @@ func newPurchaseHistory(
 	}, nil
 }
 
+func (p *PurchaseHistory) ID() string {
+	return p.id
+}
+
+func (p *PurchaseHistory) UserID() string {
+	return p.userID
+}
+
 func (p *PurchaseHistory) TotalAmount() int64 {
 	return p.totalAmount
 }
 
 func (p *PurchaseHistory) Products() []PurchaseProduct {
 	return p.products
+}
+
+func (p *PurchaseHistory) PurchasedAt() time.Time {
+	return p.purchasedAt
 }
 
 func (p *PurchaseHistory) ProductIDs() []string {
