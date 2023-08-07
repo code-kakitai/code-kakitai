@@ -39,7 +39,7 @@ func TestMain(m *testing.M) {
 	m.Run()
 }
 
-func prepare(t *testing.T) {
+func resetTestData(t *testing.T) {
 	t.Helper()
 	if err := fixtures.Load(); err != nil {
 		t.Fatal(err)

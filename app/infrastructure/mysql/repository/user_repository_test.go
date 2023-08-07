@@ -28,7 +28,7 @@ func TestUserRepository(t *testing.T) {
 	ctx := context.Background()
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf(": %s", tt.name), func(t *testing.T) {
-			prepare(t)
+			resetTestData(t)
 			err := userRepository.Save(ctx, tt.input)
 			if err != nil {
 				t.Error(err)
