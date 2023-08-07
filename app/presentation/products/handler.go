@@ -39,7 +39,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
-	p, err := h.saveProductUseCase.Run(
+	dto, err := h.saveProductUseCase.Run(
 		ctx,
 		params.OwnerID,
 		params.Name,
@@ -51,12 +51,12 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	}
 	response := postProductResponse{
 		productResponseModel{
-			Id:          p.ID(),
-			OwnerID:     p.OwnerID(),
-			Name:        p.Name(),
-			Description: p.Description(),
-			Price:       p.Price(),
-			Stock:       p.Stock(),
+			Id:          dto.ID,
+			OwnerID:     dto.OwnerID,
+			Name:        dto.Name,
+			Description: dto.Description,
+			Price:       dto.Price,
+			Stock:       dto.Stock,
 		},
 	}
 	settings.ReturnStatusCreated(ctx, response)
