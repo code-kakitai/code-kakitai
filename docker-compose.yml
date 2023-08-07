@@ -5,7 +5,7 @@ volumes:
   test-db-store:
     driver: local
 
-services: 
+services:
   # データベース
   db:
     image: mysql:latest
@@ -22,7 +22,7 @@ services:
       TZ: Asia/Tokyo
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     command: --collation-server=utf8mb4_general_ci
-  
+
   # テスト用データベース
   test_db:
     image: mysql:latest
@@ -35,7 +35,7 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_DATABASE: code_kakitai
+      MYSQL_DATABASE: code_kakitai_test
       TZ: Asia/Tokyo
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     command: --collation-server=utf8mb4_general_ci
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: ./ops/docker/app/Dockerfile
-    tty: true 
+    tty: true
     ports:
       - "8080:8080"
     volumes:
