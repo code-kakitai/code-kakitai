@@ -147,7 +147,7 @@ func TestNewOrder(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := NewOrder(userID, tt.args.totalAmount, tt.args.products, OrderdAt)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("NewOrderHistory() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("NewOrder() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			diff := cmp.Diff(
@@ -156,7 +156,7 @@ func TestNewOrder(t *testing.T) {
 				cmpopts.IgnoreFields(Order{}, "id", "OrderdAt"),
 			)
 			if diff != "" {
-				t.Errorf("NewOrderHistory() = %v, want %v. error is %s", got, tt.want, err)
+				t.Errorf("NewOrder() = %v, want %v. error is %s", got, tt.want, err)
 			}
 		})
 	}

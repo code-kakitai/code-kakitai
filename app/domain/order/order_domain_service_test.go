@@ -15,10 +15,10 @@ import (
 
 func Test_OrderDomainService_OrderProducts(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	mockOrderHistoryRepo := NewMockOrderHistoryRepository(ctrl)
+	mockOrderRepo := NewMockOrderRepository(ctrl)
 	mockProductRepo := productDomain.NewMockProductRepository(ctrl)
 	ds := NewOrderDomainService(
-		mockOrderHistoryRepo,
+		mockOrderRepo,
 		mockProductRepo,
 	)
 
@@ -91,7 +91,7 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 								t.Errorf("OrderDomainService.OrderProducts() diff = %v", diff)
 							}
 						}).Return(nil),
-					mockOrderHistoryRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
+					mockOrderRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
 						func(ctx context.Context, ph *Order) {
 							diff := cmp.Diff(
 								ph,
