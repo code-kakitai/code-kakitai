@@ -27,13 +27,13 @@ func NewOrder(userID string, totalAmount int64, products []OrderProduct, now tim
 	)
 }
 
-func Reconstruct(id string, userID string, totalAmount int64, products []OrderProduct, OrderdAt time.Time) (*Order, error) {
+func Reconstruct(id string, userID string, totalAmount int64, products []OrderProduct, OrderedAt time.Time) (*Order, error) {
 	return newOrder(
 		id,
 		userID,
 		totalAmount,
 		products,
-		OrderdAt,
+		OrderedAt,
 	)
 }
 

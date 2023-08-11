@@ -142,10 +142,10 @@ func TestNewOrder(t *testing.T) {
 		},
 	}
 	userID := ulid.NewULID()
-	OrderdAt := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
+	OrderedAt := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewOrder(userID, tt.args.totalAmount, tt.args.products, OrderdAt)
+			got, err := NewOrder(userID, tt.args.totalAmount, tt.args.products, OrderedAt)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewOrder() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -153,7 +153,7 @@ func TestNewOrder(t *testing.T) {
 			diff := cmp.Diff(
 				got, tt.want,
 				cmp.AllowUnexported(Order{}, OrderProduct{}),
-				cmpopts.IgnoreFields(Order{}, "id", "OrderdAt"),
+				cmpopts.IgnoreFields(Order{}, "id", "OrderedAt"),
 			)
 			if diff != "" {
 				t.Errorf("NewOrder() = %v, want %v. error is %s", got, tt.want, err)
