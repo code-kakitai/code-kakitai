@@ -1,4 +1,4 @@
-package purchase
+package order
 
 import (
 	"context"
@@ -9,27 +9,27 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"go.uber.org/mock/gomock"
 
-	purchaseDomain "github/code-kakitai/code-kakitai/domain/purchase"
+	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 )
 
-func TestPurchaseUseCase_Run(t *testing.T) {
+func TestOrderUseCase_Run(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	mockPurchaseDomainService := purchaseDomain.NewMockPurchaseDomainService(ctrl)
-	uc := NewPurchaseUseCase(mockPurchaseDomainService)
+	mockOrderDomainService := orderDomain.NewMockOrderDomainService(ctrl)
+	uc := NewOrderUseCase(mockOrderDomainService)
 	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)
 	userID := ulid.NewULID()
 	type args struct {
-		dtos []PurchaseUseCaseDto
+		dtos []OrderUseCaseDto
 		now  time.Time
 	}
 	tests := []struct {
 		name    string
-		dtos    []PurchaseUseCaseDto
+		dtos    []OrderUseCaseDto
 		wantErr bool
 	}{
 		{
 			name: "work",
-			dtos: []PurchaseUseCaseDto{
+			dtos: []OrderUseCaseDto{
 				{
 					ProductID: ulid.NewULID(),
 					Count:     1,
@@ -44,29 +44,29 @@ func TestPurchaseUseCase_Run(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gomock.InOrder(
-				mockPurchaseDomainService.EXPECT().PurchaseProducts(
+				mockOrderDomainService.EXPECT().OrderProducts(
 					context.Background(),
 					userID,
 					gomock.Any(),
 					now,
 				).Do(
-					func(ctx context.Context, userID string, pps []purchaseDomain.PurchaseProduct, now time.Time) {
-						var ps []purchaseDomain.PurchaseProduct
+					func(ctx context.Context, userID string, pps []orderDomain.OrderProduct, now time.Time) {
+						var ps []orderDomain.OrderProduct
 						for _, dto := range tt.dtos {
-							p, _ := purchaseDomain.NewPurchaseProduct(dto.ProductID, dto.Count)
+							p, _ := orderDomain.NewOrderProduct(dto.ProductID, dto.Count)
 							ps = append(ps, *p)
 						}
 						diff := cmp.Diff(ps, pps,
-							cmp.AllowUnexported(purchaseDomain.PurchaseProduct{}))
+							cmp.AllowUnexported(orderDomain.OrderProduct{}))
 						if diff != "" {
-							t.Errorf("PurchaseUseCase.Run() got diff: %s", diff)
+							t.Errorf("OrderUseCase.Run() got diff: %s", diff)
 						}
 					},
 				).Return(nil),
 			)
 
 			if err := uc.Run(context.Background(), userID, tt.dtos, now); (err != nil) != tt.wantErr {
-				t.Errorf("PurchaseUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("OrderUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

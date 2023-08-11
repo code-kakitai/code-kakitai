@@ -9,12 +9,12 @@ import (
 )
 
 type Querier interface {
+	InsertOrder(ctx context.Context, arg InsertOrderParams) error
 	InsertOrderProduct(ctx context.Context, arg InsertOrderProductParams) error
-	InsertPurchaseHistory(ctx context.Context, arg InsertPurchaseHistoryParams) error
+	OrderFindById(ctx context.Context, id string) (Order, error)
 	OrderProductFindById(ctx context.Context, id string) (OrderProduct, error)
 	ProductFindById(ctx context.Context, id string) (Product, error)
 	ProductFindByIds(ctx context.Context, ids []string) ([]Product, error)
-	PurchaseHistoryFindById(ctx context.Context, id string) (Order, error)
 	UpsertProduct(ctx context.Context, arg UpsertProductParams) error
 	UpsertUser(ctx context.Context, arg UpsertUserParams) error
 	UserFindById(ctx context.Context, id string) (User, error)

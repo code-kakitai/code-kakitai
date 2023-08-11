@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const insertPurchaseHistory = `-- name: InsertPurchaseHistory :exec
+const insertOrder = `-- name: InsertOrder :exec
 INSERT INTO
   orders (
       id,
@@ -27,15 +27,15 @@ VALUES
   )
 `
 
-type InsertPurchaseHistoryParams struct {
+type InsertOrderParams struct {
 	ID          string    `json:"id"`
 	UserID      string    `json:"user_id"`
 	TotalAmount int64     `json:"total_amount"`
 	OrderedAt   time.Time `json:"ordered_at"`
 }
 
-func (q *Queries) InsertPurchaseHistory(ctx context.Context, arg InsertPurchaseHistoryParams) error {
-	_, err := q.db.ExecContext(ctx, insertPurchaseHistory,
+func (q *Queries) InsertOrder(ctx context.Context, arg InsertOrderParams) error {
+	_, err := q.db.ExecContext(ctx, insertOrder,
 		arg.ID,
 		arg.UserID,
 		arg.TotalAmount,
@@ -44,7 +44,7 @@ func (q *Queries) InsertPurchaseHistory(ctx context.Context, arg InsertPurchaseH
 	return err
 }
 
-const purchaseHistoryFindById = `-- name: PurchaseHistoryFindById :one
+const orderFindById = `-- name: OrderFindById :one
 SELECT
   id, user_id, total_amount, ordered_at, created_at, updated_at
 FROM
@@ -53,8 +53,8 @@ WHERE
   id = ?
 `
 
-func (q *Queries) PurchaseHistoryFindById(ctx context.Context, id string) (Order, error) {
-	row := q.db.QueryRowContext(ctx, purchaseHistoryFindById, id)
+func (q *Queries) OrderFindById(ctx context.Context, id string) (Order, error) {
+	row := q.db.QueryRowContext(ctx, orderFindById, id)
 	var i Order
 	err := row.Scan(
 		&i.ID,
