@@ -109,7 +109,7 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 										},
 									},
 								},
-								cmpopts.IgnoreFields(Order{}, "OrderedAt", "id"),
+								cmpopts.IgnoreFields(Order{}, "orderedAt", "id"),
 								cmp.AllowUnexported(Order{}, OrderProduct{}),
 							)
 							if diff != "" {

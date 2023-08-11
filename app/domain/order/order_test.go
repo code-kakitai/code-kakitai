@@ -153,7 +153,7 @@ func TestNewOrder(t *testing.T) {
 			diff := cmp.Diff(
 				got, tt.want,
 				cmp.AllowUnexported(Order{}, OrderProduct{}),
-				cmpopts.IgnoreFields(Order{}, "id", "OrderedAt"),
+				cmpopts.IgnoreFields(Order{}, "id", "orderedAt"),
 			)
 			if diff != "" {
 				t.Errorf("NewOrder() = %v, want %v. error is %s", got, tt.want, err)
