@@ -1,4 +1,4 @@
-package purchase
+package order
 
 import (
 	"context"
@@ -13,12 +13,12 @@ import (
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
-func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
+func Test_OrderDomainService_OrderProducts(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	mockPurchaseHistoryRepo := NewMockPurchaseHistoryRepository(ctrl)
+	mockOrderRepo := NewMockOrderRepository(ctrl)
 	mockProductRepo := productDomain.NewMockProductRepository(ctrl)
-	ds := NewPurchaseDomainService(
-		mockPurchaseHistoryRepo,
+	ds := NewOrderDomainService(
+		mockOrderRepo,
 		mockProductRepo,
 	)
 
@@ -43,14 +43,14 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 	}
 	userID := ulid.NewULID()
 	tests := []struct {
-		name             string
-		purchaseProducts []PurchaseProduct
-		mockFunc         func()
-		wantErr          bool
+		name          string
+		OrderProducts []OrderProduct
+		mockFunc      func()
+		wantErr       bool
 	}{
 		{
 			name: "正常系",
-			purchaseProducts: []PurchaseProduct{
+			OrderProducts: []OrderProduct{
 				{
 					productID: productIDs[0],
 					count:     1,
@@ -74,7 +74,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 								cmp.AllowUnexported(productDomain.Product{}),
 							)
 							if diff != "" {
-								t.Errorf("purchaseDomainService.PurchaseProducts() diff = %v", diff)
+								t.Errorf("OrderDomainService.OrderProducts() diff = %v", diff)
 							}
 						}).Return(nil),
 					mockProductRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
@@ -88,17 +88,17 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 								cmp.AllowUnexported(productDomain.Product{}),
 							)
 							if diff != "" {
-								t.Errorf("purchaseDomainService.PurchaseProducts() diff = %v", diff)
+								t.Errorf("OrderDomainService.OrderProducts() diff = %v", diff)
 							}
 						}).Return(nil),
-					mockPurchaseHistoryRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
-						func(ctx context.Context, ph *PurchaseHistory) {
+					mockOrderRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
+						func(ctx context.Context, ph *Order) {
 							diff := cmp.Diff(
 								ph,
-								&PurchaseHistory{
+								&Order{
 									id:          ulid.NewULID(),
 									totalAmount: 300,
-									products: []PurchaseProduct{
+									products: []OrderProduct{
 										{
 											productID: productIDs[0],
 											count:     1,
@@ -109,11 +109,11 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 										},
 									},
 								},
-								cmpopts.IgnoreFields(PurchaseHistory{}, "purchasedAt", "id"),
-								cmp.AllowUnexported(PurchaseHistory{}, PurchaseProduct{}),
+								cmpopts.IgnoreFields(Order{}, "orderedAt", "id"),
+								cmp.AllowUnexported(Order{}, OrderProduct{}),
 							)
 							if diff != "" {
-								t.Errorf("purchaseDomainService.PurchaseProducts() diff = %v", diff)
+								t.Errorf("OrderDomainService.OrderProducts() diff = %v", diff)
 							}
 						},
 					).Return(nil),
@@ -123,7 +123,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		},
 		{
 			name: "購入した商品の商品詳細が見つからない場合は購入できない",
-			purchaseProducts: []PurchaseProduct{
+			OrderProducts: []OrderProduct{
 				{
 					productID: productIDs[0],
 					count:     1,
@@ -142,7 +142,7 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		},
 		{
 			name: "在庫が不足している場合は購入できない",
-			purchaseProducts: []PurchaseProduct{
+			OrderProducts: []OrderProduct{
 				{
 					productID: productIDs[0],
 					count:     1,
@@ -164,8 +164,8 @@ func Test_purchaseDomainService_PurchaseProducts(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			tt.mockFunc()
-			if err := ds.PurchaseProducts(context.Background(), userID, tt.purchaseProducts, time.Now()); (err != nil) != tt.wantErr {
-				t.Errorf("purchaseDomainService.PurchaseProducts() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ds.OrderProducts(context.Background(), userID, tt.OrderProducts, time.Now()); (err != nil) != tt.wantErr {
+				t.Errorf("OrderDomainService.OrderProducts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

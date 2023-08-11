@@ -1,4 +1,4 @@
-package purchase
+package order
 
 import (
 	"context"
@@ -9,26 +9,26 @@ import (
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
-type purchaseDomainService struct {
-	purchaseHistoryRepo PurchaseHistoryRepository
-	productRepo         productDomain.ProductRepository
+type orderDomainService struct {
+	orderRepo   OrderRepository
+	productRepo productDomain.ProductRepository
 }
 
-func NewPurchaseDomainService(
-	purchaseHistoryRepo PurchaseHistoryRepository,
+func NewOrderDomainService(
+	orderRepo OrderRepository,
 	productRepo productDomain.ProductRepository,
-) PurchaseDomainService {
-	return &purchaseDomainService{
-		purchaseHistoryRepo: purchaseHistoryRepo,
-		productRepo:         productRepo,
+) OrderDomainService {
+	return &orderDomainService{
+		orderRepo:   orderRepo,
+		productRepo: productRepo,
 	}
 }
 
-func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, userID string, purchaseProducts []PurchaseProduct, now time.Time) error {
+func (ds *orderDomainService) OrderProducts(ctx context.Context, userID string, OrderProducts []OrderProduct, now time.Time) error {
 	// 購入商品のIDを取得
-	productIDs := make([]string, 0, len(purchaseProducts))
-	for _, purchaseProduct := range purchaseProducts {
-		productIDs = append(productIDs, purchaseProduct.ProductID())
+	productIDs := make([]string, 0, len(OrderProducts))
+	for _, OrderProduct := range OrderProducts {
+		productIDs = append(productIDs, OrderProduct.ProductID())
 	}
 
 	// todo ここからトランザクション & 行ロック
@@ -44,7 +44,7 @@ func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, userID st
 
 	// 購入処理
 	var totalAmount int64
-	for _, pp := range purchaseProducts {
+	for _, pp := range OrderProducts {
 		p, ok := productMap[pp.ProductID()]
 		if !ok {
 			// 購入した商品の商品詳細が見つからない場合はエラー（商品を購入すると同時に、商品が削除された場合等に発生）
@@ -61,11 +61,11 @@ func (ds *purchaseDomainService) PurchaseProducts(ctx context.Context, userID st
 	}
 
 	// 購入履歴保存
-	ph, err := NewPurchaseHistory(userID, totalAmount, purchaseProducts, now)
+	ph, err := NewOrder(userID, totalAmount, OrderProducts, now)
 	if err != nil {
 		return err
 	}
-	if err := ds.purchaseHistoryRepo.Save(ctx, ph); err != nil {
+	if err := ds.orderRepo.Save(ctx, ph); err != nil {
 		return err
 	}
 	return nil
