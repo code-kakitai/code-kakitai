@@ -10,17 +10,17 @@ import (
 )
 
 type orderDomainService struct {
-	orderHistoryRepo OrderHistoryRepository
-	productRepo      productDomain.ProductRepository
+	orderRepo   OrderRepository
+	productRepo productDomain.ProductRepository
 }
 
 func NewOrderDomainService(
-	orderHistoryRepo OrderHistoryRepository,
+	orderRepo OrderRepository,
 	productRepo productDomain.ProductRepository,
 ) OrderDomainService {
 	return &orderDomainService{
-		orderHistoryRepo: orderHistoryRepo,
-		productRepo:      productRepo,
+		orderRepo:   orderRepo,
+		productRepo: productRepo,
 	}
 }
 
@@ -65,7 +65,7 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, userID string, 
 	if err != nil {
 		return err
 	}
-	if err := ds.orderHistoryRepo.Save(ctx, ph); err != nil {
+	if err := ds.orderRepo.Save(ctx, ph); err != nil {
 		return err
 	}
 	return nil

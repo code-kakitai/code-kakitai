@@ -13,7 +13,7 @@ import (
 type orderRepository struct {
 }
 
-func NewOrderRepository() order.OrderHistoryRepository {
+func NewOrderRepository() order.OrderRepository {
 	return &orderRepository{}
 }
 

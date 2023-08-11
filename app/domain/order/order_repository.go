@@ -5,6 +5,6 @@ import (
 	"context"
 )
 
-type OrderHistoryRepository interface {
-	Save(ctx context.Context, history *Order) error
+type OrderRepository interface {
+	Save(ctx context.Context, order *Order) error
 }
