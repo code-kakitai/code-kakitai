@@ -1,4 +1,4 @@
--- name: InsertPurchaseHistory :exec
+-- name: InsertOrder :exec
 INSERT INTO
   orders (
       id,
@@ -14,7 +14,7 @@ VALUES
       sqlc.arg(ordered_at)
   );
 
--- name: PurchaseHistoryFindById :one
+-- name: OrderFindById :one
 SELECT
   *
 FROM
