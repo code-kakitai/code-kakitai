@@ -16,7 +16,11 @@ WHERE
 
 -- name: ProductFetchWithOwner :many
 SELECT
-  products.*,
+  products.id,
+  products.owner_id,
+  products.name,
+  products.price,
+  products.stock,
   owners.name AS owner_name
 FROM
   products

@@ -9,7 +9,7 @@ import (
 
 type fetchProductQueryService struct{}
 
-func NewOrderRepository() product.FetchProductQueryService {
+func NewFetchProductQueryService() product.FetchProductQueryService {
 	return &fetchProductQueryService{}
 }
 
@@ -23,13 +23,12 @@ func (q *fetchProductQueryService) Run(ctx context.Context) ([]*product.FetchPro
 	var productFetchServiceDtos []*product.FetchProductQueryServiceDto
 	for _, productWithOwner := range productWithOwners {
 		productFetchServiceDtos = append(productFetchServiceDtos, &product.FetchProductQueryServiceDto{
-			ID:          productWithOwner.ID,
-			Name:        productWithOwner.Name,
-			Description: productWithOwner.Description,
-			Price:       productWithOwner.Price,
-			Stock:       int(productWithOwner.Stock),
-			OwnerID:     productWithOwner.OwnerID,
-			OwnerName:   productWithOwner.OwnerName.String,
+			ID:        productWithOwner.ID,
+			Name:      productWithOwner.Name,
+			Price:     productWithOwner.Price,
+			Stock:     int(productWithOwner.Stock),
+			OwnerID:   productWithOwner.OwnerID,
+			OwnerName: productWithOwner.OwnerName.String,
 		})
 	}
 	return productFetchServiceDtos, nil

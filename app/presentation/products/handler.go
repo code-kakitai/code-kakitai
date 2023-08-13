@@ -12,7 +12,10 @@ type handler struct {
 	fetchProductUseCase *product.FetchProductUseCase
 }
 
-func NewHandler(saveProductUseCase *product.SaveProductUseCase) handler {
+func NewHandler(
+	saveProductUseCase *product.SaveProductUseCase,
+	fetchProductUseCase *product.FetchProductUseCase,
+) handler {
 	return handler{
 		saveProductUseCase: saveProductUseCase,
 	}
@@ -82,12 +85,11 @@ func (h handler) FetchProducts(ctx *gin.Context) {
 	for _, dto := range dtos {
 		products = append(products, productsWithOwnerModel{
 			productResponseModel: &productResponseModel{
-				Id:          dto.ID,
-				OwnerID:     dto.OwnerID,
-				Name:        dto.Name,
-				Description: dto.Description,
-				Price:       dto.Price,
-				Stock:       dto.Stock,
+				Id:      dto.ID,
+				OwnerID: dto.OwnerID,
+				Name:    dto.Name,
+				Price:   dto.Price,
+				Stock:   dto.Stock,
 			},
 			OwnerName: dto.OwnerName,
 		})

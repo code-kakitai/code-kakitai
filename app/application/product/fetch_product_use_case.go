@@ -19,7 +19,6 @@ func NewFetchProductUseCase(
 type FetchProductUseCaseDto struct {
 	ID          string
 	Name        string
-	Description string
 	Price       int64
 	Stock       int
 	OwnerID     string
@@ -34,7 +33,6 @@ func (uc *FetchProductUseCase) Run(ctx context.Context) ([]*FetchProductUseCaseD
 		ucDtos = append(ucDtos, &FetchProductUseCaseDto{
 			ID:          qsDto.ID,
 			Name:        qsDto.Name,
-			Description: qsDto.Description,
 			Price:       qsDto.Price,
 			Stock:       qsDto.Stock,
 			OwnerID:     qsDto.OwnerID,
