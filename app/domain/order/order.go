@@ -15,7 +15,7 @@ type Order struct {
 	id          string
 	userID      string
 	totalAmount int64
-	products    []OrderProduct
+	products    OrderProducts
 	orderedAt   time.Time
 }
 
