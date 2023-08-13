@@ -11,9 +11,9 @@ var (
 	Client *redis.Client
 )
 
-func Setup() func() {
+func Setup(conf *config.Config) func() {
 	Client = redis.NewClient(&redis.Options{
-		Addr:                  config.Config.ReidsConfig.Addr,
+		Addr:                  conf.Redis.Addr,
 		ReadTimeout:           3 * time.Second,
 		WriteTimeout:          3 * time.Second,
 		ContextTimeoutEnabled: true,

@@ -20,7 +20,7 @@ func main() {
 	defer cancel()
 	conf := config.GetConfig()
 	db.NewMainDB()
-	cleanupRedis := redis.Setup()
+	cleanupRedis := redis.Setup(conf)
 	defer cleanupRedis()
 	server.Run(ctx, conf)
 }
