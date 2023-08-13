@@ -34,7 +34,7 @@ func (r *orderRepository) Save(ctx context.Context, order *order.Order) error {
 			ID:        id,
 			OrderID:   order.ID(),
 			ProductID: p.ProductID(),
-			Price:     100, // todo domainロジック修正したらここも修正
+			Price:     p.Price(),
 			Quantity:  int32(p.Count()),
 		}
 		if err := query.InsertOrderProduct(ctx, op); err != nil {
