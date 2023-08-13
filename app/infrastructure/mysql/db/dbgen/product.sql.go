@@ -7,8 +7,67 @@ package dbgen
 
 import (
 	"context"
+	"database/sql"
 	"strings"
+	"time"
 )
+
+const productFetchWithOwner = `-- name: ProductFetchWithOwner :many
+SELECT
+  products.id, products.owner_id, products.name, products.description, products.price, products.stock, products.created_at, products.updated_at,
+  owners.name AS owner_name,
+  owners.email AS owner_email
+FROM
+  products
+  LEFT OUTER JOIN owners ON products.owner_id = owners.id
+`
+
+type ProductFetchWithOwnerRow struct {
+	ID          string         `json:"id"`
+	OwnerID     string         `json:"owner_id"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Price       int64          `json:"price"`
+	Stock       int32          `json:"stock"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	OwnerName   sql.NullString `json:"owner_name"`
+	OwnerEmail  sql.NullString `json:"owner_email"`
+}
+
+func (q *Queries) ProductFetchWithOwner(ctx context.Context) ([]ProductFetchWithOwnerRow, error) {
+	rows, err := q.db.QueryContext(ctx, productFetchWithOwner)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ProductFetchWithOwnerRow{}
+	for rows.Next() {
+		var i ProductFetchWithOwnerRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.OwnerID,
+			&i.Name,
+			&i.Description,
+			&i.Price,
+			&i.Stock,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.OwnerName,
+			&i.OwnerEmail,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
 
 const productFindById = `-- name: ProductFindById :one
 SELECT

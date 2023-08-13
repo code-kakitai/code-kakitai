@@ -14,6 +14,16 @@ FROM
 WHERE
    id IN (sqlc.slice('ids'));
 
+-- name: ProductFetchWithOwner :many
+SELECT
+  products.*,
+  owners.name AS owner_name,
+  owners.email AS owner_email
+FROM
+  products
+  LEFT OUTER JOIN owners ON products.owner_id = owners.id;
+
+
 -- name: UpsertProduct :exec
 INSERT INTO products (
    id,
