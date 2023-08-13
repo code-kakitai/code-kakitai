@@ -167,3 +167,33 @@ func TestNewOrder(t *testing.T) {
 		})
 	}
 }
+
+func TestOrderProducts_TotalAmount(t *testing.T) {
+	tests := []struct {
+		name string
+		p    OrderProducts
+		want int64
+	}{
+		{
+			name: "正常系",
+			p: OrderProducts{
+				{
+					price: 100,
+					count: 1,
+				},
+				{
+					price: 200,
+					count: 2,
+				},
+			},
+			want: 500,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.p.TotalAmount(); got != tt.want {
+				t.Errorf("OrderProducts.TotalAmount() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
