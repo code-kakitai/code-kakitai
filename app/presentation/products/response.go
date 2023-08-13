@@ -11,3 +11,12 @@ type productResponseModel struct {
 	Price       int64  `json:"price"`
 	Stock       int    `json:"stock"`
 }
+
+type fetchProductResponse struct {
+	Products []productsWithOwnerModel `json:"products"`
+}
+
+type productsWithOwnerModel struct {
+	*productResponseModel
+	OwnerName  string `json:"owner_name"`
+}
