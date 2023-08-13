@@ -1,13 +1,15 @@
 package products
 
 import (
-	"github.com/gin-gonic/gin"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
+
+	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
-	saveProductUseCase *product.SaveProductUseCase
+	saveProductUseCase  *product.SaveProductUseCase
+	fetchProductUseCase *product.FetchProductUseCase
 }
 
 func NewHandler(saveProductUseCase *product.SaveProductUseCase) handler {
@@ -61,4 +63,29 @@ func (h handler) PostProducts(ctx *gin.Context) {
 		},
 	}
 	settings.ReturnStatusCreated(ctx, response)
+}
+
+func (h handler) FetchProduct(ctx *gin.Context) {
+	dtos, err := h.fetchProductUseCase.Run(ctx)
+	if err != nil {
+		settings.ReturnStatusInternalServerError(ctx, err)
+	}
+
+	var products []productsWithOwnerModel
+	for _, dto := range dtos {
+		products = append(products, productsWithOwnerModel{
+			productResponseModel: &productResponseModel{
+				Id:          dto.ID,
+				OwnerID:     dto.OwnerID,
+				Name:        dto.Name,
+				Description: dto.Description,
+				Price:       dto.Price,
+				Stock:       dto.Stock,
+			},
+			OwnerName:  dto.OwnerName,
+			OwnerEmail: dto.OwnerEmail,
+		})
+	}
+
+	settings.ReturnStatusCreated(ctx, products)
 }
