@@ -7,6 +7,8 @@ import (
 
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
+
+	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 )
 
 type Order struct {
@@ -100,12 +102,32 @@ func (p *Order) ProductIDs() []string {
 	return productIDs
 }
 
+type OrderProducts []OrderProduct
+
+func (p OrderProducts) ProductIDs() []string {
+	var productIDs []string
+	for _, product := range p {
+		productIDs = append(productIDs, product.productID)
+	}
+	return productIDs
+}
+
+// 合計金額計算
+func (p OrderProducts) TotalAmount() int64 {
+	var totalAmount int64
+	for _, product := range p {
+		totalAmount += product.price * int64(product.count)
+	}
+	return totalAmount
+}
+
 type OrderProduct struct {
 	productID string
+	price     int64
 	count     int
 }
 
-func NewOrderProduct(productID string, count int) (*OrderProduct, error) {
+func NewOrderProduct(productID string, price int64, count int) (*OrderProduct, error) {
 	// 商品IDのバリデーション
 	if !ulid.IsValid(productID) {
 		return nil, errors.NewError("商品IDの値が不正です。")
@@ -118,6 +140,7 @@ func NewOrderProduct(productID string, count int) (*OrderProduct, error) {
 
 	return &OrderProduct{
 		productID: productID,
+		price:     price,
 		count:     count,
 	}, nil
 }
@@ -130,6 +153,10 @@ func (p *OrderProduct) Count() int {
 	return p.count
 }
 
+func (p *OrderProduct) Price() int64 {
+	return p.price
+}
+
 type OrderDomainService interface {
-	OrderProducts(ctx context.Context, userID string, pps []OrderProduct, now time.Time) error
+	OrderProducts(ctx context.Context, cart *cartDomain.Cart, now time.Time) error
 }

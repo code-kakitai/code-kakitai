@@ -10,6 +10,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"go.uber.org/mock/gomock"
 
+	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
@@ -42,24 +43,20 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 		product2,
 	}
 	userID := ulid.NewULID()
+
+	cart := cartDomain.NewCart(userID)
+	cart.AddProduct(productIDs[0], 1)
+	cart.AddProduct(productIDs[1], 1)
+
 	tests := []struct {
-		name          string
-		OrderProducts []OrderProduct
-		mockFunc      func()
-		wantErr       bool
+		name     string
+		cart     *cartDomain.Cart
+		mockFunc func()
+		wantErr  bool
 	}{
 		{
 			name: "正常系",
-			OrderProducts: []OrderProduct{
-				{
-					productID: productIDs[0],
-					count:     1,
-				},
-				{
-					productID: productIDs[1],
-					count:     1,
-				},
-			},
+			cart: cart,
 			mockFunc: func() {
 				gomock.InOrder(
 					mockProductRepo.EXPECT().FindByIDs(gomock.Any(), productIDs).Return(products, nil),
@@ -80,7 +77,7 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 					mockProductRepo.EXPECT().Save(gomock.Any(), gomock.Any()).Do(
 						func(ctx context.Context, p *productDomain.Product) {
 							pp := product2
-							pp.Consume(0)
+							pp.Consume(1)
 							diff := cmp.Diff(
 								p,
 								pp,
@@ -101,10 +98,12 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 									products: []OrderProduct{
 										{
 											productID: productIDs[0],
+											price:     100,
 											count:     1,
 										},
 										{
 											productID: productIDs[1],
+											price:     200,
 											count:     1,
 										},
 									},
@@ -123,38 +122,10 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 		},
 		{
 			name: "購入した商品の商品詳細が見つからない場合は購入できない",
-			OrderProducts: []OrderProduct{
-				{
-					productID: productIDs[0],
-					count:     1,
-				},
-				{
-					productID: productIDs[1],
-					count:     10,
-				},
-			},
+			cart: cart,
 			mockFunc: func() {
 				gomock.InOrder(
 					mockProductRepo.EXPECT().FindByIDs(gomock.Any(), productIDs).Return([]*productDomain.Product{product1}, nil),
-				)
-			},
-			wantErr: true,
-		},
-		{
-			name: "在庫が不足している場合は購入できない",
-			OrderProducts: []OrderProduct{
-				{
-					productID: productIDs[0],
-					count:     1,
-				},
-				{
-					productID: productIDs[1],
-					count:     10,
-				},
-			},
-			mockFunc: func() {
-				gomock.InOrder(
-					mockProductRepo.EXPECT().FindByIDs(gomock.Any(), productIDs).Return(products, nil),
 				)
 			},
 			wantErr: true,
@@ -164,7 +135,7 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			tt.mockFunc()
-			if err := ds.OrderProducts(context.Background(), userID, tt.OrderProducts, time.Now()); (err != nil) != tt.wantErr {
+			if err := ds.OrderProducts(context.Background(), cart, time.Now()); (err != nil) != tt.wantErr {
 				t.Errorf("OrderDomainService.OrderProducts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
