@@ -32,7 +32,7 @@ type OrderUseCaseDto struct {
 
 func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseCaseDto, now time.Time) error {
 	// カートから商品情報を取得
-	cart, err := uc.GetValidCart(ctx, userID, dtos)
+	cart, err := uc.getValidCart(ctx, userID, dtos)
 	if err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseC
 }
 
 // カートの中身の整合性をチェック
-func (uc *OrderUseCase) GetValidCart(ctx context.Context, userID string, dtos []OrderUseCaseDto) (*cartDomain.Cart, error) {
+func (uc *OrderUseCase) getValidCart(ctx context.Context, userID string, dtos []OrderUseCaseDto) (*cartDomain.Cart, error) {
 	// カートから商品情報を取得
 	cart, err := uc.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
