@@ -9,6 +9,7 @@ import (
 type Config struct {
 	Server Server
 	DB     DBConfig
+	Redis  RedisConfig
 }
 
 type DBConfig struct {
@@ -18,6 +19,11 @@ type DBConfig struct {
 	Port     string `envconfig:"DB_PORT" default:"3306"`
 	Host     string `envconfig:"DB_HOST" default:"db"`
 }
+
+type RedisConfig struct {
+	Addr    string `envconfig:"REDIS_ADDR" default:"localhost:6380"`
+}
+
 
 type Server struct {
 	Address string `envconfig:"ADDRESS" default:""`
