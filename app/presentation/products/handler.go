@@ -72,7 +72,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 // @Produce json
 // @Success 200 {object} fetchProductResponse
 // @Router /v1/products [get]
-func (h handler) FetchProduct(ctx *gin.Context) {
+func (h handler) FetchProducts(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)

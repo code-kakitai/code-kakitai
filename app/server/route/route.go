@@ -35,5 +35,6 @@ func productRoute(r *ginpkg.RouterGroup) {
 	productRepository := repository.NewProductRepository()
 	h := productPre.NewHandler(productApp.NewSaveProductUseCase(productRepository))
 	group := r.Group("/products")
+	group.GET("/", h.FetchProducts)
 	group.POST("/", h.PostProducts)
 }
