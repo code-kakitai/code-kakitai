@@ -89,8 +89,7 @@ func (h handler) FetchProducts(ctx *gin.Context) {
 				Price:       dto.Price,
 				Stock:       dto.Stock,
 			},
-			OwnerName:  dto.OwnerName,
-			OwnerEmail: dto.OwnerEmail,
+			OwnerName: dto.OwnerName,
 		})
 	}
 

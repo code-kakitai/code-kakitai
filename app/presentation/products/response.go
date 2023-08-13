@@ -19,5 +19,4 @@ type fetchProductResponse struct {
 type productsWithOwnerModel struct {
 	*productResponseModel
 	OwnerName  string `json:"owner_name"`
-	OwnerEmail string `json:"owner_email"`
 }

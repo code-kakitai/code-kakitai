@@ -24,7 +24,6 @@ type FetchProductUseCaseDto struct {
 	Stock       int
 	OwnerID     string
 	OwnerName   string
-	OwnerEmail  string
 }
 
 func (uc *FetchProductUseCase) Run(ctx context.Context) ([]*FetchProductUseCaseDto, error) {
@@ -40,7 +39,6 @@ func (uc *FetchProductUseCase) Run(ctx context.Context) ([]*FetchProductUseCaseD
 			Stock:       qsDto.Stock,
 			OwnerID:     qsDto.OwnerID,
 			OwnerName:   qsDto.OwnerName,
-			OwnerEmail:  qsDto.OwnerEmail,
 		})
 	}
 	return ucDtos, err

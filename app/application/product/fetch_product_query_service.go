@@ -10,7 +10,6 @@ type FetchProductQueryServiceDto struct {
 	Stock       int
 	OwnerID     string
 	OwnerName   string
-	OwnerEmail  string
 }
 
 type FetchProductQueryService interface {

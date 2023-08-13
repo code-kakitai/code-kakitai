@@ -15,8 +15,7 @@ import (
 const productFetchWithOwner = `-- name: ProductFetchWithOwner :many
 SELECT
   products.id, products.owner_id, products.name, products.description, products.price, products.stock, products.created_at, products.updated_at,
-  owners.name AS owner_name,
-  owners.email AS owner_email
+  owners.name AS owner_name
 FROM
   products
   LEFT OUTER JOIN owners ON products.owner_id = owners.id
@@ -32,7 +31,6 @@ type ProductFetchWithOwnerRow struct {
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	OwnerName   sql.NullString `json:"owner_name"`
-	OwnerEmail  sql.NullString `json:"owner_email"`
 }
 
 func (q *Queries) ProductFetchWithOwner(ctx context.Context) ([]ProductFetchWithOwnerRow, error) {
@@ -54,7 +52,6 @@ func (q *Queries) ProductFetchWithOwner(ctx context.Context) ([]ProductFetchWith
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.OwnerName,
-			&i.OwnerEmail,
 		); err != nil {
 			return nil, err
 		}

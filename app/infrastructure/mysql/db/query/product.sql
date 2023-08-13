@@ -17,8 +17,7 @@ WHERE
 -- name: ProductFetchWithOwner :many
 SELECT
   products.*,
-  owners.name AS owner_name,
-  owners.email AS owner_email
+  owners.name AS owner_name
 FROM
   products
   LEFT OUTER JOIN owners ON products.owner_id = owners.id;

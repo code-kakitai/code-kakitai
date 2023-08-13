@@ -30,7 +30,6 @@ func (q *fetchProductQueryService) Run(ctx context.Context) ([]*product.FetchPro
 			Stock:       int(productWithOwner.Stock),
 			OwnerID:     productWithOwner.OwnerID,
 			OwnerName:   productWithOwner.OwnerName.String,
-			OwnerEmail:  productWithOwner.OwnerEmail.String,
 		})
 	}
 	return productFetchServiceDtos, nil
