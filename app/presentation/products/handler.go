@@ -65,6 +65,13 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	settings.ReturnStatusCreated(ctx, response)
 }
 
+// FetchProduct godoc
+// @Summary 商品一覧を取得する
+// @Tags products
+// @Accept json
+// @Produce json
+// @Success 200 {object} fetchProductResponse
+// @Router /v1/products [get]
 func (h handler) FetchProduct(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
 	if err != nil {
