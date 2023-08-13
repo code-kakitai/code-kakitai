@@ -32,7 +32,7 @@ func TestOrderUseCase_Run(t *testing.T) {
 			Count:     3,
 		},
 	}
-	cart := cartDomain.NewCart(userID)
+	cart, _ := cartDomain.NewCart(userID)
 	for _, dto := range dtos {
 		cart.AddProduct(dto.ProductID, dto.Count)
 	}
@@ -78,12 +78,4 @@ func TestOrderUseCase_Run(t *testing.T) {
 			}
 		})
 	}
-}
-
-func NewTestCart(userID string, dtos []OrderUseCaseDto) *cartDomain.Cart {
-	cart := cartDomain.NewCart(userID)
-	for _, dto := range dtos {
-		cart.AddProduct(dto.ProductID, dto.Count)
-	}
-	return cart
 }

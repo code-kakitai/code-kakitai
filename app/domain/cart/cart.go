@@ -23,10 +23,13 @@ type Cart struct {
 	products []CartProduct
 }
 
-func NewCart(userID string) *Cart {
+func NewCart(userID string) (*Cart, error) {
+	if !ulid.IsValid(userID) {
+		return nil, errors.NewError("ユーザーIDの値が不正です。")
+	}
 	return &Cart{
 		userID: userID,
-	}
+	}, nil
 }
 
 func (p *Cart) UserID() string {

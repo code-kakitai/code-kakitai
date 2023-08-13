@@ -44,7 +44,7 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 	}
 	userID := ulid.NewULID()
 
-	cart := cartDomain.NewCart(userID)
+	cart, _ := cartDomain.NewCart(userID)
 	cart.AddProduct(productIDs[0], 1)
 	cart.AddProduct(productIDs[1], 1)
 
