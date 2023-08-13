@@ -2,7 +2,6 @@ package query_service
 
 import (
 	"context"
-	"fmt"
 
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
@@ -14,9 +13,25 @@ func NewOrderRepository() product.FetchProductQueryService {
 	return &fetchProductQueryService{}
 }
 
-func (q *fetchProductQueryService) Run(ctx context.Context) (*product.FetchProductQueryServiceDto, error) {
+func (q *fetchProductQueryService) Run(ctx context.Context) ([]*product.FetchProductQueryServiceDto, error) {
 	query := db.GetQuery(ctx)
-	fmt.Printf("query: %v\n", query)
+	productWithOwners, err := query.ProductFetchWithOwner(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-	return &product.FetchProductQueryServiceDto{}, nil
+	var productFetchServiceDtos []*product.FetchProductQueryServiceDto
+	for _, productWithOwner := range productWithOwners {
+		productFetchServiceDtos = append(productFetchServiceDtos, &product.FetchProductQueryServiceDto{
+			ID:          productWithOwner.ID,
+			Name:        productWithOwner.Name,
+			Description: productWithOwner.Description,
+			Price:       productWithOwner.Price,
+			Stock:       int(productWithOwner.Stock),
+			OwnerID:     productWithOwner.OwnerID,
+			OwnerName:   productWithOwner.OwnerName.String,
+			OwnerEmail:  productWithOwner.OwnerEmail.String,
+		})
+	}
+	return productFetchServiceDtos, nil
 }

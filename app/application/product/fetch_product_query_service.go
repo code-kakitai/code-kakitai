@@ -14,5 +14,5 @@ type FetchProductQueryServiceDto struct {
 }
 
 type FetchProductQueryService interface {
-	Run(ctx context.Context) (*FetchProductQueryServiceDto, error)
+	Run(ctx context.Context) ([]*FetchProductQueryServiceDto, error)
 }
