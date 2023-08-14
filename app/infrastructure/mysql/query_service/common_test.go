@@ -1,12 +1,18 @@
 package query_service
 
 import (
+	infraRedis "github/code-kakitai/code-kakitai/infrastructure/cache/redis"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 	"testing"
+
+	redis "github.com/redis/go-redis/v9"
 )
 
-var query *dbgen.Queries
+var (
+	query    *dbgen.Queries
+	redisCli *redis.Client
+)
 
 func TestMain(m *testing.M) {
 	// DBの立ち上げ
@@ -21,6 +27,10 @@ func TestMain(m *testing.M) {
 	db_test.SetupTestDB()
 
 	query = dbgen.New(db)
+
+	// テスト用Redisのセットアップ
+	redisCli = infraRedis.NewTestClient()
+	defer redisCli.Close()
 
 	// テスト実行
 	m.Run()
