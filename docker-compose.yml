@@ -43,9 +43,4 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-      MYSQL_DATABASE: code_kakitai
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: root
     network_mode: "host"

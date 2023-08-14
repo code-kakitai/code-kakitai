@@ -43,9 +43,9 @@ func SetDB(d *sql.DB) {
 	dbcon = d
 }
 
-func NewMainDB() {
+func NewMainDB(cnf config.DBConfig) {
 	once.Do(func() {
-		dbcon, err := connect()
+		dbcon, err := connect(cnf)
 		if err != nil {
 			panic(err)
 		}
@@ -56,10 +56,9 @@ func NewMainDB() {
 }
 
 // dbに接続する：最大5回リトライする
-func connect() (*sql.DB, error) {
-	cfg := config.GetConfig().DB
+func connect(cnf config.DBConfig) (*sql.DB, error) {
 	for i := 0; i < maxRetries; i++ {
-		connect := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Name)
+		connect := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", cnf.User, cnf.Password, cnf.Host, cnf.Port, cnf.Name)
 		db, err := sql.Open("mysql", connect)
 		if err != nil {
 			return nil, fmt.Errorf("could not open db: %w", err)
