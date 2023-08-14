@@ -49,7 +49,7 @@ func TestOrderUseCase_Run(t *testing.T) {
 			mockFunc: func() {
 				gomock.InOrder(
 					mockCartRepo.EXPECT().FindByUserID(gomock.Any(), userID).Return(cart, nil),
-					mockOrderDomainService.EXPECT().OrderProducts(gomock.Any(), cart, now).Return(nil),
+					mockOrderDomainService.EXPECT().OrderProducts(gomock.Any(), cart, now).Return("", nil),
 				)
 			},
 			wantErr: false,
@@ -73,7 +73,8 @@ func TestOrderUseCase_Run(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.mockFunc()
-			if err := uc.Run(context.Background(), userID, tt.dtos, now); (err != nil) != tt.wantErr {
+			_, err := uc.Run(context.Background(), userID, tt.dtos, now)
+			if (err != nil) != tt.wantErr {
 				t.Errorf("OrderUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

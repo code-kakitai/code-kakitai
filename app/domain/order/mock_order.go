@@ -37,11 +37,12 @@ func (m *MockOrderDomainService) EXPECT() *MockOrderDomainServiceMockRecorder {
 }
 
 // OrderProducts mocks base method.
-func (m *MockOrderDomainService) OrderProducts(ctx context.Context, cart *cart.Cart, now time.Time) error {
+func (m *MockOrderDomainService) OrderProducts(ctx context.Context, cart *cart.Cart, now time.Time) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "OrderProducts", ctx, cart, now)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // OrderProducts indicates an expected call of OrderProducts.
