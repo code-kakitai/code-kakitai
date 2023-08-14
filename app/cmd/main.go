@@ -18,9 +18,12 @@ import (
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
 	conf := config.GetConfig()
 	db.NewMainDB()
-	cleanupRedis := redis.Setup(conf)
-	defer cleanupRedis()
+
+	redisCli := redis.NewClient(conf)
+	defer redisCli.Close()
+
 	server.Run(ctx, conf)
 }
