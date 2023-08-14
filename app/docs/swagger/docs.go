@@ -44,6 +44,26 @@ const docTemplate = `{
             }
         },
         "/v1/products": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "商品一覧を取得する",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/products.fetchProductResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -137,6 +157,17 @@ const docTemplate = `{
                 }
             }
         },
+        "products.fetchProductResponse": {
+            "type": "object",
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/products.productsWithOwnerModel"
+                    }
+                }
+            }
+        },
         "products.postProductResponse": {
             "type": "object",
             "properties": {
@@ -158,6 +189,32 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "owner_id": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "stock": {
+                    "type": "integer"
+                }
+            }
+        },
+        "products.productsWithOwnerModel": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "owner_name": {
                     "type": "string"
                 },
                 "price": {

@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -18,6 +19,7 @@ func Run(ctx context.Context, conf *config.Config) {
 	route.InitRoute(api)
 
 	address := ":" + conf.Server.Port
+	log.Printf("Starting server on %s...\n", address)
 	srv := &http.Server{
 		Addr:              address,
 		Handler:           api,
