@@ -12,10 +12,11 @@ import (
 var (
 	query    *dbgen.Queries
 	fixtures *testfixtures.Context
-	err      error
 )
 
 func TestMain(m *testing.M) {
+	var err error
+
 	// DBの立ち上げ
 	resource, pool := db_test.CreateContainer()
 	defer db_test.CloseContainer(resource, pool)
@@ -41,7 +42,6 @@ func TestMain(m *testing.M) {
 	// テスト実行
 	m.Run()
 }
-
 
 func resetTestData(t *testing.T) {
 	t.Helper()
