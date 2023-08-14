@@ -17,6 +17,13 @@ definitions:
       stock:
         type: integer
     type: object
+  products.fetchProductResponse:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/products.productsWithOwnerModel'
+        type: array
+    type: object
   products.postProductResponse:
     properties:
       product:
@@ -31,6 +38,23 @@ definitions:
       name:
         type: string
       owner_id:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
+    type: object
+  products.productsWithOwnerModel:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      owner_name:
         type: string
       price:
         type: integer
@@ -83,6 +107,19 @@ paths:
       tags:
       - health
   /v1/products:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/products.fetchProductResponse'
+      summary: 商品一覧を取得する
+      tags:
+      - products
     post:
       consumes:
       - application/json

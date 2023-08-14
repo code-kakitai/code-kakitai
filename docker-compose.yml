@@ -3,7 +3,7 @@ volumes:
   db-store:
     driver: local
 
-services: 
+services:
   # データベース
   db:
     image: mysql:latest
@@ -21,12 +21,18 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     command: --collation-server=utf8mb4_general_ci
 
+  # redis
+  redis:
+    image: redis:6.0-alpine3.18
+    ports:
+      - 6380:6379
+
   # バックエンドサーバー
   app:
     build:
       context: .
       dockerfile: ./ops/docker/app/Dockerfile
-    tty: true 
+    tty: true
     ports:
       - "8080:8080"
     volumes:
@@ -36,6 +42,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - db
+      - redis
     environment:
       MYSQL_DATABASE: code_kakitai
       DB_HOST: db
