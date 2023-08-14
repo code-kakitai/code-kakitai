@@ -12,9 +12,9 @@ var (
 	redisCli *redis.Client
 )
 
-func NewClient(conf *config.Config) *redis.Client {
+func NewClient(conf config.Redis) *redis.Client {
 	redisCli = redis.NewClient(&redis.Options{
-		Addr:                  conf.Redis.Addr,
+		Addr:                  conf.Addr,
 		ReadTimeout:           3 * time.Second,
 		WriteTimeout:          3 * time.Second,
 		ContextTimeoutEnabled: true,
