@@ -2,8 +2,6 @@ version: "3"
 volumes:
   db-store:
     driver: local
-  test-db-store:
-    driver: local
 
 services:
   # データベース
@@ -23,22 +21,11 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     command: --collation-server=utf8mb4_general_ci
 
-  # テスト用データベース
-  test_db:
-    image: mysql:latest
-    volumes:
-      - type: volume
-        source: test-db-store
-        target: /var/lib/mysql
-        volume:
-          nocopy: true
+  # redis
+  redis:
+    image: redis:6.0-alpine3.18
     ports:
-      - "3307:3306"
-    environment:
-      MYSQL_DATABASE: code_kakitai_test
-      TZ: Asia/Tokyo
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    command: --collation-server=utf8mb4_general_ci
+      - 6380:6379
 
   # バックエンドサーバー
   app:
@@ -55,10 +42,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - db
-      - test_db
-    environment:
-      MYSQL_DATABASE: code_kakitai
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: root
+      - redis
     network_mode: "host"

@@ -5,7 +5,7 @@ import (
 
 	"github.com/code-kakitai/go-pkg/ulid"
 
-	"github/code-kakitai/code-kakitai/domain/purchase"
+	"github/code-kakitai/code-kakitai/domain/order"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
@@ -13,17 +13,17 @@ import (
 type orderRepository struct {
 }
 
-func NewPurchaseRepository() purchase.PurchaseHistoryRepository {
+func NewOrderRepository() order.OrderRepository {
 	return &orderRepository{}
 }
 
-func (r *orderRepository) Save(ctx context.Context, order *purchase.PurchaseHistory) error {
+func (r *orderRepository) Save(ctx context.Context, order *order.Order) error {
 	query := db.GetQuery(ctx)
-	if err := query.InsertPurchaseHistory(ctx, dbgen.InsertPurchaseHistoryParams{
+	if err := query.InsertOrder(ctx, dbgen.InsertOrderParams{
 		ID:          order.ID(),
 		UserID:      order.UserID(),
 		TotalAmount: order.TotalAmount(),
-		OrderedAt:   order.PurchasedAt(),
+		OrderedAt:   order.OrderedAt(),
 	}); err != nil {
 		return err
 	}

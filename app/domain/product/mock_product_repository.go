@@ -64,21 +64,6 @@ func (mr *MockProductRepositoryMockRecorder) FindByIDs(ctx, ids interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIDs", reflect.TypeOf((*MockProductRepository)(nil).FindByIDs), ctx, ids)
 }
 
-// FindByOwnerID mocks base method.
-func (m *MockProductRepository) FindByOwnerID(ctx context.Context, ownerID string) ([]*Product, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByOwnerID", ctx, ownerID)
-	ret0, _ := ret[0].([]*Product)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// FindByOwnerID indicates an expected call of FindByOwnerID.
-func (mr *MockProductRepositoryMockRecorder) FindByOwnerID(ctx, ownerID interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByOwnerID", reflect.TypeOf((*MockProductRepository)(nil).FindByOwnerID), ctx, ownerID)
-}
-
 // Save mocks base method.
 func (m *MockProductRepository) Save(ctx context.Context, product *Product) error {
 	m.ctrl.T.Helper()
