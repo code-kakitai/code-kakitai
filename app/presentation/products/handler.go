@@ -1,16 +1,21 @@
 package products
 
 import (
-	"github.com/gin-gonic/gin"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
+
+	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
-	saveProductUseCase *product.SaveProductUseCase
+	saveProductUseCase  *product.SaveProductUseCase
+	fetchProductUseCase *product.FetchProductUseCase
 }
 
-func NewHandler(saveProductUseCase *product.SaveProductUseCase) handler {
+func NewHandler(
+	saveProductUseCase *product.SaveProductUseCase,
+	fetchProductUseCase *product.FetchProductUseCase,
+) handler {
 	return handler{
 		saveProductUseCase: saveProductUseCase,
 	}
@@ -61,4 +66,34 @@ func (h handler) PostProducts(ctx *gin.Context) {
 		},
 	}
 	settings.ReturnStatusCreated(ctx, response)
+}
+
+// FetchProduct godoc
+// @Summary 商品一覧を取得する
+// @Tags products
+// @Accept json
+// @Produce json
+// @Success 200 {object} fetchProductResponse
+// @Router /v1/products [get]
+func (h handler) FetchProducts(ctx *gin.Context) {
+	dtos, err := h.fetchProductUseCase.Run(ctx)
+	if err != nil {
+		settings.ReturnStatusInternalServerError(ctx, err)
+	}
+
+	var products []productsWithOwnerModel
+	for _, dto := range dtos {
+		products = append(products, productsWithOwnerModel{
+			productResponseModel: &productResponseModel{
+				Id:      dto.ID,
+				OwnerID: dto.OwnerID,
+				Name:    dto.Name,
+				Price:   dto.Price,
+				Stock:   dto.Stock,
+			},
+			OwnerName: dto.OwnerName,
+		})
+	}
+
+	settings.ReturnStatusCreated(ctx, products)
 }

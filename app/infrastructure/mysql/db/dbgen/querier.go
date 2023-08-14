@@ -13,6 +13,7 @@ type Querier interface {
 	InsertOrderProduct(ctx context.Context, arg InsertOrderProductParams) error
 	OrderFindById(ctx context.Context, id string) (Order, error)
 	OrderProductFindById(ctx context.Context, id string) (OrderProduct, error)
+	ProductFetchWithOwner(ctx context.Context) ([]ProductFetchWithOwnerRow, error)
 	ProductFindById(ctx context.Context, id string) (Product, error)
 	ProductFindByIds(ctx context.Context, ids []string) ([]Product, error)
 	UpsertProduct(ctx context.Context, arg UpsertProductParams) error

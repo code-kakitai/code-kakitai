@@ -6,7 +6,7 @@ help: # コマンド確認
 
 # goサーバーの操作
 test: lint
-	docker compose exec app sh -c "DB_PORT=$(DB_PORT) go test ./..."
+	docker compose exec app sh -c "go test ./..."
 
 run:
 	docker compose exec app sh -c "go run ./cmd/main.go"
@@ -30,9 +30,6 @@ init:up
 
 up:
 	docker compose up -d
-
-up-test-db:
-	docker compose up -d test_db
 
 down:
 	docker compose down
