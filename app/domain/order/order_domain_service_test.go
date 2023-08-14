@@ -47,7 +47,6 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 	cart, _ := cartDomain.NewCart(userID)
 	cart.AddProduct(productIDs[0], 1)
 	cart.AddProduct(productIDs[1], 1)
-
 	tests := []struct {
 		name     string
 		cart     *cartDomain.Cart
@@ -135,7 +134,8 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			tt.mockFunc()
-			if err := ds.OrderProducts(context.Background(), cart, time.Now()); (err != nil) != tt.wantErr {
+			_, err := ds.OrderProducts(context.Background(), cart, time.Now())
+			if (err != nil) != tt.wantErr {
 				t.Errorf("OrderDomainService.OrderProducts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
