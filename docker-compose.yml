@@ -2,8 +2,6 @@ version: "3"
 volumes:
   db-store:
     driver: local
-  test-db-store:
-    driver: local
 
 services:
   # データベース
@@ -17,23 +15,6 @@ services:
           nocopy: true
     ports:
       - "3306:3306"
-    environment:
-      MYSQL_DATABASE: code_kakitai
-      TZ: Asia/Tokyo
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    command: --collation-server=utf8mb4_general_ci
-
-  # テスト用データベース
-  test_db:
-    image: mysql:latest
-    volumes:
-      - type: volume
-        source: test-db-store
-        target: /var/lib/mysql
-        volume:
-          nocopy: true
-    ports:
-      - "3307:3306"
     environment:
       MYSQL_DATABASE: code_kakitai
       TZ: Asia/Tokyo
@@ -61,7 +42,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - db
-      - test_db
       - redis
     environment:
       MYSQL_DATABASE: code_kakitai
