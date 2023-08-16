@@ -43,4 +43,3 @@ services:
     depends_on:
       - db
       - redis
-    network_mode: "host"

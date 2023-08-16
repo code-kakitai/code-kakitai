@@ -5,8 +5,10 @@ help: # コマンド確認
 	@grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
 
 # goサーバーの操作
+# test: lint
+# 	docker compose exec app sh -c "go test ./..."
 test: lint
-	docker compose exec app sh -c "go test ./..."
+	cd app && go test ./...
 
 run:
 	docker compose exec app sh -c "go run ./cmd/main.go"
