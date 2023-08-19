@@ -13,9 +13,7 @@ type handler struct {
 	orderUseCase *orderApp.OrderUseCase
 }
 
-func NewHandler(
-	orderUseCase *orderApp.OrderUseCase,
-) handler {
+func NewHandler(orderUseCase *orderApp.OrderUseCase) handler {
 	return handler{
 		orderUseCase: orderUseCase,
 	}
@@ -37,7 +35,7 @@ func (h handler) OrderProducts(ctx *gin.Context) {
 		settings.ReturnBadRequest(ctx, err)
 	}
 	userID := ctx.Param("id")
-	dtos := []orderApp.OrderUseCaseDto{}
+	dtos := make([]orderApp.OrderUseCaseDto, len(params))
 	for _, param := range params {
 		dtos = append(dtos, orderApp.OrderUseCaseDto{
 			ProductID: param.ProductID,
