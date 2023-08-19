@@ -11,8 +11,10 @@ import (
 
 func TestNewOrderProduct(t *testing.T) {
 	productID := ulid.NewULID()
+	price := int64(100)
 	type args struct {
 		productID string
+		price     int64
 		count     int
 	}
 	tests := []struct {
@@ -25,10 +27,12 @@ func TestNewOrderProduct(t *testing.T) {
 			name: "正常系",
 			args: args{
 				productID: productID,
+				price:     price,
 				count:     1,
 			},
 			want: &OrderProduct{
 				productID: productID,
+				price:     price,
 				count:     1,
 			},
 			wantErr: false,
@@ -37,6 +41,7 @@ func TestNewOrderProduct(t *testing.T) {
 			name: "異常系: 商品IDが不正",
 			args: args{
 				productID: "test",
+				price:     price,
 				count:     1,
 			},
 			want:    nil,
@@ -46,6 +51,7 @@ func TestNewOrderProduct(t *testing.T) {
 			name: "異常系: 購入数が不正",
 			args: args{
 				productID: productID,
+				price:     price,
 				count:     0,
 			},
 			want:    nil,
@@ -54,7 +60,7 @@ func TestNewOrderProduct(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewOrderProduct(tt.args.productID, tt.args.count)
+			got, err := NewOrderProduct(tt.args.productID, price, tt.args.count)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewOrderProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -64,7 +70,7 @@ func TestNewOrderProduct(t *testing.T) {
 				cmp.AllowUnexported(OrderProduct{}),
 			)
 			if diff != "" {
-				t.Errorf("NewUser() = %v, want %v. error is %s", got, tt.want, err)
+				t.Errorf("NewOrder() = %v, want %v. error is %s", got, tt.want, err)
 			}
 		})
 	}
@@ -157,6 +163,36 @@ func TestNewOrder(t *testing.T) {
 			)
 			if diff != "" {
 				t.Errorf("NewOrder() = %v, want %v. error is %s", got, tt.want, err)
+			}
+		})
+	}
+}
+
+func TestOrderProducts_TotalAmount(t *testing.T) {
+	tests := []struct {
+		name string
+		p    OrderProducts
+		want int64
+	}{
+		{
+			name: "正常系",
+			p: OrderProducts{
+				{
+					price: 100,
+					count: 1,
+				},
+				{
+					price: 200,
+					count: 2,
+				},
+			},
+			want: 500,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.p.TotalAmount(); got != tt.want {
+				t.Errorf("OrderProducts.TotalAmount() = %v, want %v", got, tt.want)
 			}
 		})
 	}

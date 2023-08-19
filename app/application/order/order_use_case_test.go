@@ -6,65 +6,75 @@ import (
 	"time"
 
 	"github.com/code-kakitai/go-pkg/ulid"
-	"github.com/google/go-cmp/cmp"
 	"go.uber.org/mock/gomock"
 
+	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 )
 
 func TestOrderUseCase_Run(t *testing.T) {
+	// usecase準備
 	ctrl := gomock.NewController(t)
 	mockOrderDomainService := orderDomain.NewMockOrderDomainService(ctrl)
-	uc := NewOrderUseCase(mockOrderDomainService)
+	mockCartRepo := cartDomain.NewMockCartRepository(ctrl)
+	uc := NewOrderUseCase(mockOrderDomainService, mockCartRepo)
+
+	// 各種テストデータ準備
 	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)
 	userID := ulid.NewULID()
-	type args struct {
-		dtos []OrderUseCaseDto
-		now  time.Time
+	dtos := []OrderUseCaseDto{
+		{
+			ProductID: ulid.NewULID(),
+			Count:     1,
+		},
+		{
+			ProductID: ulid.NewULID(),
+			Count:     3,
+		},
 	}
+	cart, _ := cartDomain.NewCart(userID)
+	for _, dto := range dtos {
+		cart.AddProduct(dto.ProductID, dto.Count)
+	}
+
 	tests := []struct {
-		name    string
-		dtos    []OrderUseCaseDto
-		wantErr bool
+		name     string
+		dtos     []OrderUseCaseDto
+		mockFunc func()
+		wantErr  bool
 	}{
 		{
 			name: "work",
+			dtos: dtos,
+			mockFunc: func() {
+				gomock.InOrder(
+					mockCartRepo.EXPECT().FindByUserID(gomock.Any(), userID).Return(cart, nil),
+					mockOrderDomainService.EXPECT().OrderProducts(gomock.Any(), cart, now).Return(nil),
+				)
+			},
+			wantErr: false,
+		},
+		{
+			name: "cartの中身とdtosの中身が一致しない",
 			dtos: []OrderUseCaseDto{
 				{
 					ProductID: ulid.NewULID(),
 					Count:     1,
 				},
-				{
-					ProductID: ulid.NewULID(),
-					Count:     3,
-				},
 			},
+			mockFunc: func() {
+				gomock.InOrder(
+					mockCartRepo.EXPECT().FindByUserID(gomock.Any(), userID).Return(cart, nil),
+				)
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gomock.InOrder(
-				mockOrderDomainService.EXPECT().OrderProducts(
-					context.Background(),
-					userID,
-					gomock.Any(),
-					now,
-				).Do(
-					func(ctx context.Context, userID string, pps []orderDomain.OrderProduct, now time.Time) {
-						var ps []orderDomain.OrderProduct
-						for _, dto := range tt.dtos {
-							p, _ := orderDomain.NewOrderProduct(dto.ProductID, dto.Count)
-							ps = append(ps, *p)
-						}
-						diff := cmp.Diff(ps, pps,
-							cmp.AllowUnexported(orderDomain.OrderProduct{}))
-						if diff != "" {
-							t.Errorf("OrderUseCase.Run() got diff: %s", diff)
-						}
-					},
-				).Return(nil),
-			)
-
+			tt := tt
+			t.Parallel()
+			tt.mockFunc()
 			if err := uc.Run(context.Background(), userID, tt.dtos, now); (err != nil) != tt.wantErr {
 				t.Errorf("OrderUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
 			}

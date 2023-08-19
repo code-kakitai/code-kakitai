@@ -6,6 +6,7 @@ import (
 
 	"github.com/code-kakitai/go-pkg/errors"
 
+	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
@@ -24,16 +25,10 @@ func NewOrderDomainService(
 	}
 }
 
-func (ds *orderDomainService) OrderProducts(ctx context.Context, userID string, OrderProducts []OrderProduct, now time.Time) error {
-	// 購入商品のIDを取得
-	productIDs := make([]string, 0, len(OrderProducts))
-	for _, OrderProduct := range OrderProducts {
-		productIDs = append(productIDs, OrderProduct.ProductID())
-	}
-
+func (ds *orderDomainService) OrderProducts(ctx context.Context, cart *cartDomain.Cart, now time.Time) error {
 	// todo ここからトランザクション & 行ロック
 	// 購入対象の商品を取得
-	ps, err := ds.productRepo.FindByIDs(ctx, productIDs)
+	ps, err := ds.productRepo.FindByIDs(ctx, cart.ProductIDs())
 	if err != nil {
 		return err
 	}
@@ -43,16 +38,19 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, userID string, 
 	}
 
 	// 購入処理
-	var totalAmount int64
-	for _, pp := range OrderProducts {
-		p, ok := productMap[pp.ProductID()]
+	ops := make([]OrderProduct, 0, len(cart.ProductIDs()))
+	for _, cp := range cart.Products() {
+		p, ok := productMap[cp.ProductID()]
+		op, err := NewOrderProduct(cp.ProductID(), p.Price(), cp.Count())
+		if err != nil {
+			return err
+		}
+		ops = append(ops, *op)
 		if !ok {
 			// 購入した商品の商品詳細が見つからない場合はエラー（商品を購入すると同時に、商品が削除された場合等に発生）
 			return errors.NewError("商品が見つかりません。")
 		}
-		// 購入金額計算
-		totalAmount += p.Price() * int64(pp.Count())
-		if err := p.Consume(pp.Count()); err != nil {
+		if err := p.Consume(cp.Count()); err != nil {
 			return err
 		}
 		if err := ds.productRepo.Save(ctx, p); err != nil {
@@ -60,8 +58,8 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, userID string, 
 		}
 	}
 
-	// 購入履歴保存
-	ph, err := NewOrder(userID, totalAmount, OrderProducts, now)
+	// 注文履歴保存
+	ph, err := NewOrder(cart.UserID(), OrderProducts(ops).TotalAmount(), ops, now)
 	if err != nil {
 		return err
 	}
