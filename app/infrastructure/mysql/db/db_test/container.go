@@ -19,7 +19,7 @@ var (
 	username = "root"
 	password = "secret"
 	hostname = "localhost"
-	dbName   = "code-kakitai"
+	dbName   = "code_kakitai_test"
 	port     int // コンテナ起動時に決定する
 )
 

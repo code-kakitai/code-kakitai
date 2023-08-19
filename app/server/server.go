@@ -18,7 +18,7 @@ func Run(ctx context.Context, conf *config.Config) {
 	api := settings.NewGinEngine()
 	route.InitRoute(api)
 
-	address := ":" + conf.Server.Port
+	address := conf.Server.Address + ":" + conf.Server.Port
 	log.Printf("Starting server on %s...\n", address)
 	srv := &http.Server{
 		Addr:              address,

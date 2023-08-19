@@ -18,6 +18,6 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	conf := config.GetConfig()
-	db.NewMainDB()
+	db.NewMainDB(conf.DB)
 	server.Run(ctx, conf)
 }
