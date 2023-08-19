@@ -21,11 +21,6 @@ func NewHandler(
 	}
 }
 
-type OrderParams struct {
-	ProductID string
-	Count     int
-}
-
 // OrderProducts godoc
 // @Summary 注文をする
 // @Tags orders
