@@ -72,6 +72,8 @@ func TestOrderUseCase_Run(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			tt := tt
+			t.Parallel()
 			tt.mockFunc()
 			if err := uc.Run(context.Background(), userID, tt.dtos, now); (err != nil) != tt.wantErr {
 				t.Errorf("OrderUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
