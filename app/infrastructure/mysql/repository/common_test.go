@@ -12,7 +12,6 @@ import (
 )
 
 var (
-	query    *dbgen.Queries
 	redisCli *redis.Client
 	fixtures *testfixtures.Context
 )
