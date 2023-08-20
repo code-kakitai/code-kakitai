@@ -17,7 +17,7 @@ type DBConfig struct {
 	User     string `envconfig:"DB_USER" default:"root"`
 	Password string `envconfig:"DB_PASS" default:""`
 	Port     string `envconfig:"DB_PORT" default:"3306"`
-	Host     string `envconfig:"DB_HOST" default:"127.0.0.1"`
+	Host     string `envconfig:"DB_HOST" default:"db"`
 }
 
 type Redis struct {
@@ -25,7 +25,7 @@ type Redis struct {
 }
 
 type Server struct {
-	Address string `envconfig:"ADDRESS" default:""`
+	Address string `envconfig:"ADDRESS" default:"0.0.0.0"`
 	Port    string `envconfig:"PORT" default:"8080"`
 }
 

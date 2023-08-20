@@ -6,6 +6,7 @@ package order
 
 import (
 	context "context"
+	cart "github/code-kakitai/code-kakitai/domain/cart"
 	reflect "reflect"
 	time "time"
 
@@ -36,15 +37,15 @@ func (m *MockOrderDomainService) EXPECT() *MockOrderDomainServiceMockRecorder {
 }
 
 // OrderProducts mocks base method.
-func (m *MockOrderDomainService) OrderProducts(ctx context.Context, userID string, pps []OrderProduct, now time.Time) error {
+func (m *MockOrderDomainService) OrderProducts(ctx context.Context, cart *cart.Cart, now time.Time) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OrderProducts", ctx, userID, pps, now)
+	ret := m.ctrl.Call(m, "OrderProducts", ctx, cart, now)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // OrderProducts indicates an expected call of OrderProducts.
-func (mr *MockOrderDomainServiceMockRecorder) OrderProducts(ctx, userID, pps, now interface{}) *gomock.Call {
+func (mr *MockOrderDomainServiceMockRecorder) OrderProducts(ctx, cart, now interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OrderProducts", reflect.TypeOf((*MockOrderDomainService)(nil).OrderProducts), ctx, userID, pps, now)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OrderProducts", reflect.TypeOf((*MockOrderDomainService)(nil).OrderProducts), ctx, cart, now)
 }
