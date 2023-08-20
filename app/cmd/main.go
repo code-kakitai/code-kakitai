@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github/code-kakitai/code-kakitai/config"
+	"github/code-kakitai/code-kakitai/infrastructure/cache/redis"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/server"
 )
@@ -17,7 +18,12 @@ import (
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
 	conf := config.GetConfig()
 	db.NewMainDB(conf.DB)
+
+	redisCli := redis.NewClient(conf.Redis)
+	defer redisCli.Close()
+
 	server.Run(ctx, conf)
 }
