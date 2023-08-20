@@ -34,7 +34,8 @@ func (h handler) OrderProducts(ctx *gin.Context) {
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
-	userID := ctx.Param("id")
+	// todo userIDはsession等で別途取得する
+	userID := "test_user_id"
 	dtos := make([]orderApp.OrderUseCaseDto, len(params))
 	for _, param := range params {
 		dtos = append(dtos, orderApp.OrderUseCaseDto{
