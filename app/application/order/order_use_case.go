@@ -39,7 +39,7 @@ func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseC
 	// 購入処理
 	orderID, err := uc.orderDomainService.OrderProducts(ctx, cart, now)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 	// 管理者とユーザーにメール送信
 	return orderID, nil
