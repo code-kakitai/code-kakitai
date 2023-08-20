@@ -14,7 +14,7 @@ var (
 
 func NewClient(conf config.Redis) *redis.Client {
 	Cli = redis.NewClient(&redis.Options{
-		Addr:                  conf.Addr,
+		Addr:                  conf.Host + ":" + conf.Port,
 		ReadTimeout:           3 * time.Second,
 		WriteTimeout:          3 * time.Second,
 		ContextTimeoutEnabled: true,
