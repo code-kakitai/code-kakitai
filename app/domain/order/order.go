@@ -158,5 +158,5 @@ func (p *OrderProduct) Price() int64 {
 }
 
 type OrderDomainService interface {
-	OrderProducts(ctx context.Context, cart *cartDomain.Cart, now time.Time) error
+	OrderProducts(ctx context.Context, cart *cartDomain.Cart, now time.Time) (string, error)
 }

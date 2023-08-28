@@ -30,18 +30,19 @@ type OrderUseCaseDto struct {
 	Count     int
 }
 
-func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseCaseDto, now time.Time) error {
+func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseCaseDto, now time.Time) (string, error) {
 	// カートから商品情報を取得
 	cart, err := uc.getValidCart(ctx, userID, dtos)
 	if err != nil {
-		return err
+		return "", err
 	}
 	// 購入処理
-	if err := uc.orderDomainService.OrderProducts(ctx, cart, now); err != nil {
-		return nil
+	orderID, err := uc.orderDomainService.OrderProducts(ctx, cart, now)
+	if err != nil {
+		return "", err
 	}
 	// 管理者とユーザーにメール送信
-	return nil
+	return orderID, nil
 }
 
 // カートの中身の整合性をチェック
