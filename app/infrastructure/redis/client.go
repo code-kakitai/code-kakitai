@@ -10,28 +10,32 @@ import (
 )
 
 var (
-	Cli *redis.Client
+	rdb *redis.Client
 )
 
+func GetRedisClient() *redis.Client {
+	return rdb
+}
+
 func NewClient(conf config.Redis) *redis.Client {
-	Cli = redis.NewClient(&redis.Options{
+	rdb = redis.NewClient(&redis.Options{
 		Addr:                  conf.Host + ":" + conf.Port,
 		ReadTimeout:           3 * time.Second,
 		WriteTimeout:          3 * time.Second,
 		ContextTimeoutEnabled: true,
 	})
 
-	return Cli
+	return rdb
 }
 
 func NewTestClient() *redis.Client {
 	s, _ := miniredis.Run()
-	Cli := redis.NewClient(&redis.Options{
+	rdb := redis.NewClient(&redis.Options{
 		Addr:                  s.Addr(),
 		ReadTimeout:           3 * time.Second,
 		WriteTimeout:          3 * time.Second,
 		ContextTimeoutEnabled: true,
 	})
 
-	return Cli
+	return rdb
 }
