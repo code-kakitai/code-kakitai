@@ -2,12 +2,10 @@ package cart
 
 import (
 	"context"
-	"time"
 
 	"github.com/code-kakitai/go-pkg/errors"
 
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
@@ -17,11 +15,12 @@ type CartUseCase struct {
 }
 
 func NewCartUseCase(
-	orderDomainService orderDomain.OrderDomainService,
 	cartRepo cartDomain.CartRepository,
+	productRepo productDomain.ProductRepository,
 ) *CartUseCase {
 	return &CartUseCase{
-		cartRepo: cartRepo,
+		cartRepo:    cartRepo,
+		productRepo: productRepo,
 	}
 }
 
@@ -30,15 +29,17 @@ type CartUseCaseDto struct {
 	Count     int
 }
 
-func (uc *CartUseCase) Run(ctx context.Context, userID string, dtos []CartUseCaseDto, now time.Time) (string, error) {
+func (uc *CartUseCase) Run(ctx context.Context, userID string, dtos []CartUseCaseDto) (string, error) {
 	// カートから商品情報を取得
 	cart, err := uc.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
 		return "", err
 	}
-	ids := make([]string, 0, len(cart.Products()))
-	for _, cp := range cart.Products() {
-		ids = append(ids, cp.ProductID())
+
+	// 商品IDのスライスを作成
+	ids := make([]string, 0, len(dtos))
+	for _, dto := range dtos {
+		ids = append(ids, dto.ProductID)
 	}
 
 	// 在庫情報を取得
@@ -65,6 +66,7 @@ func (uc *CartUseCase) Run(ctx context.Context, userID string, dtos []CartUseCas
 		if !ok {
 			return "", errors.NewError("商品が見つかりません。")
 		}
+
 		if p.Consume(dto.Count); err != nil {
 			return "", err
 		}
@@ -79,5 +81,5 @@ func (uc *CartUseCase) Run(ctx context.Context, userID string, dtos []CartUseCas
 	}
 
 	// 管理者とユーザーにメール送信
-	return "nil", nil
+	return "", nil
 }

@@ -32,7 +32,8 @@ func NewCart(userID string) (*Cart, error) {
 		return nil, errors.NewError("ユーザーIDの値が不正です。")
 	}
 	return &Cart{
-		userID: userID,
+		userID:   userID,
+		products: []CartProduct{},
 	}, nil
 }
 
