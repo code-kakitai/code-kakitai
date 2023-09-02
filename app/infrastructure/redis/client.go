@@ -1,11 +1,12 @@
 package redis
 
 import (
-	"github/code-kakitai/code-kakitai/config"
 	"time"
 
 	"github.com/alicebob/miniredis"
 	"github.com/redis/go-redis/v9"
+
+	"github/code-kakitai/code-kakitai/config"
 )
 
 var (
