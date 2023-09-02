@@ -1,19 +1,16 @@
 package query_service
 
 import (
-	infraRedis "github/code-kakitai/code-kakitai/infrastructure/cache/redis"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 	"testing"
 
-
-	redis "github.com/redis/go-redis/v9"
 	"gopkg.in/testfixtures.v2"
+
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
 var (
 	query    *dbgen.Queries
-	redisCli *redis.Client
 	fixtures *testfixtures.Context
 )
 
@@ -39,10 +36,6 @@ func TestMain(m *testing.M) {
 	}
 
 	query = dbgen.New(db)
-
-	// テスト用Redisのセットアップ
-	redisCli = infraRedis.NewTestClient()
-	defer redisCli.Close()
 
 	// テスト実行
 	m.Run()
