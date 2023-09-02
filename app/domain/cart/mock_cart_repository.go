@@ -48,3 +48,17 @@ func (mr *MockCartRepositoryMockRecorder) FindByUserID(ctx, userID interface{}) 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByUserID", reflect.TypeOf((*MockCartRepository)(nil).FindByUserID), ctx, userID)
 }
+
+// Save mocks base method.
+func (m *MockCartRepository) Save(ctx context.Context, cart *Cart) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Save", ctx, cart)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Save indicates an expected call of Save.
+func (mr *MockCartRepositoryMockRecorder) Save(ctx, cart interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockCartRepository)(nil).Save), ctx, cart)
+}

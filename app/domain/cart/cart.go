@@ -1,6 +1,8 @@
 package cart
 
 import (
+	"time"
+
 	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 )
@@ -9,6 +11,8 @@ type CartProduct struct {
 	productID string
 	count     int
 }
+
+var CartTimeOut = time.Minute * 30
 
 func (cp *CartProduct) ProductID() string {
 	return cp.productID
@@ -59,13 +63,15 @@ func (p *Cart) AddProduct(productID string, count int) error {
 		return errors.NewError("購入数の値が不正です。")
 	}
 
-	// 商品がすでにカートに入っているかチェック
+	// 商品がすでにカートに入っている場合は更新
 	for _, product := range p.products {
 		if product.productID == productID {
-			return errors.NewError("商品がすでにカートに入っています。")
+			product.count = count
+			return nil
 		}
 	}
 
+	// 商品がカートに入っていない場合は追加
 	p.products = append(p.products, CartProduct{
 		productID: productID,
 		count:     count,
