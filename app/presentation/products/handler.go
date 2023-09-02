@@ -1,10 +1,10 @@
 package products
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
-
-	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
@@ -46,7 +46,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	}
 	// TODO 専用のオブジェクトを用意して引数をまとめたい
 	dto, err := h.saveProductUseCase.Run(
-		ctx,
+		ctx.Request.Context(),
 		params.OwnerID,
 		params.Name,
 		params.Description,

@@ -1,7 +1,30 @@
 definitions:
+  app_presentation_cart.CartProduct:
+    properties:
+      product_id:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  cart.PostCartParams:
+    properties:
+      cart_products:
+        items:
+          $ref: '#/definitions/app_presentation_cart.CartProduct'
+        type: array
+      user_id:
+        type: string
+    type: object
   health_handler.HealthResponse:
     properties:
       status:
+        type: string
+    type: object
+  order.OrderParams:
+    properties:
+      count:
+        type: integer
+      productID:
         type: string
     type: object
   products.PostProductsParams:
@@ -91,6 +114,23 @@ info:
   title: アプリケーション名
   version: バージョン(1.0)
 paths:
+  /v1/carts/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: カートの商品
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/cart.PostCartParams'
+      produces:
+      - application/json
+      responses: {}
+      summary: カートに商品を追加する
+      tags:
+      - carts
   /v1/health:
     get:
       consumes:
@@ -106,6 +146,29 @@ paths:
       summary: ヘルスチェック
       tags:
       - health
+  /v1/orders:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 注文商品
+        in: body
+        name: request
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/order.OrderParams'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: int
+      summary: 注文をする
+      tags:
+      - orders
   /v1/products:
     get:
       consumes:

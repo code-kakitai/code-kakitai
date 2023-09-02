@@ -44,7 +44,7 @@ func (h handler) OrderProducts(ctx *gin.Context) {
 		})
 	}
 	id, err := h.orderUseCase.Run(
-		ctx,
+		ctx.Request.Context(),
 		userID,
 		dtos,
 		time.Now(),
