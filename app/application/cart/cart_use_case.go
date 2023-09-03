@@ -41,6 +41,7 @@ func (uc *CartUseCase) Run(ctx context.Context, userID string, dto CartUseCaseDt
 	if err != nil {
 		return "", err
 	}
+	// todo 「NoRowsエラーの場合は商品が見つからないので、エラーを返す」という形に変えること
 	if product == nil {
 		return "", errors.NewError("商品が見つかりません。")
 	}
