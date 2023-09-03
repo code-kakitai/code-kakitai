@@ -37,12 +37,12 @@ func (h handler) PostCart(ctx *gin.Context) {
 	}
 	// todo userIDはsession等で別途取得する
 	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-	if _, err := h.cartUseCase.Run(
+	if err := h.cartUseCase.Run(
 		ctx.Request.Context(),
 		userID,
 		dto,
 	); err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
 	}
-	settings.ReturnStatusCreated(ctx, "")
+	settings.ReturnStatusNoContent(ctx)
 }
