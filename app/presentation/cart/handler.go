@@ -31,15 +31,15 @@ func (h handler) PostCart(ctx *gin.Context) {
 		settings.ReturnBadRequest(ctx, err)
 	}
 
+	// todo userIDはsession等で別途取得する
+	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 	dto := cartApp.CartUseCaseDto{
 		ProductID: param.ProductID,
 		Quantity:  param.Quantity,
+		UserID:    userID,
 	}
-	// todo userIDはsession等で別途取得する
-	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 	if err := h.cartUseCase.Run(
 		ctx.Request.Context(),
-		userID,
 		dto,
 	); err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)

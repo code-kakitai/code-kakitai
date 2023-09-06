@@ -25,13 +25,14 @@ func NewCartUseCase(
 }
 
 type CartUseCaseDto struct {
+	UserID    string
 	ProductID string
 	Quantity  int
 }
 
-func (uc *CartUseCase) Run(ctx context.Context, userID string, dto CartUseCaseDto) error {
+func (uc *CartUseCase) Run(ctx context.Context, dto CartUseCaseDto) error {
 	// 現在のカート情報を取得
-	cart, err := uc.cartRepo.FindByUserID(ctx, userID)
+	cart, err := uc.cartRepo.FindByUserID(ctx, dto.UserID)
 	if err != nil {
 		return err
 	}
