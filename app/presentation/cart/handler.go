@@ -8,10 +8,10 @@ import (
 )
 
 type handler struct {
-	cartUseCase *cartApp.CartUseCase
+	cartUseCase *cartApp.AddCartUseCase
 }
 
-func NewHandler(cartUseCase *cartApp.CartUseCase) handler {
+func NewHandler(cartUseCase *cartApp.AddCartUseCase) handler {
 	return handler{
 		cartUseCase: cartUseCase,
 	}
@@ -33,7 +33,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 
 	// todo userIDはsession等で別途取得する
 	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-	dto := cartApp.CartUseCaseDto{
+	dto := cartApp.AddCartUseCaseDto{
 		ProductID: param.ProductID,
 		Quantity:  param.Quantity,
 		UserID:    userID,
