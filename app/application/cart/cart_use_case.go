@@ -46,7 +46,7 @@ func (uc *CartUseCase) Run(ctx context.Context, dto CartUseCaseDto) error {
 	if product == nil {
 		return errors.NewError("商品が見つかりません。")
 	}
-	if product.Consume(dto.Quantity); err != nil {
+	if err := product.Consume(dto.Quantity); err != nil {
 		return err
 	}
 
