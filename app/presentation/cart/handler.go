@@ -22,10 +22,10 @@ func NewHandler(cartUseCase *cartApp.CartUseCase) handler {
 // @Tags carts
 // @Accept json
 // @Produce json
-// @Param request body PostAddCartParams true "カートの商品"
+// @Param request body PostCartsParams true "カートの商品"
 // @Router /v1/carts/ [post]
 func (h handler) PostCart(ctx *gin.Context) {
-	var param PostAddCartParams
+	var param PostCartsParams
 	// TODO リクエストのバリデーション
 	if err := ctx.ShouldBindJSON(&param); err != nil {
 		settings.ReturnBadRequest(ctx, err)

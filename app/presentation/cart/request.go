@@ -1,6 +1,6 @@
 package cart
 
-type PostAddCartParams struct {
+type PostCartsParams struct {
 	ProductID string `json:"product_id"`
 	Quantity  int    `json:"quantity"`
 }

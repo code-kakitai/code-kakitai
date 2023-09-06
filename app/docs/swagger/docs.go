@@ -38,7 +38,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/cart.PostCartParams"
+                            "$ref": "#/definitions/cart.PostCartsParams"
                         }
                     }
                 ],
@@ -190,7 +190,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "app_presentation_cart.CartProduct": {
+        "cart.PostCartsParams": {
             "type": "object",
             "properties": {
                 "product_id": {
@@ -198,20 +198,6 @@ const docTemplate = `{
                 },
                 "quantity": {
                     "type": "integer"
-                }
-            }
-        },
-        "cart.PostCartParams": {
-            "type": "object",
-            "properties": {
-                "cart_products": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/app_presentation_cart.CartProduct"
-                    }
-                },
-                "user_id": {
-                    "type": "string"
                 }
             }
         },
