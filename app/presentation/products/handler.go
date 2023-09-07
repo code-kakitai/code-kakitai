@@ -1,6 +1,7 @@
 package products
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 
@@ -22,11 +23,11 @@ func NewHandler(
 }
 
 type PostProductsParams struct {
-	OwnerID     string `json:"owner_id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Price       int64  `json:"price"`
-	Stock       int    `json:"stock"`
+	OwnerID     string `json:"owner_id" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	Price       int64  `json:"price" validate:"required"`
+	Stock       int    `json:"stock" validate:"required"`
 }
 
 // PostProducts godoc
@@ -39,10 +40,14 @@ type PostProductsParams struct {
 // @Router /v1/products [post]
 func (h handler) PostProducts(ctx *gin.Context) {
 	var params PostProductsParams
-	// TODO リクエストのバリデーション
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
+	}
+	validate := validator.New()
+	err = validate.Struct(params)
+	if err != nil {
+		settings.ReturnStatusBadRequest(ctx, err)
 	}
 	// TODO 専用のオブジェクトを用意して引数をまとめたい
 	dto, err := h.saveProductUseCase.Run(
