@@ -17,6 +17,14 @@ func NewSaveProductUseCase(
 	}
 }
 
+type SaveProductUseCaseInputDto struct {
+	OwnerID     string
+	Name        string
+	Description string
+	Price       int64
+	Stock       int
+}
+
 type SaveProductUseCaseDto struct {
 	ID          string
 	OwnerID     string
@@ -28,13 +36,9 @@ type SaveProductUseCaseDto struct {
 
 func (uc *SaveProductUseCase) Run(
 	ctx context.Context,
-	OwnerID string,
-	Name string,
-	Description string,
-	Price int64,
-	Stock int,
+	input SaveProductUseCaseInputDto,
 ) (*SaveProductUseCaseDto, error) {
-	p, err := productDomain.NewProduct(OwnerID, Name, Description, Price, Stock)
+	p, err := productDomain.NewProduct(input.OwnerID, input.Name, input.Description, input.Price, input.Stock)
 	if err != nil {
 		return nil, err
 	}
