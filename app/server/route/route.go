@@ -2,15 +2,16 @@ package route
 
 import (
 	ginpkg "github.com/gin-gonic/gin"
-	"go.uber.org/mock/gomock"
 
+	cartApp "github/code-kakitai/code-kakitai/application/cart"
 	orderApp "github/code-kakitai/code-kakitai/application/order"
 	productApp "github/code-kakitai/code-kakitai/application/product"
 	userApp "github/code-kakitai/code-kakitai/application/user"
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/query_service"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/repository"
+	redisRepo "github/code-kakitai/code-kakitai/infrastructure/redis/repository"
+	cartPre "github/code-kakitai/code-kakitai/presentation/cart"
 	health_handler "github/code-kakitai/code-kakitai/presentation/health_handler"
 	orderPre "github/code-kakitai/code-kakitai/presentation/order"
 	productPre "github/code-kakitai/code-kakitai/presentation/products"
@@ -24,6 +25,7 @@ func InitRoute(api *ginpkg.Engine) {
 	{
 		userRoute(v1)
 		productRoute(v1)
+		cartRoute(v1)
 	}
 }
 
@@ -55,9 +57,22 @@ func orderRoute(r *ginpkg.RouterGroup) {
 				orderRepository,
 				productRepository,
 			),
-			cartDomain.NewMockCartRepository(gomock.NewController(nil)), // todo impl
+			redisRepo.NewCartRepository(),
 		),
 	)
 	group := r.Group("/orders")
 	group.POST("/", h.OrderProducts)
+}
+
+func cartRoute(r *ginpkg.RouterGroup) {
+	cartRepository := redisRepo.NewCartRepository()
+	productRepository := repository.NewProductRepository()
+	h := cartPre.NewHandler(
+		cartApp.NewCartUseCase(
+			cartRepository,
+			productRepository,
+		),
+	)
+	group := r.Group("/carts")
+	group.POST("/", h.PostCart)
 }

@@ -25,7 +25,7 @@ services:
   redis:
     image: redis:6.0-alpine3.18
     ports:
-      - 6380:6379
+      - 6379:6379
 
   # バックエンドサーバー
   app:
@@ -34,7 +34,7 @@ services:
       dockerfile: ./ops/docker/app/Dockerfile
     tty: true
     ports:
-      - "8080:8080"
+      - "8083:8080"
     volumes:
       - type: bind
         source: ./
