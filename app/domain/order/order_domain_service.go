@@ -41,7 +41,7 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, cart *cartDomai
 	ops := make([]OrderProduct, 0, len(cart.ProductIDs()))
 	for _, cp := range cart.Products() {
 		p, ok := productMap[cp.ProductID()]
-		op, err := NewOrderProduct(cp.ProductID(), p.Price(), cp.Count())
+		op, err := NewOrderProduct(cp.ProductID(), p.Price(), cp.Quantity())
 		if err != nil {
 			return "", err
 		}
@@ -50,7 +50,7 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, cart *cartDomai
 			// 購入した商品の商品詳細が見つからない場合はエラー（商品を購入すると同時に、商品が削除された場合等に発生）
 			return "", errors.NewError("商品が見つかりません。")
 		}
-		if err := p.Consume(cp.Count()); err != nil {
+		if err := p.Consume(cp.Quantity()); err != nil {
 			return "", err
 		}
 		if err := ds.productRepo.Save(ctx, p); err != nil {

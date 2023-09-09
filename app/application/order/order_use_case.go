@@ -27,7 +27,7 @@ func NewOrderUseCase(
 
 type OrderUseCaseDto struct {
 	ProductID string
-	Count     int
+	Quantity  int
 }
 
 func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseCaseDto, now time.Time) (string, error) {
@@ -61,7 +61,7 @@ func (uc *OrderUseCase) getValidCart(ctx context.Context, userID string, dtos []
 		if !ok {
 			return nil, errors.NewError("カートの商品が見つかりません。")
 		}
-		if cp.Count() != dto.Count {
+		if cp.Quantity() != dto.Quantity {
 			return nil, errors.NewError("カートの商品数が変更されています。")
 		}
 	}

@@ -13,7 +13,7 @@ definitions:
     type: object
   order.OrderParams:
     properties:
-      count:
+      quantity:
         type: integer
       productID:
         type: string

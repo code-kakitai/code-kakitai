@@ -40,7 +40,7 @@ func (h handler) OrderProducts(ctx *gin.Context) {
 	for _, param := range params {
 		dtos = append(dtos, orderApp.OrderUseCaseDto{
 			ProductID: param.ProductID,
-			Count:     param.Count,
+			Quantity:  param.Quantity,
 		})
 	}
 	id, err := h.orderUseCase.Run(

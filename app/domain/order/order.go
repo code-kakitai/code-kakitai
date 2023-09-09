@@ -116,7 +116,7 @@ func (p OrderProducts) ProductIDs() []string {
 func (p OrderProducts) TotalAmount() int64 {
 	var totalAmount int64
 	for _, product := range p {
-		totalAmount += product.price * int64(product.count)
+		totalAmount += product.price * int64(product.quantity)
 	}
 	return totalAmount
 }
@@ -124,24 +124,24 @@ func (p OrderProducts) TotalAmount() int64 {
 type OrderProduct struct {
 	productID string
 	price     int64
-	count     int
+	quantity  int
 }
 
-func NewOrderProduct(productID string, price int64, count int) (*OrderProduct, error) {
+func NewOrderProduct(productID string, price int64, quantity int) (*OrderProduct, error) {
 	// 商品IDのバリデーション
 	if !ulid.IsValid(productID) {
 		return nil, errors.NewError("商品IDの値が不正です。")
 	}
 
 	// 購入数のバリデーション
-	if count < 1 {
+	if quantity < 1 {
 		return nil, errors.NewError("購入数の値が不正です。")
 	}
 
 	return &OrderProduct{
 		productID: productID,
 		price:     price,
-		count:     count,
+		quantity:  quantity,
 	}, nil
 }
 
@@ -149,8 +149,8 @@ func (p *OrderProduct) ProductID() string {
 	return p.productID
 }
 
-func (p *OrderProduct) Count() int {
-	return p.count
+func (p *OrderProduct) Quantity() int {
+	return p.quantity
 }
 
 func (p *OrderProduct) Price() int64 {
