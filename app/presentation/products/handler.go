@@ -2,10 +2,9 @@ package products
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/gin-gonic/gin"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
-
-	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
