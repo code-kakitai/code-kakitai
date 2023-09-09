@@ -34,7 +34,7 @@ services:
       dockerfile: ./ops/docker/app/Dockerfile
     tty: true
     ports:
-      - "8080:8080"
+      - "8083:8080"
     volumes:
       - type: bind
         source: ./
