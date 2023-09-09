@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/redis/go-redis/v9"
 
@@ -68,7 +69,8 @@ func (r *cartRepository) Save(ctx context.Context, cart *domainCart.Cart) error 
 	if err != nil {
 		return err
 	}
-	if _, err := rdb.Set(ctx, cart.UserID(), j, domainCart.CartTimeOut).Result(); err != nil {
+	key := fmt.Sprintf("cart-userID-%s", cart.UserID())
+	if _, err := rdb.Set(ctx, key, j, domainCart.CartTimeOut).Result(); err != nil {
 		return err
 	}
 	return nil
