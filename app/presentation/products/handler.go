@@ -48,14 +48,16 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	if err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
 	}
-	// TODO 専用のオブジェクトを用意して引数をまとめたい
-	dto, err := h.saveProductUseCase.Run(
-		ctx.Request.Context(),
-		params.OwnerID,
-		params.Name,
-		params.Description,
-		params.Price,
-		params.Stock)
+
+	input := product.SaveProductUseCaseInputDto{
+		OwnerID:     params.OwnerID,
+		Name:        params.Name,
+		Description: params.Description,
+		Price:       params.Price,
+		Stock:       params.Stock,
+	}
+
+	dto, err := h.saveProductUseCase.Run(ctx, input)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
 	}
