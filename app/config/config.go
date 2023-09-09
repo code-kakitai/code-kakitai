@@ -21,8 +21,8 @@ type DBConfig struct {
 }
 
 type Redis struct {
-	Host string `envconfig:"REDIS_HOST" default:"localhost"`
-	Port string `envconfig:"REDIS_PORT" default:"6380"`
+	Host string `envconfig:"REDIS_HOST" default:"redis"`
+	Port string `envconfig:"REDIS_PORT" default:"6379"`
 }
 
 type Server struct {

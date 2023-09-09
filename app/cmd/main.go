@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github/code-kakitai/code-kakitai/config"
-	"github/code-kakitai/code-kakitai/infrastructure/cache/redis"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
+	"github/code-kakitai/code-kakitai/infrastructure/redis"
 	"github/code-kakitai/code-kakitai/server"
 )
 
