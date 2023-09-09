@@ -31,18 +31,13 @@ func NewOwner(
 	email string,
 ) (*Owner, error) {
 	return newOwner(
-		"",
+		ulid.NewULID(),
 		name,
 		email,
 	)
 }
 
 func newOwner(id string, name string, email string) (*Owner, error) {
-	// idが空文字の時は新規作成
-	if id == "" {
-		id = ulid.NewULID()
-	}
-
 	// 名前のバリデーション
 	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
 		return nil, errors.NewError("名前の値が不正です。")

@@ -26,7 +26,6 @@ func NewOrderDomainService(
 }
 
 func (ds *orderDomainService) OrderProducts(ctx context.Context, cart *cartDomain.Cart, now time.Time) (string, error) {
-	// todo ここからトランザクション & 行ロック
 	// 購入対象の商品を取得
 	ps, err := ds.productRepo.FindByIDs(ctx, cart.ProductIDs())
 	if err != nil {
