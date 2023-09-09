@@ -35,7 +35,7 @@ func (r *orderRepository) Save(ctx context.Context, order *order.Order) error {
 			OrderID:   order.ID(),
 			ProductID: p.ProductID(),
 			Price:     p.Price(),
-			Quantity:  int32(p.Count()),
+			Quantity:  int32(p.Quantity()),
 		}
 		if err := query.InsertOrderProduct(ctx, op); err != nil {
 			return err

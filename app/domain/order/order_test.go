@@ -15,7 +15,7 @@ func TestNewOrderProduct(t *testing.T) {
 	type args struct {
 		productID string
 		price     int64
-		count     int
+		quantity  int
 	}
 	tests := []struct {
 		name    string
@@ -28,12 +28,12 @@ func TestNewOrderProduct(t *testing.T) {
 			args: args{
 				productID: productID,
 				price:     price,
-				count:     1,
+				quantity:  1,
 			},
 			want: &OrderProduct{
 				productID: productID,
 				price:     price,
-				count:     1,
+				quantity:  1,
 			},
 			wantErr: false,
 		},
@@ -42,7 +42,7 @@ func TestNewOrderProduct(t *testing.T) {
 			args: args{
 				productID: "test",
 				price:     price,
-				count:     1,
+				quantity:  1,
 			},
 			want:    nil,
 			wantErr: true,
@@ -52,7 +52,7 @@ func TestNewOrderProduct(t *testing.T) {
 			args: args{
 				productID: productID,
 				price:     price,
-				count:     0,
+				quantity:  0,
 			},
 			want:    nil,
 			wantErr: true,
@@ -60,7 +60,7 @@ func TestNewOrderProduct(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewOrderProduct(tt.args.productID, price, tt.args.count)
+			got, err := NewOrderProduct(tt.args.productID, price, tt.args.quantity)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewOrderProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -96,11 +96,11 @@ func TestNewOrder(t *testing.T) {
 				products: []OrderProduct{
 					{
 						productID: productID1,
-						count:     1,
+						quantity:  1,
 					},
 					{
 						productID: productID2,
-						count:     2,
+						quantity:  2,
 					},
 				},
 			},
@@ -109,11 +109,11 @@ func TestNewOrder(t *testing.T) {
 				products: []OrderProduct{
 					{
 						productID: productID1,
-						count:     1,
+						quantity:  1,
 					},
 					{
 						productID: productID2,
-						count:     2,
+						quantity:  2,
 					},
 				},
 			},
@@ -126,11 +126,11 @@ func TestNewOrder(t *testing.T) {
 				products: []OrderProduct{
 					{
 						productID: productID1,
-						count:     1,
+						quantity:  1,
 					},
 					{
 						productID: productID2,
-						count:     2,
+						quantity:  2,
 					},
 				},
 			},
@@ -178,12 +178,12 @@ func TestOrderProducts_TotalAmount(t *testing.T) {
 			name: "正常系",
 			p: OrderProducts{
 				{
-					price: 100,
-					count: 1,
+					price:    100,
+					quantity: 1,
 				},
 				{
-					price: 200,
-					count: 2,
+					price:    200,
+					quantity: 2,
 				},
 			},
 			want: 500,

@@ -62,7 +62,7 @@ func (r *cartRepository) Save(ctx context.Context, cart *domainCart.Cart) error 
 	for _, cp := range cart.Products() {
 		cps = append(cps, &cartProduct{
 			ProductID: cp.ProductID(),
-			Quantity:  cp.Count(),
+			Quantity:  cp.Quantity(),
 		})
 	}
 	j, err := json.Marshal(cps)

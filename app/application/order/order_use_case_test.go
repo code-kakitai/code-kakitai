@@ -25,16 +25,16 @@ func TestOrderUseCase_Run(t *testing.T) {
 	dtos := []OrderUseCaseDto{
 		{
 			ProductID: ulid.NewULID(),
-			Count:     1,
+			Quantity:  1,
 		},
 		{
 			ProductID: ulid.NewULID(),
-			Count:     3,
+			Quantity:  3,
 		},
 	}
 	cart, _ := cartDomain.NewCart(userID)
 	for _, dto := range dtos {
-		cart.AddProduct(dto.ProductID, dto.Count)
+		cart.AddProduct(dto.ProductID, dto.Quantity)
 	}
 
 	tests := []struct {
@@ -59,7 +59,7 @@ func TestOrderUseCase_Run(t *testing.T) {
 			dtos: []OrderUseCaseDto{
 				{
 					ProductID: ulid.NewULID(),
-					Count:     1,
+					Quantity:  1,
 				},
 			},
 			mockFunc: func() {

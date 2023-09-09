@@ -98,12 +98,12 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 										{
 											productID: productIDs[0],
 											price:     100,
-											count:     1,
+											quantity:  1,
 										},
 										{
 											productID: productIDs[1],
 											price:     200,
-											count:     1,
+											quantity:  1,
 										},
 									},
 								},

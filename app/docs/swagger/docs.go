@@ -212,7 +212,7 @@ const docTemplate = `{
         "order.OrderParams": {
             "type": "object",
             "properties": {
-                "count": {
+                "quantity": {
                     "type": "integer"
                 },
                 "productID": {

@@ -9,7 +9,7 @@ import (
 
 type CartProduct struct {
 	productID string
-	count     int
+	quantity     int
 }
 
 var CartTimeOut = time.Minute * 30
@@ -18,8 +18,8 @@ func (cp *CartProduct) ProductID() string {
 	return cp.productID
 }
 
-func (cp *CartProduct) Count() int {
-	return cp.count
+func (cp *CartProduct) Quantity() int {
+	return cp.quantity
 }
 
 type Cart struct {
@@ -53,21 +53,21 @@ func (p *Cart) ProductIDs() []string {
 	return productIDs
 }
 
-func (p *Cart) AddProduct(productID string, count int) error {
+func (p *Cart) AddProduct(productID string, quantity int) error {
 	// 商品IDのバリデーション
 	if !ulid.IsValid(productID) {
 		return errors.NewError("商品IDの値が不正です。")
 	}
 
 	// 購入数のバリデーション
-	if count < 1 {
+	if quantity < 1 {
 		return errors.NewError("購入数の値が不正です。")
 	}
 
 	// 商品がすでにカートに入っている場合は更新
 	for _, product := range p.products {
 		if product.productID == productID {
-			product.count = count
+			product.quantity = quantity
 			return nil
 		}
 	}
@@ -75,7 +75,7 @@ func (p *Cart) AddProduct(productID string, count int) error {
 	// 商品がカートに入っていない場合は追加
 	p.products = append(p.products, CartProduct{
 		productID: productID,
-		count:     count,
+		quantity:     quantity,
 	})
 
 	return nil
