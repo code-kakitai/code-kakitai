@@ -52,33 +52,24 @@ func NewCart(userID string) (*Cart, error) {
 	}, nil
 }
 
-func (p *Cart) UserID() string {
-	return p.userID
+func (c *Cart) UserID() string {
+	return c.userID
 }
 
-func (p *Cart) Products() []cartProduct {
-	return p.products
+func (c *Cart) Products() []cartProduct {
+	return c.products
 }
 
-func (p *Cart) ProductIDs() []string {
+func (c *Cart) ProductIDs() []string {
 	var productIDs []string
-	for _, product := range p.products {
+	for _, product := range c.products {
 		productIDs = append(productIDs, product.productID)
 	}
 	return productIDs
 }
 
-func (p *Cart) HasProduct(productID string) bool {
-	for _, product := range p.products {
-		if product.productID == productID {
-			return true
-		}
-	}
-	return false
-}
-
-func (p *Cart) QuantityByProductID(productID string) (int, error) {
-	for _, product := range p.products {
+func (c *Cart) QuantityByProductID(productID string) (int, error) {
+	for _, product := range c.products {
 		if product.productID == productID {
 			return product.quantity, nil
 		}
@@ -86,27 +77,27 @@ func (p *Cart) QuantityByProductID(productID string) (int, error) {
 	return 0, errors.NewError("カートの商品が見つかりません。")
 }
 
-func (p *Cart) AddProduct(productID string, quantity int) error {
+func (c *Cart) AddProduct(productID string, quantity int) error {
 	cp, err := newCartProduct(productID, quantity)
 	if err != nil {
 		return err
 	}
 
 	// 商品がすでにカートに入っている場合は更新
-	for k, product := range p.products {
+	for k, product := range c.products {
 		if product.productID == productID {
-			p.products[k] = *cp
+			c.products[k] = *cp
 			return nil
 		}
 	}
 
 	// 商品がカートに入っていない場合は追加
-	p.products = append(p.products, *cp)
+	c.products = append(c.products, *cp)
 
 	return nil
 }
 
-func (p *Cart) RemoveProduct(productID string) error {
+func (c *Cart) RemoveProduct(productID string) error {
 	// 商品IDのバリデーション
 	if !ulid.IsValid(productID) {
 		return errors.NewError("商品IDの値が不正です。")
@@ -114,14 +105,14 @@ func (p *Cart) RemoveProduct(productID string) error {
 
 	// 商品がカートに入っているかチェック
 	var newProducts []cartProduct
-	for _, product := range p.products {
+	for _, product := range c.products {
 		if product.productID == productID {
 			continue
 		}
 		newProducts = append(newProducts, product)
 	}
 
-	p.products = newProducts
+	c.products = newProducts
 
 	return nil
 }
