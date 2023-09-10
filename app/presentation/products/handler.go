@@ -1,8 +1,8 @@
 package products
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
@@ -17,7 +17,8 @@ func NewHandler(
 	fetchProductUseCase *product.FetchProductUseCase,
 ) handler {
 	return handler{
-		saveProductUseCase: saveProductUseCase,
+		saveProductUseCase:  saveProductUseCase,
+		fetchProductUseCase: fetchProductUseCase,
 	}
 }
 
