@@ -8,12 +8,12 @@ import (
 )
 
 type handler struct {
-	cartUseCase *cartApp.AddCartUseCase
+	addCartUseCase *cartApp.AddCartUseCase
 }
 
-func NewHandler(cartUseCase *cartApp.AddCartUseCase) handler {
+func NewHandler(addCartUseCase *cartApp.AddCartUseCase) handler {
 	return handler{
-		cartUseCase: cartUseCase,
+		addCartUseCase: addCartUseCase,
 	}
 }
 
@@ -33,12 +33,12 @@ func (h handler) PostCart(ctx *gin.Context) {
 
 	// todo userIDはsession等で別途取得する
 	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-	dto := cartApp.AddCartUseCaseDto{
+	dto := cartApp.AddCartUseCaseInputDto{
 		ProductID: param.ProductID,
 		Quantity:  param.Quantity,
 		UserID:    userID,
 	}
-	if err := h.cartUseCase.Run(
+	if err := h.addCartUseCase.Run(
 		ctx.Request.Context(),
 		dto,
 	); err != nil {
