@@ -80,7 +80,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 // @Tags products
 // @Accept json
 // @Produce json
-// @Success 200 {object} getProductResponse
+// @Success 200 {object} getProductsResponse
 // @Router /v1/products [get]
 func (h handler) GetProducts(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
@@ -88,9 +88,9 @@ func (h handler) GetProducts(ctx *gin.Context) {
 		settings.ReturnStatusInternalServerError(ctx, err)
 	}
 
-	var products []getProductResponse
+	var products []getProductsResponse
 	for _, dto := range dtos {
-		products = append(products, getProductResponse{
+		products = append(products, getProductsResponse{
 			productResponseModel: &productResponseModel{
 				Id:      dto.ID,
 				OwnerID: dto.OwnerID,
