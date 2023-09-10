@@ -7,24 +7,46 @@ import (
 	"github.com/code-kakitai/go-pkg/ulid"
 )
 
-type CartProduct struct {
+type cartProduct struct {
 	productID string
-	quantity     int
+	quantity  int
+}
+
+func (cp *cartProduct) ProductID() string {
+	return cp.productID
+}
+
+func (cp *cartProduct) Quantity() int {
+	return cp.quantity
+}
+
+func newCartProduct(productID string, quantity int) (*cartProduct, error) {
+	if !ulid.IsValid(productID) {
+		return nil, errors.NewError("商品IDの値が不正です。")
+	}
+
+	if quantity < 1 {
+		return nil, errors.NewError("購入数の値が不正です。")
+	}
+
+	return &cartProduct{
+		productID: productID,
+		quantity:  quantity,
+	}, nil
+}
+
+func (cp *cartProduct) Merge(other *cartProduct) *cartProduct {
+	return &cartProduct{
+		productID: cp.productID,
+		quantity:  cp.quantity + other.quantity,
+	}
 }
 
 var CartTimeOut = time.Minute * 30
 
-func (cp *CartProduct) ProductID() string {
-	return cp.productID
-}
-
-func (cp *CartProduct) Quantity() int {
-	return cp.quantity
-}
-
 type Cart struct {
 	userID   string
-	products []CartProduct
+	products []cartProduct
 }
 
 func NewCart(userID string) (*Cart, error) {
@@ -33,7 +55,7 @@ func NewCart(userID string) (*Cart, error) {
 	}
 	return &Cart{
 		userID:   userID,
-		products: []CartProduct{},
+		products: []cartProduct{},
 	}, nil
 }
 
@@ -41,7 +63,7 @@ func (p *Cart) UserID() string {
 	return p.userID
 }
 
-func (p *Cart) Products() []CartProduct {
+func (p *Cart) Products() []cartProduct {
 	return p.products
 }
 
@@ -53,30 +75,40 @@ func (p *Cart) ProductIDs() []string {
 	return productIDs
 }
 
-func (p *Cart) AddProduct(productID string, quantity int) error {
-	// 商品IDのバリデーション
-	if !ulid.IsValid(productID) {
-		return errors.NewError("商品IDの値が不正です。")
+func (p *Cart) HasProduct(productID string) bool {
+	for _, product := range p.products {
+		if product.productID == productID {
+			return true
+		}
 	}
+	return false
+}
 
-	// 購入数のバリデーション
-	if quantity < 1 {
-		return errors.NewError("購入数の値が不正です。")
+func (p *Cart) QuantityByProductID(productID string) (int, error) {
+	for _, product := range p.products {
+		if product.productID == productID {
+			return product.quantity, nil
+		}
+	}
+	return 0, errors.NewError("カートの商品が見つかりません。")
+}
+
+func (p *Cart) AddProduct(productID string, quantity int) error {
+	cp, err := newCartProduct(productID, quantity)
+	if err != nil {
+		return err
 	}
 
 	// 商品がすでにカートに入っている場合は更新
-	for _, product := range p.products {
+	for k, product := range p.products {
 		if product.productID == productID {
-			product.quantity = quantity
+			p.products[k] = *cp
 			return nil
 		}
 	}
 
 	// 商品がカートに入っていない場合は追加
-	p.products = append(p.products, CartProduct{
-		productID: productID,
-		quantity:     quantity,
-	})
+	p.products = append(p.products, *cp)
 
 	return nil
 }
@@ -88,7 +120,7 @@ func (p *Cart) RemoveProduct(productID string) error {
 	}
 
 	// 商品がカートに入っているかチェック
-	var newProducts []CartProduct
+	var newProducts []cartProduct
 	for _, product := range p.products {
 		if product.productID == productID {
 			continue

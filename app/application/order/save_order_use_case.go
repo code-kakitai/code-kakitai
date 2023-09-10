@@ -52,16 +52,12 @@ func (uc *SaveOrderUseCase) getValidCart(ctx context.Context, userID string, dto
 	if err != nil {
 		return nil, err
 	}
-	cartProductMap := make(map[string]cartDomain.CartProduct)
-	for _, cp := range cart.Products() {
-		cartProductMap[cp.ProductID()] = cp
-	}
 	for _, dto := range dtos {
-		cp, ok := cartProductMap[dto.ProductID]
-		if !ok {
-			return nil, errors.NewError("カートの商品が見つかりません。")
+		pq, err := cart.QuantityByProductID(dto.ProductID)
+		if err != nil {
+			return nil, err
 		}
-		if cp.Quantity() != dto.Quantity {
+		if pq != dto.Quantity {
 			return nil, errors.NewError("カートの商品数が変更されています。")
 		}
 	}
