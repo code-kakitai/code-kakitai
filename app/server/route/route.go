@@ -52,7 +52,7 @@ func orderRoute(r *ginpkg.RouterGroup) {
 	orderRepository := repository.NewOrderRepository()
 	productRepository := repository.NewProductRepository()
 	h := orderPre.NewHandler(
-		orderApp.NewOrderUseCase(
+		orderApp.NewSaveOrderUseCase(
 			orderDomain.NewOrderDomainService(
 				orderRepository,
 				productRepository,
@@ -61,7 +61,7 @@ func orderRoute(r *ginpkg.RouterGroup) {
 		),
 	)
 	group := r.Group("/orders")
-	group.POST("/", h.OrderProducts)
+	group.POST("/", h.PostOrders)
 }
 
 func cartRoute(r *ginpkg.RouterGroup) {

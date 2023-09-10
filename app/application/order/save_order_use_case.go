@@ -10,27 +10,27 @@ import (
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 )
 
-type OrderUseCase struct {
+type SaveOrderUseCase struct {
 	orderDomainService orderDomain.OrderDomainService
 	cartRepo           cartDomain.CartRepository
 }
 
-func NewOrderUseCase(
+func NewSaveOrderUseCase(
 	orderDomainService orderDomain.OrderDomainService,
 	cartRepo cartDomain.CartRepository,
-) *OrderUseCase {
-	return &OrderUseCase{
+) *SaveOrderUseCase {
+	return &SaveOrderUseCase{
 		orderDomainService: orderDomainService,
 		cartRepo:           cartRepo,
 	}
 }
 
-type OrderUseCaseDto struct {
+type SaveOrderUseCaseInputDto struct {
 	ProductID string
 	Quantity  int
 }
 
-func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseCaseDto, now time.Time) (string, error) {
+func (uc *SaveOrderUseCase) Run(ctx context.Context, userID string, dtos []SaveOrderUseCaseInputDto, now time.Time) (string, error) {
 	// カートから商品情報を取得
 	cart, err := uc.getValidCart(ctx, userID, dtos)
 	if err != nil {
@@ -46,7 +46,7 @@ func (uc *OrderUseCase) Run(ctx context.Context, userID string, dtos []OrderUseC
 }
 
 // カートの中身の整合性をチェック
-func (uc *OrderUseCase) getValidCart(ctx context.Context, userID string, dtos []OrderUseCaseDto) (*cartDomain.Cart, error) {
+func (uc *SaveOrderUseCase) getValidCart(ctx context.Context, userID string, dtos []SaveOrderUseCaseInputDto) (*cartDomain.Cart, error) {
 	// カートから商品情報を取得
 	cart, err := uc.cartRepo.FindByUserID(ctx, userID)
 	if err != nil {
