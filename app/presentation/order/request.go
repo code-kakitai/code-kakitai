@@ -1,6 +1,6 @@
 package order
 
-type OrderParams struct {
+type PostOrdersParams struct {
 	ProductID string
-	Quantity     int
+	Quantity  int
 }

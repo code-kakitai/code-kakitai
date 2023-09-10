@@ -12,17 +12,17 @@ import (
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 )
 
-func TestOrderUseCase_Run(t *testing.T) {
+func TestSaveOrderUseCase_Run(t *testing.T) {
 	// usecase準備
 	ctrl := gomock.NewController(t)
 	mockOrderDomainService := orderDomain.NewMockOrderDomainService(ctrl)
 	mockCartRepo := cartDomain.NewMockCartRepository(ctrl)
-	uc := NewOrderUseCase(mockOrderDomainService, mockCartRepo)
+	uc := NewSaveOrderUseCase(mockOrderDomainService, mockCartRepo)
 
 	// 各種テストデータ準備
 	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)
 	userID := ulid.NewULID()
-	dtos := []OrderUseCaseDto{
+	dtos := []SaveOrderUseCaseInputDto{
 		{
 			ProductID: ulid.NewULID(),
 			Quantity:  1,
@@ -39,7 +39,7 @@ func TestOrderUseCase_Run(t *testing.T) {
 
 	tests := []struct {
 		name     string
-		dtos     []OrderUseCaseDto
+		dtos     []SaveOrderUseCaseInputDto
 		mockFunc func()
 		wantErr  bool
 	}{
@@ -56,7 +56,7 @@ func TestOrderUseCase_Run(t *testing.T) {
 		},
 		{
 			name: "cartの中身とdtosの中身が一致しない",
-			dtos: []OrderUseCaseDto{
+			dtos: []SaveOrderUseCaseInputDto{
 				{
 					ProductID: ulid.NewULID(),
 					Quantity:  1,
@@ -77,7 +77,7 @@ func TestOrderUseCase_Run(t *testing.T) {
 			tt.mockFunc()
 			_, err := uc.Run(context.Background(), userID, tt.dtos, now)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("OrderUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SaveOrderUseCase.Run() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

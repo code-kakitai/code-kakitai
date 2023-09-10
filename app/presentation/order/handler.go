@@ -10,25 +10,25 @@ import (
 )
 
 type handler struct {
-	orderUseCase *orderApp.OrderUseCase
+	saveOrderUseCase *orderApp.SaveOrderUseCase
 }
 
-func NewHandler(orderUseCase *orderApp.OrderUseCase) handler {
+func NewHandler(saveOrderUseCase *orderApp.SaveOrderUseCase) handler {
 	return handler{
-		orderUseCase: orderUseCase,
+		saveOrderUseCase: saveOrderUseCase,
 	}
 }
 
-// OrderProducts godoc
+// PostOrders godoc
 // @Summary 注文をする
 // @Tags orders
 // @Accept json
 // @Produce json
-// @Param request body []OrderParams true "注文商品"
+// @Param request body []PostOrdersParams true "注文商品"
 // @Success 200 {int} id
 // @Router /v1/orders [post]
-func (h handler) OrderProducts(ctx *gin.Context) {
-	var params []*OrderParams
+func (h handler) PostOrders(ctx *gin.Context) {
+	var params []*PostOrdersParams
 	// TODO リクエストのバリデーション
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
@@ -36,14 +36,14 @@ func (h handler) OrderProducts(ctx *gin.Context) {
 	}
 	// todo userIDはsession等で別途取得する
 	userID := "test_user_id"
-	dtos := make([]orderApp.OrderUseCaseDto, len(params))
+	dtos := make([]orderApp.SaveOrderUseCaseInputDto, len(params))
 	for _, param := range params {
-		dtos = append(dtos, orderApp.OrderUseCaseDto{
+		dtos = append(dtos, orderApp.SaveOrderUseCaseInputDto{
 			ProductID: param.ProductID,
 			Quantity:  param.Quantity,
 		})
 	}
-	id, err := h.orderUseCase.Run(
+	id, err := h.saveOrderUseCase.Run(
 		ctx.Request.Context(),
 		userID,
 		dtos,
