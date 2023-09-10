@@ -14,11 +14,11 @@ type handler struct {
 
 func NewHandler(
 	findUserUseCase *userApp.FindUserUseCase,
-	saceUserUseCase *userApp.SaveUserUseCase,
+	saveUserUseCase *userApp.SaveUserUseCase,
 ) handler {
 	return handler{
 		findUserUseCase: findUserUseCase,
-		saveUserUseCase: saceUserUseCase,
+		saveUserUseCase: saveUserUseCase,
 	}
 }
 
