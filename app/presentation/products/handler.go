@@ -75,7 +75,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	settings.ReturnStatusCreated(ctx, response)
 }
 
-// FetchProduct godoc
+// FetchProducts godoc
 // @Summary 商品一覧を取得する
 // @Tags products
 // @Accept json
