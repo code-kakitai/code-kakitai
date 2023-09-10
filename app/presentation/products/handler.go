@@ -1,8 +1,8 @@
 package products
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
@@ -17,7 +17,8 @@ func NewHandler(
 	fetchProductUseCase *product.FetchProductUseCase,
 ) handler {
 	return handler{
-		saveProductUseCase: saveProductUseCase,
+		saveProductUseCase:  saveProductUseCase,
+		fetchProductUseCase: fetchProductUseCase,
 	}
 }
 
@@ -74,22 +75,22 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	settings.ReturnStatusCreated(ctx, response)
 }
 
-// FetchProduct godoc
+// GetProducts godoc
 // @Summary 商品一覧を取得する
 // @Tags products
 // @Accept json
 // @Produce json
-// @Success 200 {object} fetchProductResponse
+// @Success 200 {object} getProductsResponse
 // @Router /v1/products [get]
-func (h handler) FetchProducts(ctx *gin.Context) {
+func (h handler) GetProducts(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
 	}
 
-	var products []productsWithOwnerModel
+	var products []getProductsResponse
 	for _, dto := range dtos {
-		products = append(products, productsWithOwnerModel{
+		products = append(products, getProductsResponse{
 			productResponseModel: &productResponseModel{
 				Id:      dto.ID,
 				OwnerID: dto.OwnerID,

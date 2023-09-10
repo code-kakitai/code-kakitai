@@ -13,10 +13,10 @@ definitions:
     type: object
   order.OrderParams:
     properties:
-      quantity:
-        type: integer
       productID:
         type: string
+      quantity:
+        type: integer
     type: object
   products.PostProductsParams:
     properties:
@@ -30,13 +30,29 @@ definitions:
         type: integer
       stock:
         type: integer
+    required:
+    - description
+    - name
+    - owner_id
+    - price
+    - stock
     type: object
-  products.fetchProductResponse:
+  products.getProductsResponse:
     properties:
-      products:
-        items:
-          $ref: '#/definitions/products.productsWithOwnerModel'
-        type: array
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      owner_name:
+        type: string
+      price:
+        type: integer
+      stock:
+        type: integer
     type: object
   products.postProductResponse:
     properties:
@@ -52,23 +68,6 @@ definitions:
       name:
         type: string
       owner_id:
-        type: string
-      price:
-        type: integer
-      stock:
-        type: integer
-    type: object
-  products.productsWithOwnerModel:
-    properties:
-      description:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      owner_id:
-        type: string
-      owner_name:
         type: string
       price:
         type: integer
@@ -170,7 +169,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/products.fetchProductResponse'
+            $ref: '#/definitions/products.getProductsResponse'
       summary: 商品一覧を取得する
       tags:
       - products

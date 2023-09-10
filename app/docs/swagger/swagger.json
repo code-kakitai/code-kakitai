@@ -113,7 +113,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/products.fetchProductResponse"
+                            "$ref": "#/definitions/products.getProductsResponse"
                         }
                     }
                 }
@@ -205,16 +205,23 @@
         "order.OrderParams": {
             "type": "object",
             "properties": {
-                "quantity": {
-                    "type": "integer"
-                },
                 "productID": {
                     "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
                 }
             }
         },
         "products.PostProductsParams": {
             "type": "object",
+            "required": [
+                "description",
+                "name",
+                "owner_id",
+                "price",
+                "stock"
+            ],
             "properties": {
                 "description": {
                     "type": "string"
@@ -233,14 +240,29 @@
                 }
             }
         },
-        "products.fetchProductResponse": {
+        "products.getProductsResponse": {
             "type": "object",
             "properties": {
-                "products": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/products.productsWithOwnerModel"
-                    }
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "owner_name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "stock": {
+                    "type": "integer"
                 }
             }
         },
@@ -265,32 +287,6 @@
                     "type": "string"
                 },
                 "owner_id": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "integer"
-                },
-                "stock": {
-                    "type": "integer"
-                }
-            }
-        },
-        "products.productsWithOwnerModel": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "owner_id": {
-                    "type": "string"
-                },
-                "owner_name": {
                     "type": "string"
                 },
                 "price": {
