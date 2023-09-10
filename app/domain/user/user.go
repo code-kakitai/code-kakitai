@@ -51,7 +51,7 @@ func NewUser(
 	addressExtra string,
 ) (*User, error) {
 	return newUser(
-		"",
+		ulid.NewULID(),
 		lastName,
 		firstName,
 		email,
@@ -72,10 +72,6 @@ func newUser(
 	city string,
 	addressExtra string,
 ) (*User, error) {
-	// idが空文字の時は新規作成
-	if id == "" {
-		id = ulid.NewULID()
-	}
 	// 名前のバリデーション
 	if utf8.RuneCountInString(lastName) < nameLengthMin || utf8.RuneCountInString(lastName) > nameLengthMax {
 		return nil, errors.NewError("名前（姓）の値が不正です。")

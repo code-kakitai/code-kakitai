@@ -21,7 +21,7 @@ type Order struct {
 
 func NewOrder(userID string, totalAmount int64, products []OrderProduct, now time.Time) (*Order, error) {
 	return newOrder(
-		"",
+		ulid.NewULID(),
 		userID,
 		totalAmount,
 		products,
@@ -46,11 +46,6 @@ func newOrder(
 	products []OrderProduct,
 	orderedAt time.Time,
 ) (*Order, error) {
-	// idが空文字の時は新規作成
-	if id == "" {
-		id = ulid.NewULID()
-	}
-
 	// userIDのバリデーション
 	if !ulid.IsValid(userID) {
 		return nil, errors.NewError("ユーザーIDの値が不正です。")

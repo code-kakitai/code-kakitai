@@ -42,7 +42,7 @@ func NewProduct(
 	stock int,
 ) (*Product, error) {
 	return newProduct(
-		"",
+		ulid.NewULID(),
 		ownerID,
 		name,
 		description,
@@ -59,10 +59,6 @@ func newProduct(
 	price int64,
 	stock int,
 ) (*Product, error) {
-	// idが空文字の時は新規作成
-	if id == "" {
-		id = ulid.NewULID()
-	}
 	// ownerIDのバリデーション
 	if !ulid.IsValid(ownerID) {
 		return nil, errors.NewError("オーナーIDの値が不正です。")
