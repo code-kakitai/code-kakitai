@@ -35,13 +35,6 @@ func newCartProduct(productID string, quantity int) (*cartProduct, error) {
 	}, nil
 }
 
-func (cp *cartProduct) Merge(other *cartProduct) *cartProduct {
-	return &cartProduct{
-		productID: cp.productID,
-		quantity:  cp.quantity + other.quantity,
-	}
-}
-
 var CartTimeOut = time.Minute * 30
 
 type Cart struct {
