@@ -37,7 +37,7 @@ definitions:
     - price
     - stock
     type: object
-  products.getProductResponse:
+  products.getProductsResponse:
     properties:
       description:
         type: string
@@ -169,7 +169,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/products.getProductResponse'
+            $ref: '#/definitions/products.getProductsResponse'
       summary: 商品一覧を取得する
       tags:
       - products

@@ -121,7 +121,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/products.getProductResponse"
+                            "$ref": "#/definitions/products.getProductsResponse"
                         }
                     }
                 }
@@ -248,7 +248,7 @@ const docTemplate = `{
                 }
             }
         },
-        "products.getProductResponse": {
+        "products.getProductsResponse": {
             "type": "object",
             "properties": {
                 "description": {

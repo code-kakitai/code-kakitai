@@ -9,7 +9,7 @@ type productResponseModel struct {
 	Stock       int    `json:"stock"`
 }
 
-type getProductResponse struct {
+type getProductsResponse struct {
 	*productResponseModel
 	OwnerName string `json:"owner_name"`
 }
