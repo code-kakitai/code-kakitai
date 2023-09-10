@@ -29,9 +29,9 @@ type SaveUseCaseDto struct {
 
 func (uc *SaveUserUseCase) Run(ctx context.Context, dto SaveUseCaseDto) error {
 	// dtoからuserへ変換
-	u, err := userDomain.NewUser(dto.Email, dto.PhoneNumber, dto.LastName, dto.FirstName, dto.Prefecture, dto.City, dto.AddressExtra)
+	user, err := userDomain.NewUser(dto.Email, dto.PhoneNumber, dto.LastName, dto.FirstName, dto.Prefecture, dto.City, dto.AddressExtra)
 	if err != nil {
 		return err
 	}
-	return uc.userRepo.Save(ctx, u)
+	return uc.userRepo.Save(ctx, user)
 }

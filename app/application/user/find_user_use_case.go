@@ -27,16 +27,16 @@ type FindUseCaseDto struct {
 }
 
 func (uc *FindUserUseCase) Run(ctx context.Context, id string) (*FindUseCaseDto, error) {
-	u, err := uc.userRepo.FindById(ctx, id)
+	user, err := uc.userRepo.FindById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 	return &FindUseCaseDto{
-		ID:          u.ID(),
-		LastName:    u.LastName(),
-		FirstName:   u.FirstName(),
-		Email:       u.Email(),
-		PhoneNumber: u.PhoneNumber(),
-		Address:     u.Pref() + u.City() + u.AddressExtra(),
+		ID:          user.ID(),
+		LastName:    user.LastName(),
+		FirstName:   user.FirstName(),
+		Email:       user.Email(),
+		PhoneNumber: user.PhoneNumber(),
+		Address:     user.Pref() + user.City() + user.AddressExtra(),
 	}, nil
 }
