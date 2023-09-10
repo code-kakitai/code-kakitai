@@ -24,13 +24,13 @@ func NewCartUseCase(
 	}
 }
 
-type AddCartUseCaseDto struct {
+type AddCartUseCaseInputDto struct {
 	UserID    string
 	ProductID string
 	Quantity  int
 }
 
-func (uc *AddCartUseCase) Run(ctx context.Context, dto AddCartUseCaseDto) error {
+func (uc *AddCartUseCase) Run(ctx context.Context, dto AddCartUseCaseInputDto) error {
 	// 現在のカート情報を取得
 	cart, err := uc.cartRepo.FindByUserID(ctx, dto.UserID)
 	if err != nil {
@@ -62,7 +62,7 @@ func (uc *AddCartUseCase) Run(ctx context.Context, dto AddCartUseCaseDto) error 
 	return nil
 }
 
-func (uc *AddCartUseCase) updateCart(cart *cartDomain.Cart, dto AddCartUseCaseDto) error {
+func (uc *AddCartUseCase) updateCart(cart *cartDomain.Cart, dto AddCartUseCaseInputDto) error {
 	// 商品数が0の時はカートから商品を削除、それ以外は追加・更新
 	if dto.Quantity == 0 {
 		if err := cart.RemoveProduct(dto.ProductID); err != nil {
