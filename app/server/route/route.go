@@ -44,7 +44,7 @@ func productRoute(r *ginpkg.RouterGroup) {
 	fetchQueryService := query_service.NewFetchProductQueryService()
 	h := productPre.NewHandler(productApp.NewSaveProductUseCase(productRepository), productApp.NewFetchProductUseCase(fetchQueryService))
 	group := r.Group("/products")
-	group.GET("/", h.FetchProducts)
+	group.GET("/", h.GetProducts)
 	group.POST("/", h.PostProducts)
 }
 

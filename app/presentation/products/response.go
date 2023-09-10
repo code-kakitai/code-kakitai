@@ -1,8 +1,5 @@
 package products
 
-type postProductResponse struct {
-	Product productResponseModel `json:"product"`
-}
 type productResponseModel struct {
 	Id          string `json:"id"`
 	OwnerID     string `json:"owner_id"`
@@ -12,11 +9,11 @@ type productResponseModel struct {
 	Stock       int    `json:"stock"`
 }
 
-type fetchProductResponse struct {
-	Products []productsWithOwnerModel `json:"products"`
-}
-
-type productsWithOwnerModel struct {
+type getProductResponse struct {
 	*productResponseModel
 	OwnerName string `json:"owner_name"`
+}
+
+type postProductResponse struct {
+	Product productResponseModel `json:"product"`
 }

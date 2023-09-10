@@ -75,22 +75,22 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	settings.ReturnStatusCreated(ctx, response)
 }
 
-// FetchProducts godoc
+// GetProducts godoc
 // @Summary 商品一覧を取得する
 // @Tags products
 // @Accept json
 // @Produce json
-// @Success 200 {object} fetchProductResponse
+// @Success 200 {object} getProductResponse
 // @Router /v1/products [get]
-func (h handler) FetchProducts(ctx *gin.Context) {
+func (h handler) GetProducts(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
 	}
 
-	var products []productsWithOwnerModel
+	var products []getProductResponse
 	for _, dto := range dtos {
-		products = append(products, productsWithOwnerModel{
+		products = append(products, getProductResponse{
 			productResponseModel: &productResponseModel{
 				Id:      dto.ID,
 				OwnerID: dto.OwnerID,
