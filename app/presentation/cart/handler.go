@@ -42,7 +42,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 		ctx.Request.Context(),
 		dto,
 	); err != nil {
-		settings.ReturnStatusInternalServerError(ctx, err)
+		settings.ReturnError(ctx, err)
 	}
 	settings.ReturnStatusNoContent(ctx)
 }
