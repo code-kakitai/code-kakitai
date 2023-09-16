@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	transactionApp "github/code-kakitai/code-kakitai/application/transaction"
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	errDomain "github/code-kakitai/code-kakitai/domain/error"
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
@@ -12,15 +13,18 @@ import (
 type SaveOrderUseCase struct {
 	orderDomainService orderDomain.OrderDomainService
 	cartRepo           cartDomain.CartRepository
+	transactionManager transactionApp.TransactionManager
 }
 
 func NewSaveOrderUseCase(
 	orderDomainService orderDomain.OrderDomainService,
 	cartRepo cartDomain.CartRepository,
+	transactionManager transactionApp.TransactionManager,
 ) *SaveOrderUseCase {
 	return &SaveOrderUseCase{
 		orderDomainService: orderDomainService,
 		cartRepo:           cartRepo,
+		transactionManager: transactionManager,
 	}
 }
 
@@ -36,8 +40,14 @@ func (uc *SaveOrderUseCase) Run(ctx context.Context, userID string, dtos []SaveO
 		return "", err
 	}
 	// 購入処理
-	orderID, err := uc.orderDomainService.OrderProducts(ctx, cart, now)
-	if err != nil {
+	var orderID string
+	if err := uc.transactionManager.RunInTransaction(ctx, func(ctx context.Context) error {
+		orderID, err = uc.orderDomainService.OrderProducts(ctx, cart, now)
+		if err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
 		return "", err
 	}
 	// 管理者とユーザーにメール送信

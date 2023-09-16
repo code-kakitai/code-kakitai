@@ -53,6 +53,7 @@ func productRoute(r *ginpkg.RouterGroup) {
 func orderRoute(r *ginpkg.RouterGroup) {
 	orderRepository := repository.NewOrderRepository()
 	productRepository := repository.NewProductRepository()
+	transactionManager := repository.NewTransactionManager()
 	h := orderPre.NewHandler(
 		orderApp.NewSaveOrderUseCase(
 			orderDomain.NewOrderDomainService(
@@ -60,6 +61,7 @@ func orderRoute(r *ginpkg.RouterGroup) {
 				productRepository,
 			),
 			redisRepo.NewCartRepository(),
+			transactionManager,
 		),
 	)
 	group := r.Group("/orders")

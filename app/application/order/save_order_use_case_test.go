@@ -8,6 +8,7 @@ import (
 	"github.com/code-kakitai/go-pkg/ulid"
 	"go.uber.org/mock/gomock"
 
+	transactionApp "github/code-kakitai/code-kakitai/application/transaction"
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 )
@@ -17,7 +18,8 @@ func TestSaveOrderUseCase_Run(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	mockOrderDomainService := orderDomain.NewMockOrderDomainService(ctrl)
 	mockCartRepo := cartDomain.NewMockCartRepository(ctrl)
-	uc := NewSaveOrderUseCase(mockOrderDomainService, mockCartRepo)
+	mockTransactionManager := transactionApp.NewMockTransactionManager(ctrl)
+	uc := NewSaveOrderUseCase(mockOrderDomainService, mockCartRepo, mockTransactionManager)
 
 	// 各種テストデータ準備
 	now := time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)
