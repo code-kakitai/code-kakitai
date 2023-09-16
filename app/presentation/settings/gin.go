@@ -64,6 +64,10 @@ func ReturnStatusInternalServerError(ctx *gin.Context, err error) {
 	returnAbortWith(ctx, http.StatusInternalServerError, err)
 }
 
+func ReturnError(ctx *gin.Context, err error) {
+	ctx.Error(err)
+}
+
 func returnAbortWith(ctx *gin.Context, code int, err error) {
 	var msg string
 	if err != nil {
