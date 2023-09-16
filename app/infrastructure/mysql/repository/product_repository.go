@@ -2,7 +2,10 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 
+	domainErr "github/code-kakitai/code-kakitai/domain/error"
 	"github/code-kakitai/code-kakitai/domain/product"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
@@ -34,6 +37,9 @@ func (r *productRepository) FindByID(ctx context.Context, id string) (*product.P
 	query := db.GetQuery(ctx)
 	p, err := query.ProductFindById(ctx, id)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, domainErr.NotFoundErr
+		}
 		return nil, err
 	}
 	pd, err := product.Reconstruct(

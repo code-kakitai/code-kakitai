@@ -2,7 +2,10 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 
+	domainErr "github/code-kakitai/code-kakitai/domain/error"
 	"github/code-kakitai/code-kakitai/domain/user"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
@@ -18,6 +21,9 @@ func (r *userRepository) FindById(ctx context.Context, id string) (*user.User, e
 	query := db.GetQuery(ctx)
 	u, err := query.UserFindById(ctx, id)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, domainErr.NotFoundErr
+		}
 		return nil, err
 	}
 	ud, err := user.Reconstruct(
