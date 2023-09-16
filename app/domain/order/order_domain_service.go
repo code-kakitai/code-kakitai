@@ -4,8 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/code-kakitai/go-pkg/errors"
-
+	domainErr "github/code-kakitai/code-kakitai/domain/error"
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
@@ -47,7 +46,7 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, cart *cartDomai
 		ops = append(ops, *op)
 		if !ok {
 			// 購入した商品の商品詳細が見つからない場合はエラー（商品を購入すると同時に、商品が削除された場合等に発生）
-			return "", errors.NewError("商品が見つかりません。")
+			return "", domainErr.NewError("商品が見つかりません。")
 		}
 		if err := p.Consume(cp.Quantity()); err != nil {
 			return "", err

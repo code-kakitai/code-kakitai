@@ -4,9 +4,10 @@ import (
 	"net/mail"
 	"unicode/utf8"
 
-	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/strings"
 	"github.com/code-kakitai/go-pkg/ulid"
+
+	domainErr "github/code-kakitai/code-kakitai/domain/error"
 )
 
 type User struct {
@@ -74,22 +75,22 @@ func newUser(
 ) (*User, error) {
 	// 名前のバリデーション
 	if utf8.RuneCountInString(lastName) < nameLengthMin || utf8.RuneCountInString(lastName) > nameLengthMax {
-		return nil, errors.NewError("名前（姓）の値が不正です。")
+		return nil, domainErr.NewError("名前（姓）の値が不正です。")
 	}
 	if utf8.RuneCountInString(firstName) < nameLengthMin || utf8.RuneCountInString(firstName) > nameLengthMax {
-		return nil, errors.NewError("名前（名）の値が不正です。")
+		return nil, domainErr.NewError("名前（名）の値が不正です。")
 	}
 
 	// メールアドレスのバリデーション
 	if _, err := mail.ParseAddress(email); err != nil {
-		return nil, errors.NewError("メールアドレスの値が不正です。")
+		return nil, domainErr.NewError("メールアドレスの値が不正です。")
 	}
 
 	// phoneNumberからハイフンを除く
 	phoneNumber = strings.RemoveHyphen(phoneNumber)
 	// 電話番号のバリデーション
 	if _, ok := phoneNumberDigitMap[utf8.RuneCountInString(phoneNumber)]; !ok {
-		return nil, errors.NewError("電話番号の値が不正です。")
+		return nil, domainErr.NewError("電話番号の値が不正です。")
 	}
 
 	ad, err := newAddress(prefecture, city, addressExtra)
@@ -167,7 +168,7 @@ func newAddress(
 ) (address, error) {
 	// 1つでも空のパラメーターがあればエラー
 	if prefecture == "" || city == "" || extra == "" {
-		return address{}, errors.NewError("住所の値が不正です。")
+		return address{}, domainErr.NewError("住所の値が不正です。")
 	}
 	return address{
 		prefecture: prefecture,
