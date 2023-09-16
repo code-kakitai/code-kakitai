@@ -5,7 +5,7 @@ import (
 
 	"github.com/code-kakitai/go-pkg/ulid"
 
-	domainErr "github/code-kakitai/code-kakitai/domain/error"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 )
 
 type cartProduct struct {
@@ -23,11 +23,11 @@ func (cp *cartProduct) Quantity() int {
 
 func newCartProduct(productID string, quantity int) (*cartProduct, error) {
 	if !ulid.IsValid(productID) {
-		return nil, domainErr.NewError("商品IDの値が不正です。")
+		return nil, errDomain.NewError("商品IDの値が不正です。")
 	}
 
 	if quantity < 1 {
-		return nil, domainErr.NewError("購入数の値が不正です。")
+		return nil, errDomain.NewError("購入数の値が不正です。")
 	}
 
 	return &cartProduct{
@@ -45,7 +45,7 @@ type Cart struct {
 
 func NewCart(userID string) (*Cart, error) {
 	if !ulid.IsValid(userID) {
-		return nil, domainErr.NewError("ユーザーIDの値が不正です。")
+		return nil, errDomain.NewError("ユーザーIDの値が不正です。")
 	}
 	return &Cart{
 		userID:   userID,
@@ -75,7 +75,7 @@ func (c *Cart) QuantityByProductID(productID string) (int, error) {
 			return product.quantity, nil
 		}
 	}
-	return 0, domainErr.NewError("カートの商品が見つかりません。")
+	return 0, errDomain.NewError("カートの商品が見つかりません。")
 }
 
 func (c *Cart) AddProduct(productID string, quantity int) error {
@@ -101,7 +101,7 @@ func (c *Cart) AddProduct(productID string, quantity int) error {
 func (c *Cart) RemoveProduct(productID string) error {
 	// 商品IDのバリデーション
 	if !ulid.IsValid(productID) {
-		return domainErr.NewError("商品IDの値が不正です。")
+		return errDomain.NewError("商品IDの値が不正です。")
 	}
 
 	// 商品がカートに入っているかチェック

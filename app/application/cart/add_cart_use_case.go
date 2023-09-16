@@ -3,8 +3,8 @@ package cart
 import (
 	"context"
 
-	domainErr "github/code-kakitai/code-kakitai/domain/error"
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 	productDomain "github/code-kakitai/code-kakitai/domain/product"
 )
 
@@ -43,7 +43,7 @@ func (uc *AddCartUseCase) Run(ctx context.Context, dto AddCartUseCaseInputDto) e
 	}
 	// todo 「NoRowsエラーの場合は商品が見つからないので、エラーを返す」という形に変えること
 	if product == nil {
-		return domainErr.NewError("商品が見つかりません。")
+		return errDomain.NewError("商品が見つかりません。")
 	}
 	if err := product.Consume(dto.Quantity); err != nil {
 		return err
