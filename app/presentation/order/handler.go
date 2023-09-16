@@ -32,7 +32,6 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	// TODO リクエストのバリデーション
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
-		// todo 422エラーの方が良いかも？
 		settings.ReturnBadRequest(ctx, err)
 	}
 	// todo userIDはsession等で別途取得する

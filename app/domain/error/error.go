@@ -16,12 +16,4 @@ func NewError(s string) *Error {
 	}
 }
 
-func IsValidationError(err error) error {
-	var e *Error
-	if errors.As(err, &e) {
-		return e
-	}
-	return err
-}
-
 var NotFoundErr = errors.New("not found")
