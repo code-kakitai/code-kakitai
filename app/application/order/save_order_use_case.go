@@ -4,9 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/code-kakitai/go-pkg/errors"
-
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 	orderDomain "github/code-kakitai/code-kakitai/domain/order"
 )
 
@@ -59,7 +58,7 @@ func (uc *SaveOrderUseCase) getValidCart(ctx context.Context, userID string, dto
 		}
 		// DTOで渡ってきた数量とカートの数量が一致しない場合はエラー
 		if pq != dto.Quantity {
-			return nil, errors.NewError("カートの商品数が変更されています。")
+			return nil, errDomain.NewError("カートの商品数が変更されています。")
 		}
 	}
 	return cart, nil

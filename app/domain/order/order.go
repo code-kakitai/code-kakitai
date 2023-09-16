@@ -5,10 +5,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
 
 	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 )
 
 type Order struct {
@@ -48,18 +48,18 @@ func newOrder(
 ) (*Order, error) {
 	// userIDのバリデーション
 	if !ulid.IsValid(userID) {
-		return nil, errors.NewError("ユーザーIDの値が不正です。")
+		return nil, errDomain.NewError("ユーザーIDの値が不正です。")
 	}
 
 	// 購入金額のバリデーション
 	// 割引等で合計金額が0円になることはあるため、0円以上を許容とする
 	if totalAmount < 0 {
-		return nil, errors.NewError("購入金額の値が不正です。")
+		return nil, errDomain.NewError("購入金額の値が不正です。")
 	}
 
 	// 購入商品のバリデーション
 	if len(products) < 1 {
-		return nil, errors.NewError("購入商品がありません。")
+		return nil, errDomain.NewError("購入商品がありません。")
 	}
 	return &Order{
 		id:          id,
@@ -125,12 +125,12 @@ type OrderProduct struct {
 func NewOrderProduct(productID string, price int64, quantity int) (*OrderProduct, error) {
 	// 商品IDのバリデーション
 	if !ulid.IsValid(productID) {
-		return nil, errors.NewError("商品IDの値が不正です。")
+		return nil, errDomain.NewError("商品IDの値が不正です。")
 	}
 
 	// 購入数のバリデーション
 	if quantity < 1 {
-		return nil, errors.NewError("購入数の値が不正です。")
+		return nil, errDomain.NewError("購入数の値が不正です。")
 	}
 
 	return &OrderProduct{

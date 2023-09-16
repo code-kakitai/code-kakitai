@@ -3,8 +3,9 @@ package product
 import (
 	"unicode/utf8"
 
-	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
+
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 )
 
 type Product struct {
@@ -61,27 +62,27 @@ func newProduct(
 ) (*Product, error) {
 	// ownerIDのバリデーション
 	if !ulid.IsValid(ownerID) {
-		return nil, errors.NewError("オーナーIDの値が不正です。")
+		return nil, errDomain.NewError("オーナーIDの値が不正です。")
 	}
 	// 名前のバリデーション
 	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
-		return nil, errors.NewError("商品名の値が不正です。")
+		return nil, errDomain.NewError("商品名の値が不正です。")
 	}
 
 	// 商品説明のバリデーション
 	if utf8.RuneCountInString(description) < descriptionLengthMin || utf8.RuneCountInString(description) > descriptionLengthMax {
-		return nil, errors.NewError("商品説明の値が不正です。")
+		return nil, errDomain.NewError("商品説明の値が不正です。")
 	}
 
 	// 価格のバリデーション
 	if price < 1 {
-		return nil, errors.NewError("価格の値が不正です。")
+		return nil, errDomain.NewError("価格の値が不正です。")
 	}
 
 	// 在庫数のバリデーション
 	// 在庫はないけど、商品は登録したい等あるあるため、0は許容する
 	if stock < 0 {
-		return nil, errors.NewError("在庫数の値が不正です。")
+		return nil, errDomain.NewError("在庫数の値が不正です。")
 	}
 	return &Product{
 		id:          id,
@@ -119,11 +120,11 @@ func (p *Product) Stock() int {
 
 func (p *Product) Consume(quantity int) error {
 	if quantity < 0 {
-		return errors.NewError("在庫数の値が不正です。")
+		return errDomain.NewError("在庫数の値が不正です。")
 	}
 
 	if p.stock-quantity < 0 {
-		return errors.NewError("在庫数が不足しています。")
+		return errDomain.NewError("在庫数が不足しています。")
 	}
 	p.stock -= quantity
 	return nil
