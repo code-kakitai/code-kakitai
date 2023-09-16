@@ -4,8 +4,9 @@ import (
 	"net/mail"
 	"unicode/utf8"
 
-	"github.com/code-kakitai/go-pkg/errors"
 	"github.com/code-kakitai/go-pkg/ulid"
+
+	domainErr "github/code-kakitai/code-kakitai/domain/error"
 )
 
 type Owner struct {
@@ -40,12 +41,12 @@ func NewOwner(
 func newOwner(id string, name string, email string) (*Owner, error) {
 	// 名前のバリデーション
 	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
-		return nil, errors.NewError("名前の値が不正です。")
+		return nil, domainErr.NewError("名前の値が不正です。")
 	}
 
 	// メールアドレスのバリデーション
 	if _, err := mail.ParseAddress(email); err != nil {
-		return nil, errors.NewError("メールアドレスの値が不正です。")
+		return nil, domainErr.NewError("メールアドレスの値が不正です。")
 	}
 
 	return &Owner{
