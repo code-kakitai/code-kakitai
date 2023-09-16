@@ -3,6 +3,7 @@ package products
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
@@ -60,7 +61,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 
 	dto, err := h.saveProductUseCase.Run(ctx, input)
 	if err != nil {
-		settings.ReturnStatusInternalServerError(ctx, err)
+		settings.ReturnError(ctx, err)
 	}
 	response := postProductResponse{
 		productResponseModel{
@@ -85,7 +86,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 func (h handler) GetProducts(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
 	if err != nil {
-		settings.ReturnStatusInternalServerError(ctx, err)
+		settings.ReturnError(ctx, err)
 	}
 
 	var products []getProductsResponse
