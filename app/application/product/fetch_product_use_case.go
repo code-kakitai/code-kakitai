@@ -27,6 +27,9 @@ type FetchProductUseCaseDto struct {
 
 func (uc *FetchProductUseCase) Run(ctx context.Context) ([]*FetchProductUseCaseDto, error) {
 	qsDtos, err := uc.fetchProductQueryService.Run(ctx)
+	if err != nil {
+		return nil, err
+	}
 	var ucDtos []*FetchProductUseCaseDto
 
 	for _, qsDto := range qsDtos {
