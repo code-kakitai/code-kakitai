@@ -5,7 +5,7 @@ import (
 
 	"github.com/code-kakitai/go-pkg/ulid"
 
-	domainErr "github/code-kakitai/code-kakitai/domain/error"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 )
 
 type Shop struct {
@@ -54,15 +54,15 @@ func newShop(
 	}
 	// ownerIDのバリデーション
 	if !ulid.IsValid(ownerID) {
-		return nil, domainErr.NewError("オーナーIDの値が不正です。")
+		return nil, errDomain.NewError("オーナーIDの値が不正です。")
 	}
 	// 名前のバリデーション
 	if utf8.RuneCountInString(name) < nameLengthMin || utf8.RuneCountInString(name) > nameLengthMax {
-		return nil, domainErr.NewError("名前の値が不正です。")
+		return nil, errDomain.NewError("名前の値が不正です。")
 	}
 	// 説明のバリデーション
 	if utf8.RuneCountInString(description) < descriptionLengthMin || utf8.RuneCountInString(description) > descriptionLengthMax {
-		return nil, domainErr.NewError("説明の値が不正です。")
+		return nil, errDomain.NewError("説明の値が不正です。")
 	}
 
 	return &Shop{

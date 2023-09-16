@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
-	domainErr "github/code-kakitai/code-kakitai/domain/error"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 	"github/code-kakitai/code-kakitai/domain/user"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
@@ -22,7 +22,7 @@ func (r *userRepository) FindById(ctx context.Context, id string) (*user.User, e
 	u, err := query.UserFindById(ctx, id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, domainErr.NotFoundErr
+			return nil, errDomain.NotFoundErr
 		}
 		return nil, err
 	}
