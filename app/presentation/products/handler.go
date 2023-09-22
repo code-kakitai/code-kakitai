@@ -1,9 +1,8 @@
 package products
 
 import (
+	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
-
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
@@ -45,7 +44,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
-	validate := validator.New()
+	validate := validator.NewValidator()
 	err = validate.Struct(params)
 	if err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
