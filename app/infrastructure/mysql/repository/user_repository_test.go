@@ -12,7 +12,7 @@ import (
 )
 
 func TestUserRepository(t *testing.T) {
-	user, _ := userDomain.NewUser("lastName", "firstName", "tomoya.kamaji@gmail.com", "09071121428", "東京都", "渋谷区", "1-1-1")
+	user, _ := userDomain.NewUser("lastName", "firstName", "example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
 	tests := []struct {
 		name  string
 		input *userDomain.User
