@@ -44,7 +44,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
-	validate := validator.NewValidator()
+	validate := validator.GetValidator()
 	err = validate.Struct(params)
 	if err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)

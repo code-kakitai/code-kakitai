@@ -9,10 +9,8 @@ var (
 )
 
 func GetValidator() *validator.Validate {
-	return validate
-}
-
-func NewValidator() *validator.Validate {
-	validate = validator.New()
+	if validate == nil {
+		validate = validator.New()
+	}
 	return validate
 }
