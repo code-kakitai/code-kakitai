@@ -13,5 +13,6 @@ func GetValidator() *validator.Validate {
 }
 
 func NewValidator() *validator.Validate {
+	validate = validator.New()
 	return validate
 }
