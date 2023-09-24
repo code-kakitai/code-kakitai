@@ -3,10 +3,11 @@ package repository
 import (
 	"context"
 	"fmt"
+	"log"
+
 	"github/code-kakitai/code-kakitai/application/transaction"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
-	"log"
 )
 
 type TransactionManager struct{}
