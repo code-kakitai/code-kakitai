@@ -60,13 +60,13 @@ func (r *userRepository) Save(ctx context.Context, u *user.User) error {
 
 func (r *userRepository) FindAll(ctx context.Context) ([]*user.User, error) {
 	query := db.GetQuery(ctx)
-	users, err := query.UserFindAll(ctx)
+	us, err := query.UserFindAll(ctx)
 	if err != nil {
 		return nil, err
 	}
-	var usersDomain []*user.User
-	for _, u := range users {
-		ud, err := user.Reconstruct(
+	var users []*user.User
+	for _, u := range us {
+		user, err := user.Reconstruct(
 			u.ID,
 			u.Email,
 			u.PhoneNumber,
@@ -79,7 +79,7 @@ func (r *userRepository) FindAll(ctx context.Context) ([]*user.User, error) {
 		if err != nil {
 			return nil, err
 		}
-		usersDomain = append(usersDomain, ud)
+		users = append(users, user)
 	}
-	return usersDomain, nil
+	return users, nil
 }
