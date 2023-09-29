@@ -10,12 +10,12 @@ import (
 
 type NotificationUseCase struct {
 	userRepo userDomain.UserRepository
-	notifier Notifier
+	notifier MailNotifier
 }
 
 func NewNotificationUseCase(
 	userRepo userDomain.UserRepository,
-	notifier Notifier,
+	notifier MailNotifier,
 ) *NotificationUseCase {
 	return &NotificationUseCase{
 		userRepo: userRepo,
@@ -29,6 +29,7 @@ func (uc *NotificationUseCase) Run(ctx context.Context) error {
 		return err
 	}
 
+	// 一斉送信数で分割する
 	chunkUsers := [][]*userDomain.User{}
 	for i := 0; i < len(users); i += emailBatchSize {
 		end := i + emailBatchSize
@@ -38,6 +39,7 @@ func (uc *NotificationUseCase) Run(ctx context.Context) error {
 		chunkUsers = append(chunkUsers, users[i:end])
 	}
 
+	// メールの内容を生成する
 	allContents := [][]MailContent{}
 	for _, chunkUser := range chunkUsers {
 		contents := []MailContent{}
@@ -51,6 +53,8 @@ func (uc *NotificationUseCase) Run(ctx context.Context) error {
 		}
 		allContents = append(allContents, contents)
 	}
+
+	// 一斉送信する
 	eg := errgroup.Group{}
 	for _, v := range allContents {
 		v := v
