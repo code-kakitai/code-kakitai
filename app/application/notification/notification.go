@@ -2,8 +2,8 @@ package notification
 
 import "context"
 
-type MailNotifier interface {
-	Send(ctx context.Context, content []MailContent) error
+type Notifier interface {
+	SendMail(ctx context.Context, content []MailContent) error
 }
 
 type MailContent struct {

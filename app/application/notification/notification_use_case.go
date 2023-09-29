@@ -10,12 +10,12 @@ import (
 
 type NotificationUseCase struct {
 	userRepo userDomain.UserRepository
-	notifier MailNotifier
+	notifier Notifier
 }
 
 func NewNotificationUseCase(
 	userRepo userDomain.UserRepository,
-	notifier MailNotifier,
+	notifier Notifier,
 ) *NotificationUseCase {
 	return &NotificationUseCase{
 		userRepo: userRepo,
@@ -59,7 +59,7 @@ func (uc *NotificationUseCase) Run(ctx context.Context) error {
 	for _, v := range allContents {
 		v := v
 		eg.Go(func() error {
-			return uc.notifier.Send(ctx, v)
+			return uc.notifier.SendMail(ctx, v)
 		})
 	}
 
