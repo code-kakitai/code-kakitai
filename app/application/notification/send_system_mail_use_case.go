@@ -8,22 +8,22 @@ import (
 	userDomain "github/code-kakitai/code-kakitai/domain/user"
 )
 
-type NotificationUseCase struct {
-	userRepo userDomain.UserRepository
-	notifier Notifier
+type SendSystemMailUseCase struct {
+	userRepo   userDomain.UserRepository
+	mailClient MailClient
 }
 
 func NewNotificationUseCase(
 	userRepo userDomain.UserRepository,
-	notifier Notifier,
-) *NotificationUseCase {
-	return &NotificationUseCase{
-		userRepo: userRepo,
-		notifier: notifier,
+	mailClient MailClient,
+) *SendSystemMailUseCase {
+	return &SendSystemMailUseCase{
+		userRepo:   userRepo,
+		mailClient: mailClient,
 	}
 }
 
-func (uc *NotificationUseCase) Run(ctx context.Context) error {
+func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 	users, err := uc.userRepo.FindAll(ctx)
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func (uc *NotificationUseCase) Run(ctx context.Context) error {
 	for _, v := range allContents {
 		v := v
 		eg.Go(func() error {
-			return uc.notifier.SendMail(ctx, v)
+			return uc.mailClient.Send(ctx, v)
 		})
 	}
 
@@ -68,3 +68,6 @@ func (uc *NotificationUseCase) Run(ctx context.Context) error {
 	}
 	return nil
 }
+
+// メールの一斉送信数
+const emailBatchSize = 1000
