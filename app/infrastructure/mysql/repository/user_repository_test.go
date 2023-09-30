@@ -11,7 +11,7 @@ import (
 	userDomain "github/code-kakitai/code-kakitai/domain/user"
 )
 
-func TestUserRepository(t *testing.T) {
+func TestUserRepository_Save(t *testing.T) {
 	user, _ := userDomain.NewUser("lastName", "firstName", "test@example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
 	tests := []struct {
 		name  string
