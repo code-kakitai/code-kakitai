@@ -30,7 +30,7 @@ func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 	}
 
 	// 一斉送信数で分割する
-	chunkUsers := [][]*userDomain.User{}
+	var chunkUsers = [][]*userDomain.User{}
 	for i := 0; i < len(users); i += emailBatchSize {
 		end := i + emailBatchSize
 		if end > len(users) {
@@ -40,9 +40,9 @@ func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 	}
 
 	// メールの内容を生成する
-	allContents := [][]MailContent{}
+	var allContents = [][]MailContent{}
 	for _, chunkUser := range chunkUsers {
-		contents := []MailContent{}
+		var contents = []MailContent{}
 		for _, user := range chunkUser {
 			// 件名や本文はtemplate等で生成するか永続化層から取得すると思いますが、本筋から外れるため今回は省略します
 			contents = append(contents, MailContent{
