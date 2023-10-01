@@ -57,13 +57,16 @@ func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 
 	// 一斉送信する
 	var errs error
+	var mu sync.Mutex
 	var wg sync.WaitGroup
 	for _, v := range allContents {
 		wg.Add(1)
 		go func(v []MailContent) {
 			defer wg.Done()
 			if err := uc.mailClient.Send(ctx, v); err != nil {
+				mu.Lock()
 				errs = multierr.Append(errs, err)
+				mu.Unlock()
 				// エラーが起きた際に何かしらの処理を行う場合はここで行う
 				return
 			}
