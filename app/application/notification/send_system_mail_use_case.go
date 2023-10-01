@@ -2,6 +2,7 @@ package notification
 
 import (
 	"context"
+	"log"
 	"sync"
 
 	"go.uber.org/multierr"
@@ -62,6 +63,12 @@ func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 	for _, v := range allContents {
 		wg.Add(1)
 		go func(v []MailContent) {
+			// goroutine内でpanicが起きた場合には、recoverしてmain goroutineの処理は継続させる
+			defer func() {
+				if rec := recover(); rec != nil {
+					log.Printf("panic: %v", rec)
+				}
+			}()
 			defer wg.Done()
 			if err := uc.mailClient.Send(ctx, v); err != nil {
 				mu.Lock()
