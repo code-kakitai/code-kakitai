@@ -13,7 +13,7 @@ type SendSystemMailUseCase struct {
 	mailClient MailClient
 }
 
-func NewNotificationUseCase(
+func NewSendSystemMailUseCase(
 	userRepo userDomain.UserRepository,
 	mailClient MailClient,
 ) *SendSystemMailUseCase {
