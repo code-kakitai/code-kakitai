@@ -16,7 +16,7 @@ require (
 	github.com/swaggo/swag v1.16.1
 	github.com/urfave/cli v1.22.14
 	go.uber.org/mock v0.2.0
-	golang.org/x/sync v0.1.0
+	go.uber.org/multierr v1.11.0
 	gopkg.in/testfixtures.v2 v2.6.0
 )
 

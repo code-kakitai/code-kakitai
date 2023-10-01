@@ -2,8 +2,9 @@ package notification
 
 import (
 	"context"
+	"sync"
 
-	"golang.org/x/sync/errgroup"
+	"go.uber.org/multierr"
 
 	userDomain "github/code-kakitai/code-kakitai/domain/user"
 )
@@ -55,18 +56,22 @@ func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 	}
 
 	// 一斉送信する
-	eg := errgroup.Group{}
+	var errs error
+	var wg sync.WaitGroup
 	for _, v := range allContents {
-		v := v
-		eg.Go(func() error {
-			return uc.mailClient.Send(ctx, v)
-		})
+		wg.Add(1)
+		go func(v []MailContent) {
+			defer wg.Done()
+			if err := uc.mailClient.Send(ctx, v); err != nil {
+				errs = multierr.Append(errs, err)
+				// エラーが起きた際に何かしらの処理を行う場合はここで行う
+				return
+			}
+		}(v)
 	}
+	wg.Wait()
 
-	if err := eg.Wait(); err != nil {
-		return err
-	}
-	return nil
+	return errs
 }
 
 // メールの一斉送信数
