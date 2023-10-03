@@ -48,3 +48,9 @@ UPDATE
    city = sqlc.arg(city),
    address_extra = sqlc.arg(address_extra),
    updated_at = NOW();
+
+-- name: UserFindAll :many
+SELECT
+   *
+FROM
+   users;

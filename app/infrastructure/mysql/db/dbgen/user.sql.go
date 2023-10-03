@@ -91,6 +91,49 @@ func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) error {
 	return err
 }
 
+const userFindAll = `-- name: UserFindAll :many
+SELECT
+   id, email, firebaseuid, phone_number, first_name, last_name, postal_code, prefecture, city, address_extra, created_at, updated_at
+FROM
+   users
+`
+
+func (q *Queries) UserFindAll(ctx context.Context) ([]User, error) {
+	rows, err := q.db.QueryContext(ctx, userFindAll)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []User{}
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.ID,
+			&i.Email,
+			&i.Firebaseuid,
+			&i.PhoneNumber,
+			&i.FirstName,
+			&i.LastName,
+			&i.PostalCode,
+			&i.Prefecture,
+			&i.City,
+			&i.AddressExtra,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const userFindById = `-- name: UserFindById :one
 SELECT
    id, email, firebaseuid, phone_number, first_name, last_name, postal_code, prefecture, city, address_extra, created_at, updated_at

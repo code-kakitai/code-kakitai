@@ -18,6 +18,7 @@ type Querier interface {
 	ProductFindByIds(ctx context.Context, ids []string) ([]Product, error)
 	UpsertProduct(ctx context.Context, arg UpsertProductParams) error
 	UpsertUser(ctx context.Context, arg UpsertUserParams) error
+	UserFindAll(ctx context.Context) ([]User, error)
 	UserFindById(ctx context.Context, id string) (User, error)
 }
 
