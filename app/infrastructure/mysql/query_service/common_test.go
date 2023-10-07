@@ -29,7 +29,7 @@ func TestMain(m *testing.M) {
 	db_test.SetupTestDB()
 
 	// テストデータの準備
-	fixturePath := "../../fixtures"
+	fixturePath := "../fixtures"
 	fixtures, err = testfixtures.NewFolder(db, &testfixtures.MySQL{}, fixturePath)
 	if err != nil {
 		panic(err)
