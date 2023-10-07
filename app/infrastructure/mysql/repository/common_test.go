@@ -18,15 +18,15 @@ func TestMain(m *testing.M) {
 	var err error
 
 	// DBの立ち上げ
-	resource, pool := db_test.CreateContainer()
-	defer db_test.CloseContainer(resource, pool)
+	resource, pool := dbTest.CreateContainer()
+	defer dbTest.CloseContainer(resource, pool)
 
 	// DBへ接続する
-	dbCon := db_test.ConnectDB(resource, pool)
+	dbCon := dbTest.ConnectDB(resource, pool)
 	defer dbCon.Close()
 
 	// テスト用DBをセットアップ
-	db_test.SetupTestDB()
+	dbTest.SetupTestDB()
 
 	// テストデータの準備
 	fixturePath := "../../fixtures"
