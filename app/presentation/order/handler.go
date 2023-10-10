@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	orderApp "github/code-kakitai/code-kakitai/application/order"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
 )
 
 type handler struct {
@@ -32,7 +32,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	// TODO リクエストのバリデーション
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
-		settings.ReturnBadRequest(ctx, err)
+		presenter.ReturnBadRequest(ctx, err)
 	}
 	// todo userIDはsession等で別途取得する
 	userID := "test_user_id"
@@ -50,8 +50,8 @@ func (h handler) PostOrders(ctx *gin.Context) {
 		time.Now(),
 	)
 	if err != nil {
-		settings.ReturnStatusInternalServerError(ctx, err)
+		presenter.ReturnStatusInternalServerError(ctx, err)
 	}
 
-	settings.ReturnStatusCreated(ctx, id)
+	presenter.ReturnStatusCreated(ctx, id)
 }

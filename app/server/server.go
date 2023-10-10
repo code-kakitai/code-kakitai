@@ -10,12 +10,12 @@ import (
 	"time"
 
 	"github/code-kakitai/code-kakitai/config"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
 	"github/code-kakitai/code-kakitai/server/route"
 )
 
 func Run(ctx context.Context, conf *config.Config) {
-	api := settings.NewGinEngine()
+	api := presenter.NewGinEngine()
 	route.InitRoute(api)
 
 	address := conf.Server.Address + ":" + conf.Server.Port

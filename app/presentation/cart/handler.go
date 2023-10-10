@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	cartApp "github/code-kakitai/code-kakitai/application/cart"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
 )
 
 type handler struct {
@@ -28,7 +28,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 	var param PostCartsParams
 	// TODO リクエストのバリデーション
 	if err := ctx.ShouldBindJSON(&param); err != nil {
-		settings.ReturnBadRequest(ctx, err)
+		presenter.ReturnBadRequest(ctx, err)
 	}
 
 	// todo userIDはsession等で別途取得する
@@ -42,7 +42,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 		ctx.Request.Context(),
 		dto,
 	); err != nil {
-		settings.ReturnError(ctx, err)
+		presenter.ReturnError(ctx, err)
 	}
-	settings.ReturnStatusNoContent(ctx)
+	presenter.ReturnStatusNoContent(ctx)
 }

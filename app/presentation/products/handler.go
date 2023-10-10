@@ -1,10 +1,11 @@
 package products
 
 import (
+	"github/code-kakitai/code-kakitai/application/product"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
+
 	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
-	"github/code-kakitai/code-kakitai/application/product"
-	"github/code-kakitai/code-kakitai/presentation/settings"
 )
 
 type handler struct {
@@ -42,12 +43,12 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	var params PostProductsParams
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
-		settings.ReturnBadRequest(ctx, err)
+		presenter.ReturnBadRequest(ctx, err)
 	}
 	validate := validator.GetValidator()
 	err = validate.Struct(params)
 	if err != nil {
-		settings.ReturnStatusBadRequest(ctx, err)
+		presenter.ReturnStatusBadRequest(ctx, err)
 	}
 
 	input := product.SaveProductUseCaseInputDto{
@@ -60,7 +61,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 
 	dto, err := h.saveProductUseCase.Run(ctx, input)
 	if err != nil {
-		settings.ReturnError(ctx, err)
+		presenter.ReturnError(ctx, err)
 	}
 	response := postProductResponse{
 		productResponseModel{
@@ -72,7 +73,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 			Stock:       dto.Stock,
 		},
 	}
-	settings.ReturnStatusCreated(ctx, response)
+	presenter.ReturnStatusCreated(ctx, response)
 }
 
 // GetProducts godoc
@@ -85,7 +86,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 func (h handler) GetProducts(ctx *gin.Context) {
 	dtos, err := h.fetchProductUseCase.Run(ctx)
 	if err != nil {
-		settings.ReturnError(ctx, err)
+		presenter.ReturnError(ctx, err)
 	}
 
 	var products []getProductsResponse
@@ -102,5 +103,5 @@ func (h handler) GetProducts(ctx *gin.Context) {
 		})
 	}
 
-	settings.ReturnStatusCreated(ctx, products)
+	presenter.ReturnStatusCreated(ctx, products)
 }

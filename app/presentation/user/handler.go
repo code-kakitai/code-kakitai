@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	userApp "github/code-kakitai/code-kakitai/application/user"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
 )
 
 type handler struct {
@@ -34,7 +34,7 @@ func (h handler) GetUserByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	dto, err := h.findUserUseCase.Run(ctx, id)
 	if err != nil {
-		settings.ReturnNotFound(ctx, err)
+		presenter.ReturnNotFound(ctx, err)
 	}
 	res := getUserResponse{
 		User: userResponseModel{
@@ -46,5 +46,5 @@ func (h handler) GetUserByID(ctx *gin.Context) {
 			Address:     dto.Address,
 		},
 	}
-	settings.ReturnStatusOK(ctx, res)
+	presenter.ReturnStatusOK(ctx, res)
 }

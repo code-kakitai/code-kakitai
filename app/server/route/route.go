@@ -14,13 +14,13 @@ import (
 	cartPre "github/code-kakitai/code-kakitai/presentation/cart"
 	health_handler "github/code-kakitai/code-kakitai/presentation/health_handler"
 	orderPre "github/code-kakitai/code-kakitai/presentation/order"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
 	productPre "github/code-kakitai/code-kakitai/presentation/products"
-	"github/code-kakitai/code-kakitai/presentation/settings"
 	userPre "github/code-kakitai/code-kakitai/presentation/user"
 )
 
 func InitRoute(api *ginpkg.Engine) {
-	api.Use(settings.ErrorHandler())
+	api.Use(presenter.ErrorHandler())
 	v1 := api.Group("/v1")
 	v1.GET("/health", health_handler.HealthCheck)
 

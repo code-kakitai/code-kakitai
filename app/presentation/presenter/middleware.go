@@ -1,4 +1,4 @@
-package settings
+package presenter
 
 import (
 	"github.com/gin-gonic/gin"

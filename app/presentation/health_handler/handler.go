@@ -1,7 +1,7 @@
 package health_handler
 
 import (
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github/code-kakitai/code-kakitai/presentation/presenter"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,5 +18,5 @@ func HealthCheck(ctx *gin.Context) {
 	res := HealthResponse{
 		Status: "ok",
 	}
-	settings.ReturnStatusOK(ctx, res)
+	presenter.ReturnStatusOK(ctx, res)
 }
