@@ -1,10 +1,11 @@
 package products
 
 import (
-	validator "github.com/code-kakitai/go-pkg/validator"
-	"github.com/gin-gonic/gin"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
+
+	validator "github.com/code-kakitai/go-pkg/validator"
+	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
@@ -20,14 +21,6 @@ func NewHandler(
 		saveProductUseCase:  saveProductUseCase,
 		fetchProductUseCase: fetchProductUseCase,
 	}
-}
-
-type PostProductsParams struct {
-	OwnerID     string `json:"owner_id" validate:"required"`
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description" validate:"required"`
-	Price       int64  `json:"price" validate:"required"`
-	Stock       int    `json:"stock" validate:"required"`
 }
 
 // PostProducts godoc

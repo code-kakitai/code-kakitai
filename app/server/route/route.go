@@ -28,6 +28,7 @@ func InitRoute(api *ginpkg.Engine) {
 		userRoute(v1)
 		productRoute(v1)
 		cartRoute(v1)
+		orderRoute(v1)
 	}
 }
 
