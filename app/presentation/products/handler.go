@@ -33,13 +33,11 @@ func NewHandler(
 // @Router /v1/products [post]
 func (h handler) PostProducts(ctx *gin.Context) {
 	var params PostProductsParams
-	err := ctx.ShouldBindJSON(&params)
-	if err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
 	validate := validator.GetValidator()
-	err = validate.Struct(params)
-	if err != nil {
+	if err := validate.Struct(params); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
 	}
 

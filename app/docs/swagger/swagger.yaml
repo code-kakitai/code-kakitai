@@ -11,7 +11,7 @@ definitions:
       status:
         type: string
     type: object
-  order.OrderParams:
+  order.PostOrdersParams:
     properties:
       productID:
         type: string
@@ -98,10 +98,7 @@ host: localhost:8080
 info:
   contact: {}
   description: 説明
-  license:
-    name: ライセンス(必須)
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  title: アプリケーション名
+  title: コードカキタイ
   version: バージョン(1.0)
 paths:
   /v1/carts/:
@@ -147,7 +144,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/order.OrderParams'
+            $ref: '#/definitions/order.PostOrdersParams'
           type: array
       produces:
       - application/json
