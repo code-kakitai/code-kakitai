@@ -2,12 +2,8 @@
     "swagger": "2.0",
     "info": {
         "description": "説明",
-        "title": "アプリケーション名",
+        "title": "コードカキタイ",
         "contact": {},
-        "license": {
-            "name": "ライセンス(必須)",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
         "version": "バージョン(1.0)"
     },
     "host": "localhost:8080",
@@ -82,7 +78,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/order.OrderParams"
+                                "$ref": "#/definitions/order.PostOrdersParams"
                             }
                         }
                     }
@@ -202,7 +198,7 @@
                 }
             }
         },
-        "order.OrderParams": {
+        "order.PostOrdersParams": {
             "type": "object",
             "properties": {
                 "productID": {

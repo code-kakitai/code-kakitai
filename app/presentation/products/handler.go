@@ -1,10 +1,11 @@
 package products
 
 import (
-	validator "github.com/code-kakitai/go-pkg/validator"
-	"github.com/gin-gonic/gin"
 	"github/code-kakitai/code-kakitai/application/product"
 	"github/code-kakitai/code-kakitai/presentation/settings"
+
+	validator "github.com/code-kakitai/go-pkg/validator"
+	"github.com/gin-gonic/gin"
 )
 
 type handler struct {
@@ -22,14 +23,6 @@ func NewHandler(
 	}
 }
 
-type PostProductsParams struct {
-	OwnerID     string `json:"owner_id" validate:"required"`
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description" validate:"required"`
-	Price       int64  `json:"price" validate:"required"`
-	Stock       int    `json:"stock" validate:"required"`
-}
-
 // PostProducts godoc
 // @Summary 商品を保存する
 // @Tags products
@@ -40,13 +33,11 @@ type PostProductsParams struct {
 // @Router /v1/products [post]
 func (h handler) PostProducts(ctx *gin.Context) {
 	var params PostProductsParams
-	err := ctx.ShouldBindJSON(&params)
-	if err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		settings.ReturnBadRequest(ctx, err)
 	}
 	validate := validator.GetValidator()
-	err = validate.Struct(params)
-	if err != nil {
+	if err := validate.Struct(params); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
 	}
 

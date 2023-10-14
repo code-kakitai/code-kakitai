@@ -47,6 +47,8 @@ app-container:
 
 gen-swagger:
 	swag init -g app/cmd/main.go  --output app/docs/swagger
+
+swagger-up:
 	docker-compose -f app/docs/swagger/docker-compose.yml up -d
 
 # マイグレーション
