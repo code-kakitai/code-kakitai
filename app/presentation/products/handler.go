@@ -102,5 +102,5 @@ func (h handler) GetProducts(ctx *gin.Context) {
 		})
 	}
 
-	settings.ReturnStatusCreated(ctx, products)
+	settings.ReturnStatusOK(ctx, products)
 }
