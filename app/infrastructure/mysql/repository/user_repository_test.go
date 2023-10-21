@@ -11,7 +11,34 @@ import (
 	userDomain "github/code-kakitai/code-kakitai/domain/user"
 )
 
-func TestUserRepository(t *testing.T) {
+func TestUserRepository_FindById(t *testing.T) {
+	user, _ := userDomain.Reconstruct("1", "example@test.com", "08011112222", "太郎", "田中", "東京都", "渋谷区", "1-1-1")
+	tests := []struct {
+		name string
+		want *userDomain.User
+	}{
+		{
+			name: "IDによってユーザーが取得ができること",
+			want: user,
+		},
+	}
+	userRepository := NewUserRepository()
+	ctx := context.Background()
+	resetTestData(t)
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf(": %s", tt.name), func(t *testing.T) {
+			got, err := userRepository.FindById(ctx, "1")
+			if err != nil {
+				t.Error(err)
+			}
+			if diff := cmp.Diff(got.ID(), tt.want.ID()); diff != "" {
+				t.Errorf("FindById() mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestUserRepository_Save(t *testing.T) {
 	user, _ := userDomain.NewUser("lastName", "firstName", "test@example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
 	tests := []struct {
 		name  string
