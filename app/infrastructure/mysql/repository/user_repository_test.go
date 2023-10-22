@@ -12,7 +12,7 @@ import (
 )
 
 func TestUserRepository_FindById(t *testing.T) {
-	user, _ := userDomain.Reconstruct("1", "example@test.com", "08011112222", "太郎", "田中", "東京都", "渋谷区", "1-1-1")
+	user, _ := userDomain.Reconstruct("01HCNYK0PKYZWB0ZT1KR0EPWGP", "example@test.com", "08011112222", "太郎", "田中", "東京都", "渋谷区", "1-1-1")
 	tests := []struct {
 		name string
 		want *userDomain.User
@@ -27,7 +27,7 @@ func TestUserRepository_FindById(t *testing.T) {
 	resetTestData(t)
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf(": %s", tt.name), func(t *testing.T) {
-			got, err := userRepository.FindById(ctx, "1")
+			got, err := userRepository.FindById(ctx, "01HCNYK0PKYZWB0ZT1KR0EPWGP")
 			if err != nil {
 				t.Error(err)
 			}
