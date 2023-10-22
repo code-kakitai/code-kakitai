@@ -34,7 +34,7 @@ func GetQuery(ctx context.Context) *dbgen.Queries {
 	return query
 }
 
-func GetReadQuery(ctx context.Context) *dbgen.Queries {
+func GetReadQuery() *dbgen.Queries {
 	return readQuery
 }
 

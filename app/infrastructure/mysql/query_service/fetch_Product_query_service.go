@@ -14,7 +14,7 @@ func NewFetchProductQueryService() product.FetchProductQueryService {
 }
 
 func (q *fetchProductQueryService) Run(ctx context.Context) ([]*product.FetchProductQueryServiceDto, error) {
-	query := db.GetReadQuery(ctx)
+	query := db.GetReadQuery()
 	productWithOwners, err := query.ProductFetchWithOwner(ctx)
 	if err != nil {
 		return nil, err
