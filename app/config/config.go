@@ -9,15 +9,24 @@ import (
 type Config struct {
 	Server Server
 	DB     DBConfig
+	ReadDB ReadDBConfig
 	Redis  Redis
 }
 
 type DBConfig struct {
-	Name     string `envconfig:"MYSQL_DATABASE" default:"code_kakitai"`
+	Name     string `envconfig:"DB_DATABASE" default:"code_kakitai"`
 	User     string `envconfig:"DB_USER" default:"root"`
 	Password string `envconfig:"DB_PASS" default:""`
 	Port     string `envconfig:"DB_PORT" default:"3306"`
 	Host     string `envconfig:"DB_HOST" default:"db"`
+}
+
+type ReadDBConfig struct {
+	Name     string `envconfig:"DB_READ_DATABASE" default:"code_kakitai"`
+	User     string `envconfig:"DB_READ_USER" default:"root"`
+	Password string `envconfig:"DB_READ_PASS" default:""`
+	Port     string `envconfig:"DB_READ_PORT" default:"3306"`
+	Host     string `envconfig:"DB_READ_HOST" default:"db"`
 }
 
 type Redis struct {
