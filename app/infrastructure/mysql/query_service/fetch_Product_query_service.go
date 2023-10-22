@@ -7,22 +7,22 @@ import (
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 )
 
-type fetchProductQueryService struct{}
+type productQueryService struct{}
 
-func NewFetchProductQueryService() product.FetchProductQueryService {
-	return &fetchProductQueryService{}
+func NewProductQueryService() product.ProductQueryService {
+	return &productQueryService{}
 }
 
-func (q *fetchProductQueryService) Run(ctx context.Context) ([]*product.FetchProductQueryServiceDto, error) {
+func (q *productQueryService) FetchProductList(ctx context.Context) ([]*product.FetchProductListDto, error) {
 	query := db.GetReadQuery()
 	productWithOwners, err := query.ProductFetchWithOwner(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var productFetchServiceDtos []*product.FetchProductQueryServiceDto
+	var productFetchServiceDtos []*product.FetchProductListDto
 	for _, productWithOwner := range productWithOwners {
-		productFetchServiceDtos = append(productFetchServiceDtos, &product.FetchProductQueryServiceDto{
+		productFetchServiceDtos = append(productFetchServiceDtos, &product.FetchProductListDto{
 			ID:        productWithOwner.ID,
 			Name:      productWithOwner.Name,
 			Price:     productWithOwner.Price,
