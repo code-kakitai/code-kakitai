@@ -71,7 +71,7 @@ func NewMainDB(cnf config.DBConfig) {
 			panic(err)
 		}
 		q := dbgen.New(dbcon)
-		SetReadQuery(q)
+		SetQuery(q)
 		SetDB(dbcon)
 	})
 }
