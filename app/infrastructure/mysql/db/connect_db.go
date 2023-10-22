@@ -18,9 +18,11 @@ const maxRetries = 5
 const delay = 5 * time.Second
 
 var (
-	once  sync.Once
-	query *dbgen.Queries
-	dbcon *sql.DB
+	once      sync.Once
+	query     *dbgen.Queries
+	readQuery *dbgen.Queries
+	dbcon     *sql.DB
+	readDBCon *sql.DB
 )
 
 // contextからQueriesを取得する。contextにQueriesが存在しない場合は、パッケージ変数からQueriesを取得する
@@ -32,33 +34,70 @@ func GetQuery(ctx context.Context) *dbgen.Queries {
 	return query
 }
 
+func GetReadQuery(ctx context.Context) *dbgen.Queries {
+	return readQuery
+}
+
 func SetQuery(q *dbgen.Queries) {
 	query = q
+}
+
+func SetReadQuery(q *dbgen.Queries) {
+	readQuery = q
 }
 
 func GetDB() *sql.DB {
 	return dbcon
 }
+
 func SetDB(d *sql.DB) {
 	dbcon = d
 }
 
+func SetReadDB(d *sql.DB) {
+	readDBCon = d
+}
+
 func NewMainDB(cnf config.DBConfig) {
 	once.Do(func() {
-		dbcon, err := connect(cnf)
+		dbcon, err := connect(
+			cnf.User,
+			cnf.Password,
+			cnf.Host,
+			cnf.Port,
+			cnf.Name,
+		)
 		if err != nil {
 			panic(err)
 		}
 		q := dbgen.New(dbcon)
-		SetQuery(q)
+		SetReadQuery(q)
 		SetDB(dbcon)
 	})
 }
 
+func NewReadDB(cnf config.ReadDBConfig) {
+	once.Do(func() {
+		dbcon, err := connect(
+			cnf.User,
+			cnf.Password,
+			cnf.Host,
+			cnf.Port,
+			cnf.Name,
+		)
+		if err != nil {
+			panic(err)
+		}
+		q := dbgen.New(dbcon)
+		SetReadQuery(q)
+		SetReadDB(dbcon)
+	})
+}
+
 // dbに接続する：最大5回リトライする
-func connect(cnf config.DBConfig) (*sql.DB, error) {
+func connect(user string, password string, host string, port string, name string) (*sql.DB, error) {
 	for i := 0; i < maxRetries; i++ {
-		connect := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", cnf.User, cnf.Password, cnf.Host, cnf.Port, cnf.Name)
+		connect := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, password, host, port, name)
 		db, err := sql.Open("mysql", connect)
 		if err != nil {
 			return nil, fmt.Errorf("could not open db: %w", err)

@@ -19,6 +19,7 @@ func main() {
 
 	conf := config.GetConfig()
 	db.NewMainDB(conf.DB)
+	db.NewReadDB(conf.ReadDB)
 
 	redisCli := redis.NewClient(conf.Redis)
 	defer redisCli.Close()
