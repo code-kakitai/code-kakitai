@@ -5,14 +5,14 @@ import (
 )
 
 type FetchProductUseCase struct {
-	fetchProductQueryService FetchProductQueryService
+	productQueryService ProductQueryService
 }
 
 func NewFetchProductUseCase(
-	fetchProductQueryService FetchProductQueryService,
+	productQueryService ProductQueryService,
 ) *FetchProductUseCase {
 	return &FetchProductUseCase{
-		fetchProductQueryService: fetchProductQueryService,
+		productQueryService: productQueryService,
 	}
 }
 
@@ -26,7 +26,7 @@ type FetchProductUseCaseDto struct {
 }
 
 func (uc *FetchProductUseCase) Run(ctx context.Context) ([]*FetchProductUseCaseDto, error) {
-	qsDtos, err := uc.fetchProductQueryService.Run(ctx)
+	qsDtos, err := uc.productQueryService.FetchProductList(ctx)
 	if err != nil {
 		return nil, err
 	}

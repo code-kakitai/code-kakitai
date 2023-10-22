@@ -11,40 +11,40 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockFetchProductQueryService is a mock of FetchProductQueryService interface.
-type MockFetchProductQueryService struct {
+// MockProductQueryService is a mock of ProductQueryService interface.
+type MockProductQueryService struct {
 	ctrl     *gomock.Controller
-	recorder *MockFetchProductQueryServiceMockRecorder
+	recorder *MockProductQueryServiceMockRecorder
 }
 
-// MockFetchProductQueryServiceMockRecorder is the mock recorder for MockFetchProductQueryService.
-type MockFetchProductQueryServiceMockRecorder struct {
-	mock *MockFetchProductQueryService
+// MockProductQueryServiceMockRecorder is the mock recorder for MockProductQueryService.
+type MockProductQueryServiceMockRecorder struct {
+	mock *MockProductQueryService
 }
 
-// NewMockFetchProductQueryService creates a new mock instance.
-func NewMockFetchProductQueryService(ctrl *gomock.Controller) *MockFetchProductQueryService {
-	mock := &MockFetchProductQueryService{ctrl: ctrl}
-	mock.recorder = &MockFetchProductQueryServiceMockRecorder{mock}
+// NewMockProductQueryService creates a new mock instance.
+func NewMockProductQueryService(ctrl *gomock.Controller) *MockProductQueryService {
+	mock := &MockProductQueryService{ctrl: ctrl}
+	mock.recorder = &MockProductQueryServiceMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFetchProductQueryService) EXPECT() *MockFetchProductQueryServiceMockRecorder {
+func (m *MockProductQueryService) EXPECT() *MockProductQueryServiceMockRecorder {
 	return m.recorder
 }
 
-// Run mocks base method.
-func (m *MockFetchProductQueryService) Run(ctx context.Context) ([]*FetchProductQueryServiceDto, error) {
+// FetchProductList mocks base method.
+func (m *MockProductQueryService) FetchProductList(ctx context.Context) ([]*FetchProductListDto, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Run", ctx)
-	ret0, _ := ret[0].([]*FetchProductQueryServiceDto)
+	ret := m.ctrl.Call(m, "FetchProductList", ctx)
+	ret0, _ := ret[0].([]*FetchProductListDto)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Run indicates an expected call of Run.
-func (mr *MockFetchProductQueryServiceMockRecorder) Run(ctx interface{}) *gomock.Call {
+// FetchProductList indicates an expected call of FetchProductList.
+func (mr *MockProductQueryServiceMockRecorder) FetchProductList(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Run", reflect.TypeOf((*MockFetchProductQueryService)(nil).Run), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProductList", reflect.TypeOf((*MockProductQueryService)(nil).FetchProductList), ctx)
 }

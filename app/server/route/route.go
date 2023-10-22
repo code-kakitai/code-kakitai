@@ -44,7 +44,7 @@ func userRoute(r *ginpkg.RouterGroup) {
 
 func productRoute(r *ginpkg.RouterGroup) {
 	productRepository := repository.NewProductRepository()
-	fetchQueryService := query_service.NewFetchProductQueryService()
+	fetchQueryService := query_service.NewProductQueryService()
 	h := productPre.NewHandler(productApp.NewSaveProductUseCase(productRepository), productApp.NewFetchProductUseCase(fetchQueryService))
 	group := r.Group("/products")
 	group.GET("/", h.GetProducts)

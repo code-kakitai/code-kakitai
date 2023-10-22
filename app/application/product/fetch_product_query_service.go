@@ -3,7 +3,7 @@ package product
 
 import "context"
 
-type FetchProductQueryServiceDto struct {
+type FetchProductListDto struct {
 	ID        string
 	Name      string
 	Price     int64
@@ -12,6 +12,6 @@ type FetchProductQueryServiceDto struct {
 	OwnerName string
 }
 
-type FetchProductQueryService interface {
-	Run(ctx context.Context) ([]*FetchProductQueryServiceDto, error)
+type ProductQueryService interface {
+	FetchProductList(ctx context.Context) ([]*FetchProductListDto, error)
 }
