@@ -25,8 +25,8 @@ type ReadDBConfig struct {
 	Name     string `envconfig:"DB_READ_DATABASE" default:"code_kakitai"`
 	User     string `envconfig:"DB_READ_USER" default:"root"`
 	Password string `envconfig:"DB_READ_PASS" default:""`
-	Port     string `envconfig:"DB_READ_PORT" default:"3306"`
-	Host     string `envconfig:"DB_READ_HOST" default:"db"`
+	Port     string `envconfig:"DB_READ_PORT" default:"3308"`
+	Host     string `envconfig:"DB_READ_HOST" default:"read-db"`
 }
 
 type Redis struct {
