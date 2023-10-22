@@ -11,17 +11,17 @@ import (
 )
 
 type SendSystemMailUseCase struct {
-	userRepo   userDomain.UserRepository
-	mailClient MailClient
+	userRepo     userDomain.UserRepository
+	mailNotifier MailNotifier
 }
 
 func NewSendSystemMailUseCase(
 	userRepo userDomain.UserRepository,
-	mailClient MailClient,
+	mailNotifier MailNotifier,
 ) *SendSystemMailUseCase {
 	return &SendSystemMailUseCase{
-		userRepo:   userRepo,
-		mailClient: mailClient,
+		userRepo:     userRepo,
+		mailNotifier: mailNotifier,
 	}
 }
 
@@ -70,7 +70,7 @@ func (uc *SendSystemMailUseCase) Run(ctx context.Context) error {
 				}
 			}()
 			defer wg.Done()
-			if err := uc.mailClient.Send(ctx, v); err != nil {
+			if err := uc.mailNotifier.Send(ctx, v); err != nil {
 				mu.Lock()
 				errs = multierr.Append(errs, err)
 				mu.Unlock()
