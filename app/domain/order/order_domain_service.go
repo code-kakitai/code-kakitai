@@ -45,7 +45,8 @@ func (ds *orderDomainService) OrderProducts(ctx context.Context, cart *cartDomai
 		}
 		ops = append(ops, *op)
 		if !ok {
-			// 購入した商品の商品詳細が見つからない場合はエラー（商品を購入すると同時に、商品が削除された場合等に発生）
+			// 購入した商品の商品詳細が見つからない場合はエラー
+			// 商品を購入すると同時に、商品が削除された場合等に発生
 			return "", errDomain.NewError("商品が見つかりません。")
 		}
 		if err := p.Consume(cp.Quantity()); err != nil {

@@ -2,7 +2,7 @@ package notification
 
 import "context"
 
-type MailClient interface {
+type MailNotifier interface {
 	Send(ctx context.Context, content []MailContent) error
 }
 

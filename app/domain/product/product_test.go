@@ -93,7 +93,7 @@ func TestNewProduct(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newProduct("", tt.args.ownerID, tt.args.name, tt.args.description, tt.args.price, tt.args.stock)
+			got, err := NewProduct(tt.args.ownerID, tt.args.name, tt.args.description, tt.args.price, tt.args.stock)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return
