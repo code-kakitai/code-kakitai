@@ -5,6 +5,9 @@ definitions:
         type: string
       quantity:
         type: integer
+    required:
+    - product_id
+    - quantity
     type: object
   health_handler.HealthResponse:
     properties:
@@ -13,10 +16,13 @@ definitions:
     type: object
   order.PostOrdersParams:
     properties:
-      productID:
+      product_id:
         type: string
       quantity:
         type: integer
+    required:
+    - product_id
+    - quantity
     type: object
   products.PostProductsParams:
     properties:

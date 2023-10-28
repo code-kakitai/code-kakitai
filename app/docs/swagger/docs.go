@@ -188,6 +188,10 @@ const docTemplate = `{
     "definitions": {
         "cart.PostCartsParams": {
             "type": "object",
+            "required": [
+                "product_id",
+                "quantity"
+            ],
             "properties": {
                 "product_id": {
                     "type": "string"
@@ -207,8 +211,12 @@ const docTemplate = `{
         },
         "order.PostOrdersParams": {
             "type": "object",
+            "required": [
+                "product_id",
+                "quantity"
+            ],
             "properties": {
-                "productID": {
+                "product_id": {
                     "type": "string"
                 },
                 "quantity": {
