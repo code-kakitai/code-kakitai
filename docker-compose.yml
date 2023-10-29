@@ -19,6 +19,7 @@ services:
       MYSQL_DATABASE: code_kakitai
       TZ: Asia/Tokyo
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      LANG: C.UTF-8
     command: --collation-server=utf8mb4_general_ci
 
   # redis
@@ -34,7 +35,7 @@ services:
       dockerfile: ./ops/docker/app/Dockerfile
     tty: true
     ports:
-      - "8083:8080"
+      - "8080:8080"
     volumes:
       - type: bind
         source: ./
