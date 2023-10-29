@@ -29,12 +29,17 @@ tidy:
 
 init:up
 	go work init ./app ./pkg
+	make migrate-apply
+	make create-test-data
 
 up:
 	docker compose up -d
 
 down:
 	docker compose down
+
+destroy:
+	docker compose down --rmi all --volumes --remove-orphans
 
 restart:
 	docker compose restart
@@ -74,3 +79,10 @@ migrate-local-apply:
 # sqlc
 sqlc-gen:
 	docker compose exec app sh -c "sqlc generate"
+
+# test dataの作成
+create-test-data:
+	docker compose cp ./ops/test_data/ db:/tmp/test_data
+	docker compose exec db sh -c "mysql -u root code_kakitai < /tmp/test_data/create_test_users.sql"
+	docker compose exec db sh -c "mysql -u root code_kakitai < /tmp/test_data/create_test_owners.sql"
+	docker compose exec db sh -c "rm -rf /tmp/test_data"
