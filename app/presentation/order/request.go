@@ -1,6 +1,6 @@
 package order
 
 type PostOrdersParams struct {
-	ProductID string
-	Quantity  int
+	ProductID string `json:"product_id" validate:"required"`
+	Quantity  int    `json:"quantity" validate:"required"`
 }

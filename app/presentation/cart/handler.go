@@ -1,6 +1,7 @@
 package cart
 
 import (
+	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
 
 	cartApp "github/code-kakitai/code-kakitai/application/cart"
@@ -26,9 +27,12 @@ func NewHandler(addCartUseCase *cartApp.AddCartUseCase) handler {
 // @Router /v1/carts/ [post]
 func (h handler) PostCart(ctx *gin.Context) {
 	var param PostCartsParams
-	// TODO リクエストのバリデーション
 	if err := ctx.ShouldBindJSON(&param); err != nil {
 		settings.ReturnBadRequest(ctx, err)
+	}
+	validate := validator.GetValidator()
+	if err := validate.Struct(&param); err != nil {
+		settings.ReturnStatusBadRequest(ctx, err)
 	}
 
 	// todo userIDはsession等で別途取得する

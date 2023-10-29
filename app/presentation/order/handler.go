@@ -3,6 +3,7 @@ package order
 import (
 	"time"
 
+	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
 
 	orderApp "github/code-kakitai/code-kakitai/application/order"
@@ -29,10 +30,13 @@ func NewHandler(saveOrderUseCase *orderApp.SaveOrderUseCase) handler {
 // @Router /v1/orders [post]
 func (h handler) PostOrders(ctx *gin.Context) {
 	var params []*PostOrdersParams
-	// TODO リクエストのバリデーション
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
+	}
+	validate := validator.GetValidator()
+	if err := validate.Struct(&params); err != nil {
+		settings.ReturnStatusBadRequest(ctx, err)
 	}
 	// todo userIDはsession等で別途取得する
 	userID := "test_user_id"
