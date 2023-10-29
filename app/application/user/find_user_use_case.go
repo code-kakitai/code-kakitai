@@ -2,6 +2,8 @@ package user
 
 import (
 	"context"
+
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 	userDomain "github/code-kakitai/code-kakitai/domain/user"
 )
 
@@ -29,6 +31,9 @@ type FindUseCaseDto struct {
 func (uc *FindUserUseCase) Run(ctx context.Context, id string) (*FindUseCaseDto, error) {
 	user, err := uc.userRepo.FindById(ctx, id)
 	if err != nil {
+		if errDomain.IsNotFoundErr(err) {
+			return nil, err
+		}
 		return nil, err
 	}
 	return &FindUseCaseDto{

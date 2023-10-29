@@ -17,3 +17,7 @@ func NewError(s string) *Error {
 }
 
 var NotFoundErr = errors.New("not found")
+
+func IsNotFoundErr(err error) bool {
+	return errors.Is(err, NotFoundErr)
+}

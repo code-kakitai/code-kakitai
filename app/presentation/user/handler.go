@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	userApp "github/code-kakitai/code-kakitai/application/user"
+	errDomain "github/code-kakitai/code-kakitai/domain/error"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 )
 
@@ -34,7 +35,11 @@ func (h handler) GetUserByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	dto, err := h.findUserUseCase.Run(ctx, id)
 	if err != nil {
-		settings.ReturnNotFound(ctx, err)
+		if errDomain.IsNotFoundErr(err) {
+			settings.ReturnNotFound(ctx, err)
+			return
+		}
+		settings.ReturnStatusInternalServerError(ctx, err)
 	}
 	res := getUserResponse{
 		User: userResponseModel{
