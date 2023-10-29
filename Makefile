@@ -4,11 +4,16 @@ help: # コマンド確認
 	@echo "\033[32mAvailable targets:\033[0m"
 	@grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
 
+# app-containerが起動しているかどうかのチェック、起動していればtrueを返す
+check_app_container = $(shell docker ps --format '{{.Names}}' | grep -q code-kakitai-app && echo "true" || echo "false")
+
 # goサーバーの操作
-# test: lint
-# 	docker compose exec app sh -c "go test ./..."
 test: lint
+ifeq ($(check_app_container),true)
+	docker compose exec app sh -c "go test ./..."
+else
 	cd app && go test ./...
+endif
 
 run:
 	docker compose exec app sh -c "go run ./cmd/main.go"
@@ -20,7 +25,11 @@ gen:
 	docker compose exec app sh -c "go generate ./..."
 
 lint:
+ifeq ($(check_app_container),true)
 	docker compose exec app sh -c "go vet ./..."
+else
+	cd app && go vet ./...
+endif
 
 tidy:
 	docker compose exec app sh -c "go mod tidy"
