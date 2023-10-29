@@ -19,6 +19,7 @@ const delay = 5 * time.Second
 
 var (
 	once      sync.Once
+	readOnce  sync.Once
 	query     *dbgen.Queries
 	readQuery *dbgen.Queries
 	dbcon     *sql.DB
@@ -77,7 +78,7 @@ func NewMainDB(cnf config.DBConfig) {
 }
 
 func NewReadDB(cnf config.ReadDBConfig) {
-	once.Do(func() {
+	readOnce.Do(func() {
 		dbcon, err := connect(
 			cnf.User,
 			cnf.Password,

@@ -45,10 +45,13 @@ func userRoute(r *ginpkg.RouterGroup) {
 func productRoute(r *ginpkg.RouterGroup) {
 	productRepository := repository.NewProductRepository()
 	fetchQueryService := query_service.NewProductQueryService()
-	h := productPre.NewHandler(productApp.NewSaveProductUseCase(productRepository), productApp.NewFetchProductUseCase(fetchQueryService))
+	h := productPre.NewHandler(
+		productApp.NewSaveProductUseCase(productRepository),
+		productApp.NewFetchProductUseCase(fetchQueryService),
+	)
 	group := r.Group("/products")
-	group.GET("/", h.GetProducts)
-	group.POST("/", h.PostProducts)
+	group.GET("", h.GetProducts)
+	group.POST("", h.PostProducts)
 }
 
 func orderRoute(r *ginpkg.RouterGroup) {
@@ -66,7 +69,7 @@ func orderRoute(r *ginpkg.RouterGroup) {
 		),
 	)
 	group := r.Group("/orders")
-	group.POST("/", h.PostOrders)
+	group.POST("", h.PostOrders)
 }
 
 func cartRoute(r *ginpkg.RouterGroup) {
@@ -79,5 +82,5 @@ func cartRoute(r *ginpkg.RouterGroup) {
 		),
 	)
 	group := r.Group("/carts")
-	group.POST("/", h.PostCart)
+	group.POST("", h.PostCart)
 }

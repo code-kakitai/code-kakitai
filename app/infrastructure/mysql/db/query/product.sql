@@ -47,4 +47,4 @@ INSERT INTO products (
    name = sqlc.arg(name),
    description = sqlc.arg(description),
    price = sqlc.arg(price),
-   stock = sqlc.arg(stock)
+   stock = sqlc.arg(stock);
