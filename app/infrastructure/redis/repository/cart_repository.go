@@ -32,7 +32,7 @@ func (r *cartRepository) FindByUserID(ctx context.Context, userID string) (*doma
 	}
 
 	// userIDをキーにしたカート情報がエラー
-	jsonData, err := rdb.Get(ctx, userID).Result()
+	jsonData, err := rdb.Get(ctx, cartKey(userID)).Result()
 	if err != nil {
 		if err == redis.Nil {
 			// キーがなかった場合は空のカートを返す
@@ -69,9 +69,13 @@ func (r *cartRepository) Save(ctx context.Context, cart *domainCart.Cart) error 
 	if err != nil {
 		return err
 	}
-	key := fmt.Sprintf("cart-userID-%s", cart.UserID())
+	key := cartKey(cart.UserID())
 	if _, err := rdb.Set(ctx, key, j, domainCart.CartTimeOut).Result(); err != nil {
 		return err
 	}
 	return nil
+}
+
+func cartKey(userID string) string {
+	return fmt.Sprintf("cart-userID-%s", userID)
 }

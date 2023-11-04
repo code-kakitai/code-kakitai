@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/carts/": {
+        "/v1/carts": {
             "post": {
                 "consumes": [
                     "application/json"

@@ -93,6 +93,7 @@ func Test_OrderDomainService_OrderProducts(t *testing.T) {
 								ph,
 								&Order{
 									id:          ulid.NewULID(),
+									userID:      userID,
 									totalAmount: 300,
 									products: []OrderProduct{
 										{

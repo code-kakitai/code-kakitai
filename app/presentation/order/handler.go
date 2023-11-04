@@ -33,15 +33,18 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
+		return
 	}
 	validate := validator.GetValidator()
 	if err := validate.Struct(&params); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
+		return
 	}
 
 	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
-	userID := "test_user_id"
-	dtos := make([]orderApp.SaveOrderUseCaseInputDto, len(params))
+	userID := "01HCNYK0PKYZWB0ZT1KR0EPWGP"
+	dtos := make([]orderApp.SaveOrderUseCaseInputDto, 0, len(params))
+
 	for _, param := range params {
 		dtos = append(dtos, orderApp.SaveOrderUseCaseInputDto{
 			ProductID: param.ProductID,
@@ -56,6 +59,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
+		return
 	}
 
 	settings.ReturnStatusCreated(ctx, id)

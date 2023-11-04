@@ -79,6 +79,7 @@ func TestNewOrderProduct(t *testing.T) {
 func TestNewOrder(t *testing.T) {
 	productID1 := ulid.NewULID()
 	productID2 := ulid.NewULID()
+	userID := ulid.NewULID()
 	type args struct {
 		totalAmount int64
 		products    []OrderProduct
@@ -106,6 +107,7 @@ func TestNewOrder(t *testing.T) {
 			},
 			want: &Order{
 				totalAmount: 100,
+				userID:      userID,
 				products: []OrderProduct{
 					{
 						productID: productID1,
@@ -147,7 +149,6 @@ func TestNewOrder(t *testing.T) {
 			wantErr: true,
 		},
 	}
-	userID := ulid.NewULID()
 	OrderedAt := time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -99,11 +99,6 @@ func (c *Cart) AddProduct(productID string, quantity int) error {
 }
 
 func (c *Cart) RemoveProduct(productID string) error {
-	// 商品IDのバリデーション
-	if !ulid.IsValid(productID) {
-		return errDomain.NewError("商品IDの値が不正です。")
-	}
-
 	// 商品がカートに入っているかチェック
 	var newProducts []cartProduct
 	for _, product := range c.products {

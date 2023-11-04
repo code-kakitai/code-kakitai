@@ -24,7 +24,7 @@ func NewHandler(addCartUseCase *cartApp.AddCartUseCase) handler {
 // @Accept json
 // @Produce json
 // @Param request body PostCartsParams true "カートの商品"
-// @Router /v1/carts/ [post]
+// @Router /v1/carts [post]
 func (h handler) PostCart(ctx *gin.Context) {
 	var param PostCartsParams
 	if err := ctx.ShouldBindJSON(&param); err != nil {
@@ -33,10 +33,12 @@ func (h handler) PostCart(ctx *gin.Context) {
 	validate := validator.GetValidator()
 	if err := validate.Struct(&param); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
+		return
 	}
 
 	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
-	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+	userID := "01HCNYK0PKYZWB0ZT1KR0EPWGP"
+
 	dto := cartApp.AddCartUseCaseInputDto{
 		ProductID: param.ProductID,
 		Quantity:  param.Quantity,
@@ -47,6 +49,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 		dto,
 	); err != nil {
 		settings.ReturnError(ctx, err)
+		return
 	}
 	settings.ReturnStatusNoContent(ctx)
 }
