@@ -107,7 +107,7 @@ info:
   title: コードカキタイ
   version: バージョン(1.0)
 paths:
-  /v1/carts/:
+  /v1/carts:
     post:
       consumes:
       - application/json
