@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"log"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -29,17 +28,19 @@ func TestFindUserUseCase_Run(t *testing.T) {
 			mockFunc: func() {
 				mockUserRepo.
 					EXPECT().
-					FindById(gomock.Any(), "01HCNYK0PKYZWB0ZT1KR0EPWGP").
-					Return(reconstructUser(
-						"01HCNYK0PKYZWB0ZT1KR0EPWGP",
-						"example@test.com",
-						"08011112222",
-						"田中",
-						"太郎",
-						"東京都",
-						"渋谷区",
-						"1-1-1",
-					), nil)
+					FindById(gomock.Any(), gomock.Any()).
+					DoAndReturn(func(ctx context.Context, id string) (*userDomain.User, error) {
+						return reconstructUser(
+							id,
+							"example@test.com",
+							"08011112222",
+							"田中",
+							"太郎",
+							"東京都",
+							"渋谷区",
+							"1-1-1",
+						)
+					})
 			},
 			want: &FindUseCaseDto{
 				ID:          "01HCNYK0PKYZWB0ZT1KR0EPWGP",
@@ -79,10 +80,10 @@ func reconstructUser(
 	prefecture string,
 	city string,
 	addressExtra string,
-) *userDomain.User {
+) (*userDomain.User, error) {
 	user, err := userDomain.Reconstruct(id, email, phoneNumber, lastName, firstName, prefecture, city, addressExtra)
 	if err != nil {
-		log.Print(err)
+		return nil, err
 	}
-	return user
+	return user, nil
 }
