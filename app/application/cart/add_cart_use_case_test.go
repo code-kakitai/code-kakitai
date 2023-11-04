@@ -56,7 +56,7 @@ func TestAddCartUseCase_Run(t *testing.T) {
 			},
 		},
 		{
-			name: "すでにcartに商品が入っており、商品数が0の時はカートから商品を削除",
+			name: "すでにcartに商品が入っており、dtoの商品数の値が0の時はカートから商品を削除",
 			dto: AddCartUseCaseInputDto{
 				UserID:    userID,
 				ProductID: product.ID(),
