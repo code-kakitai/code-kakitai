@@ -12,10 +12,10 @@ import (
 
 type User struct {
 	id          string
-	lastName    string
-	firstName   string
 	email       string
 	phoneNumber string
+	lastName    string
+	firstName   string
 	address     address
 }
 
@@ -32,10 +32,10 @@ func Reconstruct(
 ) (*User, error) {
 	return newUser(
 		id,
-		lastName,
-		firstName,
 		email,
 		phoneNumber,
+		lastName,
+		firstName,
 		prefecture,
 		city,
 		addressExtra,
@@ -43,20 +43,20 @@ func Reconstruct(
 }
 
 func NewUser(
-	lastName string,
-	firstName string,
 	email string,
 	phoneNumber string,
+	lastName string,
+	firstName string,
 	prefecture string,
 	city string,
 	addressExtra string,
 ) (*User, error) {
 	return newUser(
 		ulid.NewULID(),
-		lastName,
-		firstName,
 		email,
 		phoneNumber,
+		lastName,
+		firstName,
 		prefecture,
 		city,
 		addressExtra,
@@ -65,10 +65,10 @@ func NewUser(
 
 func newUser(
 	id string,
-	lastName string,
-	firstName string,
 	email string,
 	phoneNumber string,
+	lastName string,
+	firstName string,
 	prefecture string,
 	city string,
 	addressExtra string,

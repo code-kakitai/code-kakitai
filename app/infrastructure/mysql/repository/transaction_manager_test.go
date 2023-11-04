@@ -17,8 +17,8 @@ func TestTransactionManager(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("正常系:トランザクションが完了し保存できること", func(t *testing.T) {
-		user1, _ := userDomain.NewUser("lastName", "firstName", "user@example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
-		user2, _ := userDomain.NewUser("lastName2", "firstName2", "user2@example.com", "09000000001", "東京都", "新宿区", "1-1-1")
+		user1, _ := userDomain.NewUser("user@example.com", "09000000000", "lastName", "firstName", "東京都", "渋谷区", "1-1-1")
+		user2, _ := userDomain.NewUser("user2@example.com", "09000000001", "lastName2", "firstName2", "東京都", "新宿区", "1-1-1")
 		transactionManager.RunInTransaction(ctx, func(ctx context.Context) error {
 			userRepository.Save(ctx, user1)
 			userRepository.Save(ctx, user2)
@@ -34,8 +34,8 @@ func TestTransactionManager(t *testing.T) {
 		}
 	})
 	t.Run("異常系:トランザクション内でエラーが発生した際はロールバックされること", func(t *testing.T) {
-		user1, _ := userDomain.NewUser("lastName", "firstName", "user@example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
-		user2, _ := userDomain.NewUser("lastName2", "firstName2", "user2@example.com", "09000000001", "東京都", "新宿区", "1-1-1")
+		user1, _ := userDomain.NewUser("user@example.com", "09000000000", "lastName", "firstName", "東京都", "渋谷区", "1-1-1")
+		user2, _ := userDomain.NewUser("user2@example.com", "09000000001", "lastName2", "firstName2", "東京都", "新宿区", "1-1-1")
 		transactionManager.RunInTransaction(ctx, func(ctx context.Context) error {
 			userRepository.Save(ctx, user1)
 			userRepository.Save(ctx, user2)
