@@ -38,7 +38,8 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	if err := validate.Struct(&params); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
 	}
-	// todo userIDはsession等で別途取得する
+
+	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
 	userID := "test_user_id"
 	dtos := make([]orderApp.SaveOrderUseCaseInputDto, len(params))
 	for _, param := range params {

@@ -35,7 +35,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 		settings.ReturnStatusBadRequest(ctx, err)
 	}
 
-	// todo userIDはsession等で別途取得する
+	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
 	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 	dto := cartApp.AddCartUseCaseInputDto{
 		ProductID: param.ProductID,
