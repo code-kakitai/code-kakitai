@@ -63,6 +63,7 @@ func newOrder(
 	}
 	return &Order{
 		id:          id,
+		userID:      userID,
 		totalAmount: totalAmount,
 		products:    products,
 		orderedAt:   orderedAt,
