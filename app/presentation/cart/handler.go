@@ -24,7 +24,7 @@ func NewHandler(addCartUseCase *cartApp.AddCartUseCase) handler {
 // @Accept json
 // @Produce json
 // @Param request body PostCartsParams true "カートの商品"
-// @Router /v1/carts/ [post]
+// @Router /v1/carts [post]
 func (h handler) PostCart(ctx *gin.Context) {
 	var param PostCartsParams
 	if err := ctx.ShouldBindJSON(&param); err != nil {
@@ -36,7 +36,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 	}
 
 	// todo userIDはsession等で別途取得する
-	userID := "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+	userID := "01HCNYK0PKYZWB0ZT1KR0EPWGP"
 	dto := cartApp.AddCartUseCaseInputDto{
 		ProductID: param.ProductID,
 		Quantity:  param.Quantity,
