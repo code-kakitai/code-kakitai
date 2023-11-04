@@ -12,7 +12,10 @@ import (
 )
 
 func TestUserRepository_FindById(t *testing.T) {
-	user, _ := userDomain.Reconstruct("01HCNYK0PKYZWB0ZT1KR0EPWGP", "example@test.com", "08011112222", "太郎", "田中", "東京都", "渋谷区", "1-1-1")
+	user, err := userDomain.Reconstruct("01HCNYK0PKYZWB0ZT1KR0EPWGP", "example@test.com", "08011112222", "太郎", "田中", "東京都", "渋谷区", "1-1-1")
+	if err != nil {
+		t.Error(err)
+	}
 	tests := []struct {
 		name string
 		want *userDomain.User
@@ -39,7 +42,7 @@ func TestUserRepository_FindById(t *testing.T) {
 }
 
 func TestUserRepository_Save(t *testing.T) {
-	user, _ := userDomain.NewUser("lastName", "firstName", "test@example.com", "09000000000", "東京都", "渋谷区", "1-1-1")
+	user, _ := userDomain.NewUser("test@example.com", "09000000000", "lastName", "firstName", "東京都", "渋谷区", "1-1-1")
 	tests := []struct {
 		name  string
 		input *userDomain.User

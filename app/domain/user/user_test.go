@@ -9,10 +9,10 @@ import (
 
 func TestNewUser(t *testing.T) {
 	type args struct {
-		lastName     string
-		firstName    string
 		email        string
 		phoneNumber  string
+		lastName     string
+		firstName    string
 		prefecture   string
 		city         string
 		addressExtra string
@@ -26,19 +26,19 @@ func TestNewUser(t *testing.T) {
 		{
 			name: "正常系",
 			args: args{
-				lastName:     "山田",
-				firstName:    "太郎",
 				email:        "test@example.com",
 				phoneNumber:  "09012345678",
+				lastName:     "山田",
+				firstName:    "太郎",
 				prefecture:   "東京都",
 				city:         "渋谷区",
 				addressExtra: "1-1-1",
 			},
 			want: &User{
-				lastName:    "山田",
-				firstName:   "太郎",
 				email:       "test@example.com",
 				phoneNumber: "09012345678",
+				lastName:    "山田",
+				firstName:   "太郎",
 				address: address{
 					prefecture: "東京都",
 					city:       "渋谷区",
@@ -50,10 +50,10 @@ func TestNewUser(t *testing.T) {
 		{
 			name: "異常系: 名字が空文字",
 			args: args{
-				lastName:     "",
-				firstName:    "太郎",
 				email:        "test@example.com",
 				phoneNumber:  "09012345678",
+				lastName:     "",
+				firstName:    "太郎",
 				prefecture:   "東京都",
 				city:         "渋谷区",
 				addressExtra: "1-1-1",
@@ -64,10 +64,10 @@ func TestNewUser(t *testing.T) {
 		{
 			name: "異常系: メールアドレスが不正",
 			args: args{
-				lastName:     "山田",
-				firstName:    "太郎",
 				email:        "testcom",
 				phoneNumber:  "09012345678",
+				lastName:     "山田",
+				firstName:    "太郎",
 				prefecture:   "東京都",
 				city:         "渋谷区",
 				addressExtra: "1-1-1",
@@ -78,10 +78,10 @@ func TestNewUser(t *testing.T) {
 		{
 			name: "異常系: 電場番号が不正",
 			args: args{
-				lastName:     "山田",
-				firstName:    "太郎",
 				email:        "test@example.com",
 				phoneNumber:  "090123456789",
+				lastName:     "山田",
+				firstName:    "太郎",
 				prefecture:   "東京都",
 				city:         "渋谷区",
 				addressExtra: "1-1-1",
@@ -92,10 +92,10 @@ func TestNewUser(t *testing.T) {
 		{
 			name: "異常系: 住所が不正",
 			args: args{
-				lastName:     "山田",
-				firstName:    "太郎",
 				email:        "test@example.com",
 				phoneNumber:  "090123456789",
+				lastName:     "山田",
+				firstName:    "太郎",
 				prefecture:   "",
 				city:         "渋谷区",
 				addressExtra: "1-1-1",
@@ -106,7 +106,7 @@ func TestNewUser(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewUser(tt.args.lastName, tt.args.firstName, tt.args.email, tt.args.phoneNumber, tt.args.prefecture, tt.args.city, tt.args.addressExtra)
+			got, err := NewUser(tt.args.email, tt.args.phoneNumber, tt.args.lastName, tt.args.firstName, tt.args.prefecture, tt.args.city, tt.args.addressExtra)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewUser() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -19,10 +19,10 @@ func NewFindUserUseCase(
 
 type FindUseCaseDto struct {
 	ID          string
-	LastName    string
-	FirstName   string
 	Email       string
 	PhoneNumber string
+	LastName    string
+	FirstName   string
 	Address     string
 }
 
@@ -33,10 +33,10 @@ func (uc *FindUserUseCase) Run(ctx context.Context, id string) (*FindUseCaseDto,
 	}
 	return &FindUseCaseDto{
 		ID:          user.ID(),
-		LastName:    user.LastName(),
-		FirstName:   user.FirstName(),
 		Email:       user.Email(),
 		PhoneNumber: user.PhoneNumber(),
+		LastName:    user.LastName(),
+		FirstName:   user.FirstName(),
 		Address:     user.Pref() + user.City() + user.AddressExtra(),
 	}, nil
 }
