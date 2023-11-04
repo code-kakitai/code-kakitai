@@ -35,7 +35,7 @@ func (uc *AddCartUseCase) Run(ctx context.Context, dto AddCartUseCaseInputDto) e
 		return err
 	}
 
-	// 在庫情報を取得し、在庫を確認
+	// 在庫情報を取得
 	product, err := uc.productRepo.FindByID(ctx, dto.ProductID)
 	if err != nil {
 		return err
