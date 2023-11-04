@@ -57,6 +57,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
+		return
 	}
 
 	settings.ReturnStatusCreated(ctx, id)

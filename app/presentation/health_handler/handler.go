@@ -1,9 +1,9 @@
 package health_handler
 
 import (
-	"github/code-kakitai/code-kakitai/presentation/settings"
-
 	"github.com/gin-gonic/gin"
+
+	"github/code-kakitai/code-kakitai/presentation/settings"
 )
 
 // HealthCheck godoc

@@ -35,6 +35,7 @@ func (h handler) GetUserByID(ctx *gin.Context) {
 	dto, err := h.findUserUseCase.Run(ctx, id)
 	if err != nil {
 		settings.ReturnError(ctx, err)
+		return
 	}
 	res := getUserResponse{
 		User: userResponseModel{
