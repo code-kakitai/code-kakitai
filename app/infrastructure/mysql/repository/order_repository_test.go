@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"log"
 	"testing"
 	"time"
 
@@ -22,7 +21,7 @@ func TestOrderRepository_Save(t *testing.T) {
 		[]orderDomain.OrderProduct{*orderProduct},
 		now)
 	if err != nil {
-		log.Print(err)
+		t.Error(err)
 	}
 	orderRepository := NewOrderRepository()
 
