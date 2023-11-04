@@ -33,6 +33,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 	validate := validator.GetValidator()
 	if err := validate.Struct(&param); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
+		return
 	}
 
 	// todo userIDはsession等で別途取得する
@@ -47,6 +48,7 @@ func (h handler) PostCart(ctx *gin.Context) {
 		dto,
 	); err != nil {
 		settings.ReturnError(ctx, err)
+		return
 	}
 	settings.ReturnStatusNoContent(ctx)
 }

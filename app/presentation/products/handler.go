@@ -1,11 +1,11 @@
 package products
 
 import (
-	"github/code-kakitai/code-kakitai/application/product"
-	"github/code-kakitai/code-kakitai/presentation/settings"
-
 	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
+
+	"github/code-kakitai/code-kakitai/application/product"
+	"github/code-kakitai/code-kakitai/presentation/settings"
 )
 
 type handler struct {
@@ -35,10 +35,12 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	var params PostProductsParams
 	if err := ctx.ShouldBindJSON(&params); err != nil {
 		settings.ReturnBadRequest(ctx, err)
+		return
 	}
 	validate := validator.GetValidator()
 	if err := validate.Struct(params); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
+		return
 	}
 
 	input := product.SaveProductUseCaseInputDto{
@@ -52,6 +54,7 @@ func (h handler) PostProducts(ctx *gin.Context) {
 	dto, err := h.saveProductUseCase.Run(ctx, input)
 	if err != nil {
 		settings.ReturnError(ctx, err)
+		return
 	}
 	response := postProductResponse{
 		productResponseModel{

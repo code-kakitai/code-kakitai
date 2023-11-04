@@ -33,10 +33,12 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
+		return
 	}
 	validate := validator.GetValidator()
 	if err := validate.Struct(&params); err != nil {
 		settings.ReturnStatusBadRequest(ctx, err)
+		return
 	}
 	// todo userIDはsession等で別途取得する
 	userID := "test_user_id"
@@ -55,6 +57,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 	)
 	if err != nil {
 		settings.ReturnStatusInternalServerError(ctx, err)
+		return
 	}
 
 	settings.ReturnStatusCreated(ctx, id)
