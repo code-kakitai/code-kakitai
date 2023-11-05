@@ -6,16 +6,15 @@ import (
 
 	"github.com/alicebob/miniredis"
 	redis "github.com/redis/go-redis/v9"
-)
 
-var (
-	redisCli *redis.Client
+	infraRedis "github/code-kakitai/code-kakitai/infrastructure/redis"
 )
 
 func TestMain(m *testing.M) {
 	// テスト用Redisのセットアップ
-	redisCli = NewTestClient()
-	defer redisCli.Close()
+	infraRedis.SetRedisClient(NewTestClient())
+	cli := infraRedis.GetRedisClient()
+	defer cli.Close()
 
 	// テスト実行
 	m.Run()
