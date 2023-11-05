@@ -5,12 +5,12 @@ import (
 
 	"gopkg.in/testfixtures.v2"
 
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
+	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
+	dbTest "github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
 var (
-	query    *dbgen.Queries
 	fixtures *testfixtures.Context
 )
 
@@ -22,20 +22,22 @@ func TestMain(m *testing.M) {
 	defer dbTest.CloseContainer(resource, pool)
 
 	// DBへ接続する
-	db := dbTest.ConnectDB(resource, pool)
-	defer db.Close()
+	dbCon := dbTest.ConnectDB(resource, pool)
+	defer dbCon.Close()
 
 	// テスト用DBをセットアップ
 	dbTest.SetupTestDB()
 
 	// テストデータの準備
 	fixturePath := "../fixtures"
-	fixtures, err = testfixtures.NewFolder(db, &testfixtures.MySQL{}, fixturePath)
+	fixtures, err = testfixtures.NewFolder(dbCon, &testfixtures.MySQL{}, fixturePath)
 	if err != nil {
 		panic(err)
 	}
 
-	query = dbgen.New(db)
+	q := dbgen.New(dbCon)
+	db.SetQuery(q)
+	db.SetDB(dbCon)
 
 	// テスト実行
 	m.Run()
