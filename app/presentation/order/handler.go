@@ -40,9 +40,11 @@ func (h handler) PostOrders(ctx *gin.Context) {
 		settings.ReturnStatusBadRequest(ctx, err)
 		return
 	}
-	// todo userIDはsession等で別途取得する
+
+	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
 	userID := "01HCNYK0PKYZWB0ZT1KR0EPWGP"
 	dtos := make([]orderApp.SaveOrderUseCaseInputDto, 0, len(params))
+
 	for _, param := range params {
 		dtos = append(dtos, orderApp.SaveOrderUseCaseInputDto{
 			ProductID: param.ProductID,

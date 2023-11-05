@@ -6,7 +6,7 @@ volumes:
 services:
   # データベース
   db:
-    image: mysql:latest
+    image: mysql:8.0.35-debian
     volumes:
       - type: volume
         source: db-store

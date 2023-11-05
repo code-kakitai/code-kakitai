@@ -18,9 +18,6 @@ endif
 run:
 	docker compose exec app sh -c "go run ./cmd/main.go"
 
-hot-reload:
-	docker compose exec app air
-
 gen:
 	docker compose exec app sh -c "go generate ./..."
 

@@ -36,8 +36,9 @@ func (h handler) PostCart(ctx *gin.Context) {
 		return
 	}
 
-	// todo userIDはsession等で別途取得する
+	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
 	userID := "01HCNYK0PKYZWB0ZT1KR0EPWGP"
+
 	dto := cartApp.AddCartUseCaseInputDto{
 		ProductID: param.ProductID,
 		Quantity:  param.Quantity,
