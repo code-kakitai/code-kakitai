@@ -44,5 +44,5 @@ localhost:8080にて確認可能です。
 ## 著者
 - [hiroaki](https://twitter.com/hiroaki_u329)
 - [sugamaan](https://twitter.com/sugamaan)
-- [gyuu](https://twitter.com/gyu_outputs)
-- [tomoya](https://twitter.com/tomoya_sakusaku)
+- [ぎゅう](https://twitter.com/gyu_outputs)
+- [釜地智也](https://twitter.com/tomoya_sakusaku)
