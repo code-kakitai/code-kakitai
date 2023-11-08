@@ -13,7 +13,9 @@ func Test_cartRepository_FindByUserID_Save(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	cart.AddProduct("01HCNYK0PKYZWB0ZT1KR0EPWGP", 3)
+	if err := cart.AddProduct("01HCNYK0PKYZWB0ZT1KR0EPWGP", 3); err != nil {
+		t.Error(err)
+	}
 	tests := []struct {
 		name    string
 		want    *domainCart.Cart
