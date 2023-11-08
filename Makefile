@@ -7,19 +7,18 @@ help: # コマンド確認
 # app-containerが起動しているかどうかのチェック、起動していればtrueを返す
 check_app_container = $(shell docker ps --format '{{.Names}}' | grep -q code-kakitai-app && echo "true" || echo "false")
 
-# goサーバーの操作
+##################
+# goサーバーの操作 #
+##################
+run:
+	docker compose exec app sh -c "go run ./cmd/main.go"
+
 test: lint
 ifeq ($(check_app_container),true)
 	docker compose exec app sh -c "go test ./..."
 else
 	cd app && go test ./...
 endif
-
-run:
-	docker compose exec app sh -c "go run ./cmd/main.go"
-
-gen:
-	docker compose exec app sh -c "go generate ./..."
 
 lint:
 ifeq ($(check_app_container),true)
@@ -28,11 +27,15 @@ else
 	cd app && go vet ./...
 endif
 
+gen:
+	docker compose exec app sh -c "go generate ./..."
+
 tidy:
 	docker compose exec app sh -c "go mod tidy"
 
-# コンテナの操作
-
+##################
+#### 環境関連 #####
+##################
 init:up
 	go work init ./app ./pkg
 	make migrate-apply
@@ -56,12 +59,18 @@ logs:
 app-container:
 	docker compose exec app bash
 
+##################
+#### Swagger #####
+##################
 gen-swagger:
 	swag init -g app/cmd/main.go  --output app/docs/swagger
 
 swagger-up:
 	docker-compose -f app/docs/swagger/docker-compose.yml up -d
 
+##################
+##### DB関連 #####
+##################
 # マイグレーション
 build-cli: # cliのビルド
 	cd app && go build -o ./cli/main ./cli/main.go
