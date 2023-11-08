@@ -16,6 +16,10 @@ func GetRedisClient() *redis.Client {
 	return redisClient
 }
 
+func SetRedisClient(c *redis.Client) {
+	redisClient = c
+}
+
 func NewClient(conf config.Redis) *redis.Client {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr:                  conf.Host + ":" + conf.Port,
