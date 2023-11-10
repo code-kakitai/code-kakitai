@@ -14,18 +14,10 @@ run:
 	docker compose exec app sh -c "go run ./cmd/main.go"
 
 test: lint
-ifeq ($(check_app_container),true)
-	docker compose exec app sh -c "go test ./..."
-else
 	cd app && go test ./...
-endif
 
 lint:
-ifeq ($(check_app_container),true)
-	docker compose exec app sh -c "go vet ./..."
-else
 	cd app && go vet ./...
-endif
 
 gen:
 	docker compose exec app sh -c "go generate ./..."
