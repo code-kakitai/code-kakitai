@@ -31,7 +31,6 @@ func CreateContainer() (*dockertest.Resource, *dockertest.Pool) {
 	}
 
 	// Dockerコンテナ起動時の細かいオプションを指定する
-	// テーブル定義などはここで流し込むのが良さそう?
 	runOptions := &dockertest.RunOptions{
 		Repository: "mysql",
 		Tag:        "8.0",
