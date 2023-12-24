@@ -1,7 +1,5 @@
 package error
 
-import "errors"
-
 type Error struct {
 	description string
 }
@@ -16,4 +14,4 @@ func NewError(s string) *Error {
 	}
 }
 
-var NotFoundErr = errors.New("not found")
+var NotFoundErr = NewError("not found")
