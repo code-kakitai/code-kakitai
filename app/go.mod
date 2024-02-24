@@ -1,4 +1,4 @@
-module github/code-kakitai/code-kakitai
+module github.com/yumekumo/sauna-shop
 
 go 1.21
 

@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 
-	"github/code-kakitai/code-kakitai/config"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
-	"github/code-kakitai/code-kakitai/infrastructure/redis"
-	"github/code-kakitai/code-kakitai/server"
+	"github.com/yumekumo/sauna-shop/config"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db"
+	"github.com/yumekumo/sauna-shop/infrastructure/redis"
+	"github.com/yumekumo/sauna-shop/server"
 )
 
 // @title コードカキタイ

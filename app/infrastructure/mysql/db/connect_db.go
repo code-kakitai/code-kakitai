@@ -10,8 +10,8 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"github/code-kakitai/code-kakitai/config"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github.com/yumekumo/sauna-shop/config"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db/dbgen"
 )
 
 const maxRetries = 5

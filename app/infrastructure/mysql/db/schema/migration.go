@@ -12,7 +12,7 @@ import (
 	"github.com/k0kubun/sqldef/schema"
 	"github.com/urfave/cli"
 
-	"github/code-kakitai/code-kakitai/config"
+	"github.com/yumekumo/sauna-shop/config"
 )
 
 // urfave/cli経由で実行する

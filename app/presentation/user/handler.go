@@ -3,8 +3,8 @@ package user
 import (
 	"github.com/gin-gonic/gin"
 
-	userApp "github/code-kakitai/code-kakitai/application/user"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	userApp "github.com/yumekumo/sauna-shop/application/user"
+	"github.com/yumekumo/sauna-shop/presentation/settings"
 )
 
 type handler struct {

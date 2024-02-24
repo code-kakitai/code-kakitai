@@ -2,7 +2,8 @@ package product
 
 import (
 	"context"
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 type SaveProductUseCase struct {

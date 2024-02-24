@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	errDomain "github/code-kakitai/code-kakitai/domain/error"
+	errDomain "github.com/yumekumo/sauna-shop/domain/error"
 )
 
 func ErrorHandler() gin.HandlerFunc {

@@ -6,8 +6,8 @@ import (
 	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
 
-	orderApp "github/code-kakitai/code-kakitai/application/order"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	orderApp "github.com/yumekumo/sauna-shop/application/order"
+	"github.com/yumekumo/sauna-shop/presentation/settings"
 )
 
 type handler struct {

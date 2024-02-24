@@ -5,9 +5,9 @@ import (
 
 	"github.com/code-kakitai/go-pkg/ulid"
 
-	"github/code-kakitai/code-kakitai/domain/order"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github.com/yumekumo/sauna-shop/domain/order"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db/dbgen"
 )
 
 type orderRepository struct {

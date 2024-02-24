@@ -3,8 +3,9 @@ package query_service
 import (
 	"context"
 	"fmt"
-	"github/code-kakitai/code-kakitai/application/product"
 	"testing"
+
+	"github.com/yumekumo/sauna-shop/application/product"
 
 	"github.com/google/go-cmp/cmp"
 )

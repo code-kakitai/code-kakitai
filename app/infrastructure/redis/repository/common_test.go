@@ -7,7 +7,7 @@ import (
 	"github.com/alicebob/miniredis"
 	redis "github.com/redis/go-redis/v9"
 
-	infraRedis "github/code-kakitai/code-kakitai/infrastructure/redis"
+	infraRedis "github.com/yumekumo/sauna-shop/infrastructure/redis"
 )
 
 func TestMain(m *testing.M) {

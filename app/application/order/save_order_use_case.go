@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	transactionApp "github/code-kakitai/code-kakitai/application/transaction"
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	errDomain "github/code-kakitai/code-kakitai/domain/error"
-	orderDomain "github/code-kakitai/code-kakitai/domain/order"
+	transactionApp "github.com/yumekumo/sauna-shop/application/transaction"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	errDomain "github.com/yumekumo/sauna-shop/domain/error"
+	orderDomain "github.com/yumekumo/sauna-shop/domain/order"
 )
 
 type SaveOrderUseCase struct {

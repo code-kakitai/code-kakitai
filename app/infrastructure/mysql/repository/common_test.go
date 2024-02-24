@@ -5,9 +5,8 @@ import (
 
 	"gopkg.in/testfixtures.v2"
 
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db/dbgen"
 )
 
 var (

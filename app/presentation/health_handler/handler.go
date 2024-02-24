@@ -3,7 +3,7 @@ package health_handler
 import (
 	"github.com/gin-gonic/gin"
 
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github.com/yumekumo/sauna-shop/presentation/settings"
 )
 
 // HealthCheck godoc

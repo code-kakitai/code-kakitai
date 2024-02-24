@@ -7,8 +7,8 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	domainCart "github/code-kakitai/code-kakitai/domain/cart"
-	infraRedis "github/code-kakitai/code-kakitai/infrastructure/redis"
+	domainCart "github.com/yumekumo/sauna-shop/domain/cart"
+	infraRedis "github.com/yumekumo/sauna-shop/infrastructure/redis"
 )
 
 type cartRepository struct {

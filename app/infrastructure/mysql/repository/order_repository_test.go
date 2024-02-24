@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	orderDomain "github/code-kakitai/code-kakitai/domain/order"
+	orderDomain "github.com/yumekumo/sauna-shop/domain/order"
 )
 
 func TestOrderRepository_Save(t *testing.T) {

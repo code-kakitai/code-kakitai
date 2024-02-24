@@ -7,7 +7,7 @@ import (
 
 	"go.uber.org/multierr"
 
-	userDomain "github/code-kakitai/code-kakitai/domain/user"
+	userDomain "github.com/yumekumo/sauna-shop/domain/user"
 )
 
 type SendSystemMailUseCase struct {

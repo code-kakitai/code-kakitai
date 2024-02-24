@@ -5,10 +5,10 @@ import (
 	"database/sql"
 	"errors"
 
-	errDomain "github/code-kakitai/code-kakitai/domain/error"
-	"github/code-kakitai/code-kakitai/domain/user"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	errDomain "github.com/yumekumo/sauna-shop/domain/error"
+	"github.com/yumekumo/sauna-shop/domain/user"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db/dbgen"
 )
 
 type userRepository struct{}

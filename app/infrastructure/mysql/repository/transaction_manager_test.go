@@ -8,7 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/go-cmp/cmp"
 
-	userDomain "github/code-kakitai/code-kakitai/domain/user"
+	userDomain "github.com/yumekumo/sauna-shop/domain/user"
 )
 
 func TestTransactionManager(t *testing.T) {

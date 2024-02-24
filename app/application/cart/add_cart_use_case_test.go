@@ -8,8 +8,8 @@ import (
 	"github.com/code-kakitai/go-pkg/ulid"
 	"go.uber.org/mock/gomock"
 
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 func TestAddCartUseCase_Run(t *testing.T) {

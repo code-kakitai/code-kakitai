@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	errDomain "github/code-kakitai/code-kakitai/domain/error"
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	errDomain "github.com/yumekumo/sauna-shop/domain/error"
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 type orderDomainService struct {

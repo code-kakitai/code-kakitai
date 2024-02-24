@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	domainCart "github/code-kakitai/code-kakitai/domain/cart"
+	domainCart "github.com/yumekumo/sauna-shop/domain/cart"
 )
 
 func Test_cartRepository_FindByUserID_Save(t *testing.T) {

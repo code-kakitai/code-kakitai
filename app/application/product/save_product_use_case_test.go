@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"go.uber.org/mock/gomock"
 
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 func TestSaveProductUseCase_Run(t *testing.T) {

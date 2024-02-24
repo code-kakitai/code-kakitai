@@ -3,8 +3,8 @@ package cart
 import (
 	"context"
 
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 type AddCartUseCase struct {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github/code-kakitai/code-kakitai/config"
+	"github.com/yumekumo/sauna-shop/config"
 )
 
 var (

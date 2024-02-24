@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"github/code-kakitai/code-kakitai/config"
-	"github/code-kakitai/code-kakitai/presentation/settings"
-	"github/code-kakitai/code-kakitai/server/route"
+	"github.com/yumekumo/sauna-shop/config"
+	"github.com/yumekumo/sauna-shop/presentation/settings"
+	"github.com/yumekumo/sauna-shop/server/route"
 )
 
 func Run(ctx context.Context, conf *config.Config) {

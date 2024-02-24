@@ -4,8 +4,8 @@ import (
 	validator "github.com/code-kakitai/go-pkg/validator"
 	"github.com/gin-gonic/gin"
 
-	cartApp "github/code-kakitai/code-kakitai/application/cart"
-	"github/code-kakitai/code-kakitai/presentation/settings"
+	cartApp "github.com/yumekumo/sauna-shop/application/cart"
+	"github.com/yumekumo/sauna-shop/presentation/settings"
 )
 
 type handler struct {

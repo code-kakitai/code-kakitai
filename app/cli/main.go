@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/schema"
 	"log"
 	"os"
+
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db/schema"
 
 	"github.com/urfave/cli"
 )

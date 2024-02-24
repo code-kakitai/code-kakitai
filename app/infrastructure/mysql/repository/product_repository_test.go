@@ -7,7 +7,7 @@ import (
 	"github.com/code-kakitai/go-pkg/ulid"
 	"github.com/google/go-cmp/cmp"
 
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 func Test_productRepository_Save_And_Find(t *testing.T) {

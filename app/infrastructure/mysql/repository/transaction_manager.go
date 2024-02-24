@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github/code-kakitai/code-kakitai/application/transaction"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github.com/yumekumo/sauna-shop/application/transaction"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db/dbgen"
 )
 
 type TransactionManager struct{}

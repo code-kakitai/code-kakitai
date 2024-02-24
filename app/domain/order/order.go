@@ -7,8 +7,8 @@ import (
 
 	"github.com/code-kakitai/go-pkg/ulid"
 
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	errDomain "github/code-kakitai/code-kakitai/domain/error"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	errDomain "github.com/yumekumo/sauna-shop/domain/error"
 )
 
 type Order struct {

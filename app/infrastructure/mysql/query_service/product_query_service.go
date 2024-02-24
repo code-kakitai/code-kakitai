@@ -3,8 +3,8 @@ package query_service
 import (
 	"context"
 
-	"github/code-kakitai/code-kakitai/application/product"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
+	"github.com/yumekumo/sauna-shop/application/product"
+	"github.com/yumekumo/sauna-shop/infrastructure/mysql/db"
 )
 
 type productQueryService struct{}

@@ -7,7 +7,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"go.uber.org/mock/gomock"
 
-	userDomain "github/code-kakitai/code-kakitai/domain/user"
+	userDomain "github.com/yumekumo/sauna-shop/domain/user"
 )
 
 func TestFindUserUseCase_Run(t *testing.T) {

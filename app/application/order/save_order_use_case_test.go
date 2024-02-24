@@ -8,9 +8,9 @@ import (
 	"github.com/code-kakitai/go-pkg/ulid"
 	"go.uber.org/mock/gomock"
 
-	transactionApp "github/code-kakitai/code-kakitai/application/transaction"
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	orderDomain "github/code-kakitai/code-kakitai/domain/order"
+	transactionApp "github.com/yumekumo/sauna-shop/application/transaction"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	orderDomain "github.com/yumekumo/sauna-shop/domain/order"
 )
 
 func TestSaveOrderUseCase_Run(t *testing.T) {

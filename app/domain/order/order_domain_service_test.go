@@ -10,8 +10,8 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"go.uber.org/mock/gomock"
 
-	cartDomain "github/code-kakitai/code-kakitai/domain/cart"
-	productDomain "github/code-kakitai/code-kakitai/domain/product"
+	cartDomain "github.com/yumekumo/sauna-shop/domain/cart"
+	productDomain "github.com/yumekumo/sauna-shop/domain/product"
 )
 
 func Test_OrderDomainService_OrderProducts(t *testing.T) {

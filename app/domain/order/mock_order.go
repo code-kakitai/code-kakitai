@@ -10,7 +10,7 @@ package order
 
 import (
 	context "context"
-	cart "github/code-kakitai/code-kakitai/domain/cart"
+	cart "github.com/yumekumo/sauna-shop/domain/cart"
 	reflect "reflect"
 	time "time"
 

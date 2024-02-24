@@ -5,7 +5,7 @@ import (
 
 	"github.com/code-kakitai/go-pkg/ulid"
 
-	errDomain "github/code-kakitai/code-kakitai/domain/error"
+	errDomain "github.com/yumekumo/sauna-shop/domain/error"
 )
 
 type Product struct {
