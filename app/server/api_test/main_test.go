@@ -20,13 +20,18 @@ var (
 func TestMain(m *testing.M) {
 	var err error
 
+	// DBの立ち上げ
 	resource, pool := dbTest.CreateContainer()
 	defer dbTest.CloseContainer(resource, pool)
 
+	// DBへ接続する
 	dbCon := dbTest.ConnectDB(resource, pool)
 	defer dbCon.Close()
 
+	// テスト用DBをセットアップ
 	dbTest.SetupTestDB("../../infrastructure/mysql/db/schema/schema.sql")
+
+	// テストデータの準備
 	fixtures, err = testfixtures.NewFolder(
 		dbCon,
 		&testfixtures.MySQL{},
