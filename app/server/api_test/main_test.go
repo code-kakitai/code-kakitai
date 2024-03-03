@@ -8,11 +8,13 @@ import (
 	"github/code-kakitai/code-kakitai/server/route"
 	"testing"
 
+	"github.com/gin-gonic/gin"
 	"gopkg.in/testfixtures.v2"
 )
 
 var (
 	fixtures *testfixtures.Context
+	api      *gin.Engine
 )
 
 func TestMain(m *testing.M) {
@@ -38,8 +40,15 @@ func TestMain(m *testing.M) {
 	db.SetReadQuery(q)
 	db.SetDB(dbCon)
 
-	api := settings.NewGinEngine()
+	api = settings.NewGinEngine()
 	route.InitRoute(api)
 
 	m.Run()
+}
+
+func resetTestData(t *testing.T) {
+	t.Helper()
+	if err := fixtures.Load(); err != nil {
+		t.Fatal(err)
+	}
 }
