@@ -41,7 +41,7 @@ func TestProduct_GetProducts(t *testing.T) {
 			api.ServeHTTP(w, req)
 
 			testfunc := func(w *httptest.ResponseRecorder) bool {
-				// ステータスコードが期待値通りか比較
+				// ステータスコードが期待値と比較
 				if w.Code != tt.expectedCode {
 					t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
 					// ステータスが異なる場合は以降の比較を行わない
@@ -56,7 +56,7 @@ func TestProduct_GetProducts(t *testing.T) {
 					return false
 				}
 
-				// レスポンスボディが期待値通りか比較
+				// レスポンスボディが期待値と比較
 				if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
 					t.Errorf("response body mismatch (-want +got):\n%s", diff)
 				}
