@@ -10,7 +10,7 @@ import (
 )
 
 func TestProduct_GetProducts(t *testing.T) {
-	// GET処理の場合は、DBの読み込みのテストケースのため、冒頭でのみテストデータを初期化する
+	// GET処理なので、冒頭でのみテストデータを初期化する
 	// 書き込み処理の場合は、テストケースごとに初期化する
 	resetTestData(t)
 
@@ -40,32 +40,20 @@ func TestProduct_GetProducts(t *testing.T) {
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
 
-			testfunc := func(w *httptest.ResponseRecorder) bool {
-				// ステータスコードが期待値と比較
-				if w.Code != tt.expectedCode {
-					t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
-					// ステータスが異なる場合は以降の比較を行わない
-					return false
-				}
-
-				// レスポンスボディのパース
-				var actualBody []map[string]interface{}
-				if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
-					t.Errorf("failed to unmarshal response body: %v", err)
-					// パースに失敗した場合は以降の比較を行わない
-					return false
-				}
-
-				// レスポンスボディが期待値と比較
-				if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
-					t.Errorf("response body mismatch (-want +got):\n%s", diff)
-				}
-
-				return true
+			// ステータスコードの期待値と比較
+			if w.Code != tt.expectedCode {
+				t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
 			}
 
-			if !testfunc(w) {
-				t.Fail()
+			// レスポンスボディのパース
+			var responseBody []map[string]interface{}
+			if err := json.Unmarshal(w.Body.Bytes(), &responseBody); err != nil {
+				t.Fatalf("failed to unmarshal response body: %v", err)
+			}
+
+			// レスポンスボディの期待値と比較
+			if diff := cmp.Diff(tt.expectedBody, responseBody); diff != "" {
+				t.Errorf("response body mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}
