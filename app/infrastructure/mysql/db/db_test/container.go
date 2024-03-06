@@ -83,9 +83,9 @@ func ConnectDB(resource *dockertest.Resource, pool *dockertest.Pool) *sql.DB {
 	return db
 }
 
-func SetupTestDB() {
+func SetupTestDB(schemaFilePath string) {
 	// マイグレーション
-	desiredDDLs, err := sqldef.ReadFile("../db/schema/schema.sql")
+	desiredDDLs, err := sqldef.ReadFile(schemaFilePath)
 	if err != nil {
 		log.Fatalf("failed to read schema file: %s", err)
 	}

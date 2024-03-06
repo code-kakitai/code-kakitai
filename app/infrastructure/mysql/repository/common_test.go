@@ -6,7 +6,7 @@ import (
 	"gopkg.in/testfixtures.v2"
 
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
-	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
+	dbTest "github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
 )
 
@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 	defer dbCon.Close()
 
 	// テスト用DBをセットアップ
-	dbTest.SetupTestDB()
+	dbTest.SetupTestDB("../db/schema/schema.sql")
 
 	// テストデータの準備
 	fixturePath := "../fixtures"

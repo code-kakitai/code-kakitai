@@ -1,17 +1,20 @@
-package query_service
+package api_test
 
 import (
-	"testing"
-
-	"gopkg.in/testfixtures.v2"
-
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	dbTest "github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	"github/code-kakitai/code-kakitai/presentation/settings"
+	"github/code-kakitai/code-kakitai/server/route"
+	"testing"
+
+	"github.com/gin-gonic/gin"
+	"gopkg.in/testfixtures.v2"
 )
 
 var (
 	fixtures *testfixtures.Context
+	api      *gin.Engine
 )
 
 func TestMain(m *testing.M) {
@@ -26,11 +29,14 @@ func TestMain(m *testing.M) {
 	defer dbCon.Close()
 
 	// テスト用DBをセットアップ
-	dbTest.SetupTestDB("../db/schema/schema.sql")
+	dbTest.SetupTestDB("../../infrastructure/mysql/db/schema/schema.sql")
 
 	// テストデータの準備
-	fixturePath := "../fixtures"
-	fixtures, err = testfixtures.NewFolder(dbCon, &testfixtures.MySQL{}, fixturePath)
+	fixtures, err = testfixtures.NewFolder(
+		dbCon,
+		&testfixtures.MySQL{},
+		"../../infrastructure/mysql/fixtures",
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -39,7 +45,9 @@ func TestMain(m *testing.M) {
 	db.SetReadQuery(q)
 	db.SetDB(dbCon)
 
-	// テスト実行
+	api = settings.NewGinEngine()
+	route.InitRoute(api)
+
 	m.Run()
 }
 
