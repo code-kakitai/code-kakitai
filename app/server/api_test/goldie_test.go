@@ -17,7 +17,6 @@ func TestProduct_GetProducts_With_Goldie(t *testing.T) {
 
 	tests := map[string]struct {
 		expectedCode int
-		expectedBody []map[string]any
 	}{
 		"正常系": {
 			expectedCode: http.StatusOK,
