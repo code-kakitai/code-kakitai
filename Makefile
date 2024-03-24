@@ -16,7 +16,7 @@ run:
 test: lint
 	cd app && go test ./...
 
-integration-test: lint
+test-integration: lint
 	go test ./app/server/api_test...
 
 lint:
