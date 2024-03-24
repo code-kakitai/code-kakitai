@@ -1,7 +1,6 @@
 package order
 
 import (
-	"fmt"
 	"time"
 
 	validator "github.com/code-kakitai/go-pkg/validator"
@@ -55,7 +54,6 @@ func (h handler) PostOrders(ctx *gin.Context) {
 			Quantity:  param.Quantity,
 		})
 	}
-	fmt.Printf("dtos: %+v\n", dtos)
 	id, err := h.saveOrderUseCase.Run(
 		ctx.Request.Context(),
 		userID,
