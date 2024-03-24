@@ -67,5 +67,6 @@ func (h handler) PostOrders(ctx *gin.Context) {
 		return
 	}
 
-	settings.ReturnStatusCreated(ctx, id)
+	PostOrderResponse.ID = id
+	settings.ReturnStatusCreated(ctx, PostOrderResponse)
 }
