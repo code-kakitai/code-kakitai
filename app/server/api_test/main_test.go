@@ -4,15 +4,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"testing"
+	"time"
 
+	"github.com/alicebob/miniredis"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/testfixtures.v2"
 
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db"
 	dbTest "github/code-kakitai/code-kakitai/infrastructure/mysql/db/db_test"
 	"github/code-kakitai/code-kakitai/infrastructure/mysql/db/dbgen"
+	infraRedis "github/code-kakitai/code-kakitai/infrastructure/redis"
 	"github/code-kakitai/code-kakitai/presentation/settings"
 	"github/code-kakitai/code-kakitai/server/route"
+
+	redis "github.com/redis/go-redis/v9"
 )
 
 var (
@@ -45,8 +50,12 @@ func TestMain(m *testing.M) {
 	}
 
 	q := dbgen.New(dbCon)
+	db.SetQuery(q)
 	db.SetReadQuery(q)
 	db.SetDB(dbCon)
+	db.SetReadDB(dbCon)
+
+	infraRedis.SetRedisClient(NewTestClient())
 
 	api = settings.NewGinEngine()
 	route.InitRoute(api)
@@ -71,4 +80,16 @@ func formatJSON(t *testing.T, b []byte) []byte {
 		t.Fatal(err)
 	}
 	return out.Bytes()
+}
+
+func NewTestClient() *redis.Client {
+	s, _ := miniredis.Run()
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:                  s.Addr(),
+		ReadTimeout:           3 * time.Second,
+		WriteTimeout:          3 * time.Second,
+		ContextTimeoutEnabled: true,
+	})
+
+	return redisClient
 }
