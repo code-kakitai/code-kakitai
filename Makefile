@@ -16,6 +16,9 @@ run:
 test: lint
 	cd app && go test ./...
 
+integration-test: lint
+	go test ./app/server/api_test...
+
 lint:
 	cd app && go vet ./...
 
