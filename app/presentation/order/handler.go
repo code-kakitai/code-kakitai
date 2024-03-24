@@ -1,6 +1,7 @@
 package order
 
 import (
+	"fmt"
 	"time"
 
 	validator "github.com/code-kakitai/go-pkg/validator"
@@ -29,16 +30,19 @@ func NewHandler(saveOrderUseCase *orderApp.SaveOrderUseCase) handler {
 // @Success 200 {int} id
 // @Router /v1/orders [post]
 func (h handler) PostOrders(ctx *gin.Context) {
-	var params []*PostOrdersParams
+	var params []PostOrdersParams
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 		return
 	}
 	validate := validator.GetValidator()
-	if err := validate.Struct(&params); err != nil {
-		settings.ReturnStatusBadRequest(ctx, err)
-		return
+	for _, param := range params {
+		if err := validate.Struct(param); err != nil {
+			// バリデーションエラーが見つかった場合、即座に400エラーを返す
+			settings.ReturnStatusBadRequest(ctx, err)
+			return
+		}
 	}
 
 	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
@@ -51,6 +55,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 			Quantity:  param.Quantity,
 		})
 	}
+	fmt.Printf("dtos: %+v\n", dtos)
 	id, err := h.saveOrderUseCase.Run(
 		ctx.Request.Context(),
 		userID,
