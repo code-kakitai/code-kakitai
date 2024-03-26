@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/oklog/ulid/v2"
 	"github.com/sebdah/goldie/v2"
 )
 
@@ -65,25 +66,26 @@ func TestProduct_PostProducts(t *testing.T) {
 	tests := map[string]struct {
 		requestBody  map[string]any
 		expectedCode int
-		expectedBody []map[string]any
+		expectedBody map[string]any
 	}{
 		"正常系": {
 			requestBody: map[string]any{
 				"owner_id":    "01HCNYK3F7RJTWJ7GAQHPZDVE3",
-				"name":        "サウナハット2",
+				"name":        "サウナハット青",
 				"description": "今治タオルを素材としたこだわりのサウナハット",
 				"price":       3000,
 				"stock":       2,
 			},
 			expectedCode: http.StatusCreated,
-			expectedBody: []map[string]any{
-				{
-					"description": "",
-					"id":          "01HCNYK4MQNC6G6X3F3DGXZ2J8",
-					"name":        "サウナハット",
-					"price":       float64(3000),
-					"stock":       float64(20),
-					"owner_id":    "01HCNYK3F7RJTWJ7GAQHPZDVE3",
+			expectedBody: map[string]any{
+				"product": map[string]any{
+					"description": "今治タオルを素材としたこだわりのサウナハット",
+					// IDはランダムな文字列なため、Diffでは比較しない
+					// "id":          "01HCNYK3F7RJTWJ7GAQHPZDVE3",
+					"name":     "サウナハット青",
+					"price":    float64(3000),
+					"stock":    float64(2),
+					"owner_id": "01HCNYK3F7RJTWJ7GAQHPZDVE3",
 				},
 			},
 		},
@@ -105,10 +107,20 @@ func TestProduct_PostProducts(t *testing.T) {
 				t.Fatalf("expected status code %d, got %d", tt.expectedCode, w.Code)
 			}
 
-			var actualBody []map[string]interface{}
+			var actualBody map[string]any
 			if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
 				t.Fatalf("failed to unmarshal response body: %v", err)
 			}
+			product, ok := actualBody["product"].(map[string]any)
+			if !ok {
+				t.Fatalf("failed to parse response body: %v", actualBody)
+			}
+			// UUIDはランダムな文字列なため、形式のみチェック
+			if _, err := ulid.ParseStrict(product["id"].(string)); err != nil {
+				t.Errorf("id is not a valid ULID: %v", product["id"])
+			}
+			// IDはランダムな文字列なため、Diffでは比較しない
+			delete(actualBody["product"].(map[string]any), "id")
 			if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
 				t.Errorf("response body mismatch (-want +got):\n%s", diff)
 			}
