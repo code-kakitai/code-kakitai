@@ -26,7 +26,7 @@ func NewHandler(saveOrderUseCase *orderApp.SaveOrderUseCase) handler {
 // @Accept json
 // @Produce json
 // @Param request body []PostOrdersParams true "注文商品"
-// @Success 200 {int} id
+// @Success	200	{object} postOrderResponse
 // @Router /v1/orders [post]
 func (h handler) PostOrders(ctx *gin.Context) {
 	var params []PostOrdersParams
@@ -54,7 +54,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 			Quantity:  param.Quantity,
 		})
 	}
-	id, err := h.saveOrderUseCase.Run(
+	orderID, err := h.saveOrderUseCase.Run(
 		ctx.Request.Context(),
 		userID,
 		dtos,
@@ -65,6 +65,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 		return
 	}
 
-	PostOrderResponse.ID = id
-	settings.ReturnStatusCreated(ctx, PostOrderResponse)
+	settings.ReturnStatusCreated(ctx, postOrderResponse{
+		OrderID: orderID,
+	})
 }

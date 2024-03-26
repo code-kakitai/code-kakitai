@@ -1,5 +1,5 @@
 package order
 
-var PostOrderResponse struct {
-	ID string `json:"id"`
+type postOrderResponse struct {
+	OrderID string `json:"id"`
 }
