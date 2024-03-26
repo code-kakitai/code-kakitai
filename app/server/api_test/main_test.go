@@ -56,6 +56,8 @@ func TestMain(m *testing.M) {
 	db.SetReadDB(dbCon)
 
 	infraRedis.SetRedisClient(NewTestClient())
+	cli := infraRedis.GetRedisClient()
+	defer cli.Close()
 
 	api = settings.NewGinEngine()
 	route.InitRoute(api)
