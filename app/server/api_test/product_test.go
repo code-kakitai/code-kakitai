@@ -75,7 +75,7 @@ func TestProduct_PostProducts(t *testing.T) {
 				"price":       3000,
 				"stock":       2,
 			},
-			expectedCode: http.StatusOK,
+			expectedCode: http.StatusCreated,
 			expectedBody: []map[string]any{
 				{
 					"description": "",
