@@ -115,7 +115,7 @@ func TestProduct_PostProducts(t *testing.T) {
 			if !ok {
 				t.Fatalf("failed to parse response body: %v", actualBody)
 			}
-			// UUIDはランダムな文字列なため、形式のみチェック
+			// ULIDはランダムな文字列なため、形式のみチェック
 			if _, err := ulid.ParseStrict(product["id"].(string)); err != nil {
 				t.Errorf("id is not a valid ULID: %v", product["id"])
 			}
