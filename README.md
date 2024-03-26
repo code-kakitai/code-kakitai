@@ -39,7 +39,7 @@ make run
 make swagger-up
 ```
 こちらのコマンドで、Swaggerのコンテナが起動します。
-localhost:8080にて確認可能です。
+localhost:8002にて確認可能です。
 
 ## 著者
 - [hiroaki](https://twitter.com/hiroaki_u329)
