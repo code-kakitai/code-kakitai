@@ -42,8 +42,7 @@ func TestOrder_PostOrders(t *testing.T) {
 			// Redisに値を入れるために、カートに商品を追加
 			b, err := json.Marshal(tt.postCartsParams)
 			if err != nil {
-				t.Errorf("failed to marshal err: %v", err)
-				t.Fail()
+				t.Fatalf("failed to marshal err: %v", err)
 			}
 			req := httptest.NewRequest(http.MethodPost, "/v1/carts", bytes.NewBuffer(b))
 			w := httptest.NewRecorder()
@@ -52,8 +51,7 @@ func TestOrder_PostOrders(t *testing.T) {
 			// 注文を作成
 			b, err = json.Marshal(tt.requestBody)
 			if err != nil {
-				t.Errorf("failed to marshal err: %v", err)
-				t.Fail()
+				t.Fatalf("failed to marshal err: %v", err)
 			}
 			req = httptest.NewRequest(http.MethodPost, "/v1/orders", bytes.NewBuffer(b))
 			w = httptest.NewRecorder()
