@@ -8,9 +8,14 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/sebdah/goldie/v2"
 )
 
 func TestProduct_GetProducts(t *testing.T) {
+	// GET処理なので、冒頭でのみテストデータを初期化する
+	// 書き込み処理の場合は、テストケースごとに初期化する
+	resetTestData(t)
+
 	tests := map[string]struct {
 		expectedCode int
 		expectedBody []map[string]any
@@ -31,35 +36,26 @@ func TestProduct_GetProducts(t *testing.T) {
 		},
 	}
 
-	for name, tt := range tests {
-		t.Run(name, func(t *testing.T) {
-			resetTestData(t)
+	for testName, tt := range tests {
+		t.Run(testName, func(t *testing.T) {
 			req := httptest.NewRequest(http.MethodGet, "/v1/products", nil)
-
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
 
-			f := func(w *httptest.ResponseRecorder) bool {
-				if w.Code != tt.expectedCode {
-					t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
-					// ステータスが異なる場合は以降の比較を行わない
-					return false
-				}
-
-				var actualBody []map[string]interface{}
-				if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
-					t.Errorf("failed to unmarshal response body: %v", err)
-					return false
-				}
-				if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
-					t.Errorf("response body mismatch (-want +got):\n%s", diff)
-				}
-
-				return true
+			// ステータスコードの期待値と比較
+			if w.Code != tt.expectedCode {
+				t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
 			}
 
-			if !f(w) {
-				t.Fail()
+			// レスポンスボディのパース
+			var responseBody []map[string]interface{}
+			if err := json.Unmarshal(w.Body.Bytes(), &responseBody); err != nil {
+				t.Fatalf("failed to unmarshal response body: %v", err)
+			}
+
+			// レスポンスボディの期待値と比較
+			if diff := cmp.Diff(tt.expectedBody, responseBody); diff != "" {
+				t.Errorf("response body mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}
@@ -98,36 +94,59 @@ func TestProduct_PostProducts(t *testing.T) {
 			resetTestData(t)
 			b, err := json.Marshal(tt.requestBody)
 			if err != nil {
-				t.Errorf("failed to marshal err: %v", err)
-				t.Fail()
+				t.Fatalf("failed to marshal err: %v", err)
 			}
 			req := httptest.NewRequest(http.MethodPost, "/v1/products", bytes.NewBuffer(b))
 
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
 
-			f := func(w *httptest.ResponseRecorder) bool {
-				if w.Code != tt.expectedCode {
-					t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
-					// ステータスが異なる場合は以降の比較を行わない
-					return false
-				}
-
-				var actualBody []map[string]interface{}
-				if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
-					t.Errorf("failed to unmarshal response body: %v", err)
-					return false
-				}
-				if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
-					t.Errorf("response body mismatch (-want +got):\n%s", diff)
-				}
-
-				return true
+			if w.Code != tt.expectedCode {
+				t.Fatalf("expected status code %d, got %d", tt.expectedCode, w.Code)
 			}
 
-			if !f(w) {
-				t.Fail()
+			var actualBody []map[string]interface{}
+			if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
+				t.Fatalf("failed to unmarshal response body: %v", err)
 			}
+			if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
+				t.Errorf("response body mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestProduct_GetProducts_With_Goldie(t *testing.T) {
+	// GET処理なので、冒頭でのみテストデータを初期化する
+	// 書き込み処理の場合は、テストケースごとに初期化する
+	resetTestData(t)
+
+	tests := map[string]struct {
+		expectedCode int
+	}{
+		"正常系": {
+			expectedCode: http.StatusOK,
+		},
+	}
+
+	for testName, tt := range tests {
+		t.Run(testName, func(t *testing.T) {
+			req := httptest.NewRequest(http.MethodGet, "/v1/products", nil)
+			w := httptest.NewRecorder()
+			api.ServeHTTP(w, req)
+
+			// ステータスコードの期待値と比較
+			if w.Code != tt.expectedCode {
+				t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
+			}
+
+			// レスポンスボディの期待値と比較
+			// レスポンスボディが変わった時は、-updateフラグをつけてテストを実行する
+			g := goldie.New(t,
+				goldie.WithNameSuffix(".golden.json"),
+				goldie.WithFixtureDir("testdata/product_test"),
+			)
+			g.Assert(t, t.Name(), formatJSON(t, w.Body.Bytes()))
 		})
 	}
 }
