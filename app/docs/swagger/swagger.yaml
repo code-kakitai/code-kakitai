@@ -24,6 +24,11 @@ definitions:
     - product_id
     - quantity
     type: object
+  order.postOrderResponse:
+    properties:
+      id:
+        type: string
+    type: object
   products.PostProductsParams:
     properties:
       description:
@@ -158,7 +163,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: int
+            $ref: '#/definitions/order.postOrderResponse'
       summary: 注文をする
       tags:
       - orders

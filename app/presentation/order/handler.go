@@ -26,19 +26,22 @@ func NewHandler(saveOrderUseCase *orderApp.SaveOrderUseCase) handler {
 // @Accept json
 // @Produce json
 // @Param request body []PostOrdersParams true "注文商品"
-// @Success 200 {int} id
+// @Success	200	{object} postOrderResponse
 // @Router /v1/orders [post]
 func (h handler) PostOrders(ctx *gin.Context) {
-	var params []*PostOrdersParams
+	var params []PostOrdersParams
 	err := ctx.ShouldBindJSON(&params)
 	if err != nil {
 		settings.ReturnBadRequest(ctx, err)
 		return
 	}
 	validate := validator.GetValidator()
-	if err := validate.Struct(&params); err != nil {
-		settings.ReturnStatusBadRequest(ctx, err)
-		return
+	for _, param := range params {
+		if err := validate.Struct(param); err != nil {
+			// バリデーションエラーが見つかった場合、即座に400エラーを返す
+			settings.ReturnStatusBadRequest(ctx, err)
+			return
+		}
 	}
 
 	// 本来はsessionに入っているuserIDを取得するが、本質ではないため省略
@@ -51,7 +54,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 			Quantity:  param.Quantity,
 		})
 	}
-	id, err := h.saveOrderUseCase.Run(
+	orderID, err := h.saveOrderUseCase.Run(
 		ctx.Request.Context(),
 		userID,
 		dtos,
@@ -62,5 +65,7 @@ func (h handler) PostOrders(ctx *gin.Context) {
 		return
 	}
 
-	settings.ReturnStatusCreated(ctx, id)
+	settings.ReturnStatusCreated(ctx, postOrderResponse{
+		OrderID: orderID,
+	})
 }
