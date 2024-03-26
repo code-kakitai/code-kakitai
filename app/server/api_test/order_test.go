@@ -39,6 +39,7 @@ func TestOrder_PostOrders(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			resetTestData(t)
 
+			// TODO: Redisの初期データを追加できたら、この処理は不要
 			// Redisに値を入れるために、カートに商品を追加
 			b, err := json.Marshal(tt.postCartsParams)
 			if err != nil {
