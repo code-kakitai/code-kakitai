@@ -66,7 +66,7 @@ func TestOrder_PostOrders(t *testing.T) {
 			if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
 				t.Fatalf("failed to unmarshal response body: %v", err)
 			}
-			// UUIDはランダムな文字列なため、形式のみチェック
+			// ULIDはランダムな文字列なため、形式のみチェック
 			if _, err := ulid.ParseStrict(actualBody["id"].(string)); err != nil {
 				t.Errorf("id is not a valid ULID: %v", actualBody["id"])
 			}
