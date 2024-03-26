@@ -3,7 +3,6 @@ package api_test
 import (
 	"bytes"
 	"encoding/json"
-	"github/code-kakitai/code-kakitai/presentation/cart"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,15 +12,15 @@ import (
 
 func TestOrder_PostOrders(t *testing.T) {
 	tests := map[string]struct {
-		postCartsParams cart.PostCartsParams
+		postCartsParams map[string]any
 		requestBody     []map[string]any
 		expectedCode    int
 		expectedBody    map[string]any
 	}{
 		"正常系": {
-			postCartsParams: cart.PostCartsParams{
-				ProductID: "01HCNYK4MQNC6G6X3F3DGXZ2J8",
-				Quantity:  1,
+			postCartsParams: map[string]any{
+				"product_id": "01HCNYK4MQNC6G6X3F3DGXZ2J8",
+				"quantity":   1,
 			},
 			requestBody: []map[string]any{
 				{
