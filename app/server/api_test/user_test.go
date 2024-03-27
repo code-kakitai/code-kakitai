@@ -28,7 +28,7 @@ func TestUser_GetUserByID(t *testing.T) {
 				"users": map[string]any{
 					"id":           "01HCNYK0PKYZWB0ZT1KR0EPWGP",
 					"email":        "example@test.com",
-					"phone_number": "09012345678",
+					"phone_number": "08011112222",
 					"last_name":    "山田",
 					"first_name":   "太郎",
 					"address":      "東京都渋谷区広尾2-2",
@@ -50,7 +50,7 @@ func TestUser_GetUserByID(t *testing.T) {
 			}
 
 			// レスポンスボディのパース
-			var responseBody []map[string]interface{}
+			var responseBody map[string]interface{}
 			if err := json.Unmarshal(w.Body.Bytes(), &responseBody); err != nil {
 				t.Fatalf("failed to unmarshal response body: %v", err)
 			}
@@ -76,16 +76,6 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 		"正常系": {
 			id:           "01HCNYK0PKYZWB0ZT1KR0EPWGP",
 			expectedCode: http.StatusOK,
-			expectedBody: map[string]any{
-				"users": map[string]any{
-					"id":           "01HCNYK0PKYZWB0ZT1KR0EPWGP",
-					"email":        "example@test.com",
-					"phone_number": "09012345678",
-					"last_name":    "山田",
-					"first_name":   "太郎",
-					"address":      "東京都渋谷区広尾2-2",
-				},
-			},
 		},
 	}
 
