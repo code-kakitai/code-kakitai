@@ -62,6 +62,7 @@ gen-swagger:
 
 swagger-up:
 	docker-compose -f app/docs/swagger/docker-compose.yml up -d
+	open http://localhost:8002
 
 ##################
 ##### DB関連 #####
