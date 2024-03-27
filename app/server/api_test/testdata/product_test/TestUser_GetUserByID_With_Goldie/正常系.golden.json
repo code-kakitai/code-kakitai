@@ -1,0 +1,10 @@
+{
+  "users": {
+    "id": "01HCNYK0PKYZWB0ZT1KR0EPWGP",
+    "email": "example@test.com",
+    "phone_number": "08011112222",
+    "last_name": "山田",
+    "first_name": "太郎",
+    "address": "東京都渋谷区広尾2-2"
+  }
+}

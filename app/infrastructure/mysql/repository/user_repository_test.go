@@ -12,7 +12,7 @@ import (
 )
 
 func TestUserRepository_FindById(t *testing.T) {
-	user, err := userDomain.Reconstruct("01HCNYK0PKYZWB0ZT1KR0EPWGP", "example@test.com", "08011112222", "太郎", "田中", "東京都", "渋谷区", "1-1-1")
+	user, err := userDomain.Reconstruct("01HCNYK0PKYZWB0ZT1KR0EPWGP", "example@test.com", "08011112222", "山田", "太郎", "東京都", "渋谷区", "1-1-1")
 	if err != nil {
 		t.Error(err)
 	}
