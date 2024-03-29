@@ -39,8 +39,7 @@ func TestUser_GetUserByID(t *testing.T) {
 
 	for testName, tt := range tests {
 		t.Run(testName, func(t *testing.T) {
-			endpoint := fmt.Sprintf("/v1/users/%s", tt.id)
-			req := httptest.NewRequest(http.MethodGet, endpoint, nil)
+			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
 
@@ -81,8 +80,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 
 	for testName, tt := range tests {
 		t.Run(testName, func(t *testing.T) {
-			endpoint := fmt.Sprintf("/v1/users/%s", tt.id)
-			req := httptest.NewRequest(http.MethodGet, endpoint, nil)
+			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
 
