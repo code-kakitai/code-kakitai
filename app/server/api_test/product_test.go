@@ -3,6 +3,7 @@ package api_test
 import (
 	"bytes"
 	"encoding/json"
+	"github/code-kakitai/code-kakitai/server/utils"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -206,6 +207,7 @@ func TestProduct_PostProducts_With_Goldie(t *testing.T) {
 			g := goldie.New(t,
 				goldie.WithNameSuffix(".golden.json"),
 				goldie.WithFixtureDir("testdata/product_test"),
+				utils.WithIgnoreMapKeys(t, "id"),
 			)
 			g.Assert(t, t.Name(), formatJSON(t, w.Body.Bytes()))
 		})
