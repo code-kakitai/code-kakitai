@@ -1,8 +1,11 @@
-package api_test
+//go:build integration_read
+
+package api_read_test
 
 import (
 	"encoding/json"
 	"fmt"
+	"github/code-kakitai/code-kakitai/server/api_test/test_utils"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,10 +15,7 @@ import (
 )
 
 func TestUser_GetUserByID(t *testing.T) {
-	// GET処理なので、冒頭でのみテストデータを初期化する
-	// 書き込み処理の場合は、テストケースごとに初期化する
-	resetTestData(t)
-
+	t.Parallel()
 	tests := map[string]struct {
 		id           string
 		expectedCode int
@@ -38,7 +38,9 @@ func TestUser_GetUserByID(t *testing.T) {
 	}
 
 	for testName, tt := range tests {
+		tt := tt
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
@@ -63,10 +65,7 @@ func TestUser_GetUserByID(t *testing.T) {
 }
 
 func TestUser_GetUserByID_With_Goldie(t *testing.T) {
-	// GET処理なので、冒頭でのみテストデータを初期化する
-	// 書き込み処理の場合は、テストケースごとに初期化する
-	resetTestData(t)
-
+	t.Parallel()
 	tests := map[string]struct {
 		id           string
 		expectedCode int
@@ -80,6 +79,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 
 	for testName, tt := range tests {
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
@@ -95,7 +95,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 				goldie.WithNameSuffix(".golden.json"),
 				goldie.WithFixtureDir("testdata/product_test"),
 			)
-			g.Assert(t, t.Name(), formatJSON(t, w.Body.Bytes()))
+			g.Assert(t, t.Name(), test_utils.FormatJSON(t, w.Body.Bytes()))
 		})
 	}
 }

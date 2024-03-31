@@ -18,6 +18,15 @@ https://techbookfest.org/product/9a3U54LBdKDE30ewPS6Ugn)は、Go言語を使用�
 
 各レイヤーの実装やそのポイントは書籍にて詳しく書いているため、こちらのリポジトリと合わせて読んでいただければと思います。
 
+## 事前準備
+ビルドタグを利用するために、vscodeのsetting.jsonに下記を追加してください。
+
+```json
+  "go.toolsEnvVars": {
+    "GOFLAGS": "-tags=integration_read,integration_write"
+  },
+```
+
 ## 動作確認
 以下の環境で動作確認を行うことができます。
 

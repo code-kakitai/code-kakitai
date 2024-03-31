@@ -1,8 +1,8 @@
-package api_test
+//go:build integration_read
+
+package api_read_test
 
 import (
-	"bytes"
-	"encoding/json"
 	"testing"
 	"time"
 
@@ -37,15 +37,18 @@ func TestMain(m *testing.M) {
 	defer dbCon.Close()
 
 	// テスト用DBをセットアップ
-	dbTest.SetupTestDB("../../infrastructure/mysql/db/schema/schema.sql")
+	dbTest.SetupTestDB("../../../infrastructure/mysql/db/schema/schema.sql")
 
 	// テストデータの準備
 	fixtures, err = testfixtures.NewFolder(
 		dbCon,
 		&testfixtures.MySQL{},
-		"../../infrastructure/mysql/fixtures",
+		"../../../infrastructure/mysql/fixtures",
 	)
 	if err != nil {
+		panic(err)
+	}
+	if err := fixtures.Load(); err != nil {
 		panic(err)
 	}
 
@@ -63,25 +66,6 @@ func TestMain(m *testing.M) {
 	route.InitRoute(api)
 
 	m.Run()
-}
-
-func resetTestData(t *testing.T) {
-	t.Helper()
-	if err := fixtures.Load(); err != nil {
-		t.Fatal(err)
-	}
-}
-
-// Jsonのフォーマットを整える
-func formatJSON(t *testing.T, b []byte) []byte {
-	t.Helper()
-
-	var out bytes.Buffer
-	err := json.Indent(&out, b, "", "  ")
-	if err != nil {
-		t.Fatal(err)
-	}
-	return out.Bytes()
 }
 
 func NewTestClient() *redis.Client {

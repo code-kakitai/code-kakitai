@@ -13,6 +13,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/redis/go-redis/v9 v9.0.5
+	github.com/sebdah/goldie/v2 v2.5.4-0.20230714074055-083c8017831e
 	github.com/swaggo/swag v1.16.1
 	github.com/urfave/cli v1.22.14
 	go.uber.org/mock v0.2.0
@@ -68,7 +69,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/sebdah/goldie/v2 v2.5.3 // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
