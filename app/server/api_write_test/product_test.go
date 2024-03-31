@@ -1,3 +1,5 @@
+//go:build integration_write
+
 package api_write_test
 
 import (
