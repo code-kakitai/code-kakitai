@@ -5,7 +5,7 @@ package api_read_test
 import (
 	"encoding/json"
 	"fmt"
-	"github/code-kakitai/code-kakitai/server/utils"
+	"github/code-kakitai/code-kakitai/server/api_test/test_utils"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -95,7 +95,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 				goldie.WithNameSuffix(".golden.json"),
 				goldie.WithFixtureDir("testdata/product_test"),
 			)
-			g.Assert(t, t.Name(), utils.FormatJSON(t, w.Body.Bytes()))
+			g.Assert(t, t.Name(), test_utils.FormatJSON(t, w.Body.Bytes()))
 		})
 	}
 }

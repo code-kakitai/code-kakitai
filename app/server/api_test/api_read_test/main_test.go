@@ -1,6 +1,6 @@
-//go:build integration_write
+//go:build integration_read
 
-package api_write_test
+package api_read_test
 
 import (
 	"testing"
@@ -37,15 +37,18 @@ func TestMain(m *testing.M) {
 	defer dbCon.Close()
 
 	// テスト用DBをセットアップ
-	dbTest.SetupTestDB("../../infrastructure/mysql/db/schema/schema.sql")
+	dbTest.SetupTestDB("../../../infrastructure/mysql/db/schema/schema.sql")
 
 	// テストデータの準備
 	fixtures, err = testfixtures.NewFolder(
 		dbCon,
 		&testfixtures.MySQL{},
-		"../../infrastructure/mysql/fixtures",
+		"../../../infrastructure/mysql/fixtures",
 	)
 	if err != nil {
+		panic(err)
+	}
+	if err := fixtures.Load(); err != nil {
 		panic(err)
 	}
 
@@ -63,13 +66,6 @@ func TestMain(m *testing.M) {
 	route.InitRoute(api)
 
 	m.Run()
-}
-
-func resetTestData(t *testing.T) {
-	t.Helper()
-	if err := fixtures.Load(); err != nil {
-		t.Fatal(err)
-	}
 }
 
 func NewTestClient() *redis.Client {
