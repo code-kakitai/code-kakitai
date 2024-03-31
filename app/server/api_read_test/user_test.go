@@ -1,8 +1,9 @@
-package api_test
+package api_read_test
 
 import (
 	"encoding/json"
 	"fmt"
+	"github/code-kakitai/code-kakitai/server/utils"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,10 +13,6 @@ import (
 )
 
 func TestUser_GetUserByID(t *testing.T) {
-	// GET処理なので、冒頭でのみテストデータを初期化する
-	// 書き込み処理の場合は、テストケースごとに初期化する
-	resetTestData(t)
-
 	tests := map[string]struct {
 		id           string
 		expectedCode int
@@ -63,10 +60,6 @@ func TestUser_GetUserByID(t *testing.T) {
 }
 
 func TestUser_GetUserByID_With_Goldie(t *testing.T) {
-	// GET処理なので、冒頭でのみテストデータを初期化する
-	// 書き込み処理の場合は、テストケースごとに初期化する
-	resetTestData(t)
-
 	tests := map[string]struct {
 		id           string
 		expectedCode int
@@ -95,7 +88,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 				goldie.WithNameSuffix(".golden.json"),
 				goldie.WithFixtureDir("testdata/product_test"),
 			)
-			g.Assert(t, t.Name(), formatJSON(t, w.Body.Bytes()))
+			g.Assert(t, t.Name(), utils.FormatJSON(t, w.Body.Bytes()))
 		})
 	}
 }

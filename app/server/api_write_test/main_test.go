@@ -1,8 +1,6 @@
-package api_test
+package api_write_test
 
 import (
-	"bytes"
-	"encoding/json"
 	"testing"
 	"time"
 
@@ -70,18 +68,6 @@ func resetTestData(t *testing.T) {
 	if err := fixtures.Load(); err != nil {
 		t.Fatal(err)
 	}
-}
-
-// Jsonのフォーマットを整える
-func formatJSON(t *testing.T, b []byte) []byte {
-	t.Helper()
-
-	var out bytes.Buffer
-	err := json.Indent(&out, b, "", "  ")
-	if err != nil {
-		t.Fatal(err)
-	}
-	return out.Bytes()
 }
 
 func NewTestClient() *redis.Client {
