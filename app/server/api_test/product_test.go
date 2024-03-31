@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/oklog/ulid/v2"
 	"github.com/sebdah/goldie/v2"
 )
@@ -81,12 +82,11 @@ func TestProduct_PostProducts(t *testing.T) {
 			expectedBody: map[string]any{
 				"product": map[string]any{
 					"description": "今治タオルを素材としたこだわりのサウナハット",
-					// IDはランダムな文字列なため、Diffでは比較しない
-					// "id":          "01HCNYK3F7RJTWJ7GAQHPZDVE3",
-					"name":     "サウナハット青",
-					"price":    float64(3000),
-					"stock":    float64(2),
-					"owner_id": "01HCNYK3F7RJTWJ7GAQHPZDVE3",
+					"id":          "01HCNYK3F7RJTWJ7GAQHPZDVE3",
+					"name":        "サウナハット青",
+					"price":       float64(3000),
+					"stock":       float64(2),
+					"owner_id":    "01HCNYK3F7RJTWJ7GAQHPZDVE3",
 				},
 			},
 		},
@@ -112,17 +112,22 @@ func TestProduct_PostProducts(t *testing.T) {
 			if err := json.Unmarshal(w.Body.Bytes(), &actualBody); err != nil {
 				t.Fatalf("failed to unmarshal response body: %v", err)
 			}
+
 			product, ok := actualBody["product"].(map[string]any)
 			if !ok {
 				t.Fatalf("failed to parse response body: %v", actualBody)
 			}
-			// ULIDはランダムな文字列なため、形式のみチェック
+			// ULIDの形式をチェック
 			if _, err := ulid.ParseStrict(product["id"].(string)); err != nil {
 				t.Errorf("id is not a valid ULID: %v", product["id"])
 			}
-			// IDはランダムな文字列なため、Diffでは比較しない
-			delete(actualBody["product"].(map[string]any), "id")
-			if diff := cmp.Diff(tt.expectedBody, actualBody); diff != "" {
+
+			opts := []cmp.Option{
+				cmpopts.IgnoreMapEntries(func(key string, value any) bool {
+					return key == "id"
+				}),
+			}
+			if diff := cmp.Diff(tt.expectedBody, actualBody, opts...); diff != "" {
 				t.Errorf("response body mismatch (-want +got):\n%s", diff)
 			}
 		})
