@@ -15,6 +15,7 @@ import (
 )
 
 func TestUser_GetUserByID(t *testing.T) {
+	t.Parallel()
 	tests := map[string]struct {
 		id           string
 		expectedCode int
@@ -37,7 +38,9 @@ func TestUser_GetUserByID(t *testing.T) {
 	}
 
 	for testName, tt := range tests {
+		tt := tt
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
@@ -62,6 +65,7 @@ func TestUser_GetUserByID(t *testing.T) {
 }
 
 func TestUser_GetUserByID_With_Goldie(t *testing.T) {
+	t.Parallel()
 	tests := map[string]struct {
 		id           string
 		expectedCode int
@@ -75,6 +79,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 
 	for testName, tt := range tests {
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)

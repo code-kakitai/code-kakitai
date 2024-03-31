@@ -14,6 +14,7 @@ import (
 )
 
 func TestProduct_GetProducts(t *testing.T) {
+	t.Parallel()
 	tests := map[string]struct {
 		expectedCode int
 		expectedBody []map[string]any
@@ -36,6 +37,7 @@ func TestProduct_GetProducts(t *testing.T) {
 
 	for testName, tt := range tests {
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, "/v1/products", nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
@@ -60,7 +62,7 @@ func TestProduct_GetProducts(t *testing.T) {
 }
 
 func TestProduct_GetProducts_With_Goldie(t *testing.T) {
-
+	t.Parallel()
 	tests := map[string]struct {
 		expectedCode int
 	}{
@@ -70,7 +72,9 @@ func TestProduct_GetProducts_With_Goldie(t *testing.T) {
 	}
 
 	for testName, tt := range tests {
+		tt := tt
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, "/v1/products", nil)
 			w := httptest.NewRecorder()
 			api.ServeHTTP(w, req)
