@@ -117,7 +117,7 @@ func TestProduct_PostProducts_With_Goldie(t *testing.T) {
 			api.ServeHTTP(w, req)
 
 			if w.Code != tt.expectedCode {
-				t.Fatalf("expected status code %d, got %d", tt.expectedCode, w.Code)
+				t.Errorf("expected status code %d, got %d", tt.expectedCode, w.Code)
 			}
 
 			var actualBody map[string]any
