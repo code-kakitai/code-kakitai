@@ -1,4 +1,4 @@
-name: CI/CD
+name: test
 
 on:
   pull_request:
@@ -6,9 +6,8 @@ on:
     branches:
       - main
     paths:
-      - 'app/**'
-      - '.github/workflows/main.yml'
-
+      - "app/**"
+      - ".github/workflows/main.yml"
 
 jobs:
   ci:
@@ -25,4 +24,25 @@ jobs:
       - name: test
         run: |
           make test
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: app/go.mod
+          cache: true
+          cache-dependency-path: app/go.sum
+
+      - name: set go.work
+        run: |
+          go work init ./pkg ./app
+
+      - name: test integration read
+        run: |
+          make test-integration-read path=./app/server/api_test/api_read_test/...
+
+      - name: test integration write
+        run: |
+          make test-integration-write path=./app/server/api_test/api_write_test/...
