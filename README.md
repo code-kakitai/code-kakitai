@@ -23,7 +23,7 @@ https://techbookfest.org/product/9a3U54LBdKDE30ewPS6Ugn)は、Go言語を使用�
 
 ```json
   "go.toolsEnvVars": {
-    "GOFLAGS": "-tags=integration_read,integration_write"
+    "GOFLAGS": "-tags=parallel,serial"
   },
 ```
 

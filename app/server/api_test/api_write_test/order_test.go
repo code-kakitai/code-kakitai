@@ -1,4 +1,4 @@
-//go:build integration_write
+//go:build serial
 
 package api_write_test
 

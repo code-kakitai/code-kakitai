@@ -1,4 +1,4 @@
-//go:build integration_read
+//go:build parallel
 
 package api_read_test
 

@@ -19,10 +19,10 @@ test: lint
 test-integration: lint test-integration-read test-integration-write
 
 test-integration-read: lint
-	go test ./app/server/api_test/api_read_test... -tags integration_read
+	go test ./app/server/api_test/api_read_test... -tags parallel
 
 test-integration-write: lint
-	go test ./app/server/api_test/api_write_test... -tags integration_write
+	go test ./app/server/api_test/api_write_test... -tags serial
 
 lint:
 	cd app && go vet ./...
