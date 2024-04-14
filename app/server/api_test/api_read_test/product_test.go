@@ -36,6 +36,7 @@ func TestProduct_GetProducts(t *testing.T) {
 	}
 
 	for testName, tt := range tests {
+		tt := tt
 		t.Run(testName, func(t *testing.T) {
 			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, "/v1/products", nil)
