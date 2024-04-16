@@ -78,6 +78,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 	}
 
 	for testName, tt := range tests {
+		tt := tt
 		t.Run(testName, func(t *testing.T) {
 			t.Parallel()
 			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/v1/users/%s", tt.id), nil)
@@ -93,7 +94,7 @@ func TestUser_GetUserByID_With_Goldie(t *testing.T) {
 			// レスポンスボディが変わった時は、-updateフラグをつけてテストを実行する
 			g := goldie.New(t,
 				goldie.WithNameSuffix(".golden.json"),
-				goldie.WithFixtureDir("testdata/product_test"),
+				goldie.WithFixtureDir("testdata/user_test"),
 			)
 			g.Assert(t, t.Name(), test_utils.FormatJSON(t, w.Body.Bytes()))
 		})
