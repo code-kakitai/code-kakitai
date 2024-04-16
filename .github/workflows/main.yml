@@ -41,8 +41,8 @@ jobs:
 
       - name: test integration read
         run: |
-          make test-integration-read path=./app/server/api_test/api_read_test/...
+          make test-integration-read
 
       - name: test integration write
         run: |
-          make test-integration-write path=./app/server/api_test/api_write_test/...
+          make test-integration-write
