@@ -21,6 +21,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       LANG: C.UTF-8
     command: --collation-server=utf8mb4_general_ci
+    platform: linux/x86_64
 
   # redis
   redis:
